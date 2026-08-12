@@ -1,4 +1,4 @@
-420-611-BT * Intelligence Artificielle 2
+420-611-BT - Intelligence Artificielle 2
 ========================================
 
 # **Plan de cours : Intelligence Artificielle**
