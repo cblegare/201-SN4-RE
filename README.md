@@ -1,93 +1,109 @@
-# 420-611-BT - Intelligence Artificielle 2
+420-611-BT * Intelligence Artificielle 2
+========================================
 
+# **Plan de cours : Intelligence Artificielle**
 
+Ce cours vise à développer les compétences pratiques et théoriques nécessaires
+pour concevoir, implémenter et évaluer des systèmes d'intelligence artificielle
+en Python.
 
-## Getting started
+## Chapitre 1 : Résolution de problèmes par la recherche
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Indispensable en développement de jeux vidéo pour le calcul de chemins
+(pathfinding) et pour programmer l'intelligence artificielle d'adversaires
+dans les jeux au tour par tour en anticipant les coups.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Distinguer l'efficacité des algorithmes de recherche non informés (DFS vs BFS).
+- Retracer l'exploration des nœuds d'un graphe à l'aide d'algorithmes informés (Greedy, A\*).
+- Justifier l'utilisation d'un algorithme Minimax à profondeur limitée pour réduire l'espace d'états.
+- Calculer la valeur d'un nœud dans un arbre de jeu Minimax.
 
-## Add your files
+## Chapitre 2 : Connaissances et raisonnement logique
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+Base des moteurs de règles d'entreprise et de la gestion de l'état du monde
+dans les jeux. Permet de valider des conditions de quêtes complexes et de
+générer dynamiquement des énigmes logiques.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/cblegareprof/420-611-bt-intelligence-artificielle-2.git
-git branch -M main
-git push -uf origin main
-```
+- Déduire la véracité d'une implication logique entre propositions.
+- Traduire des contraintes exclusives (OU exclusif) en formules logiques
+  formelles.
+- Convertir des énoncés en langage naturel en propositions logiques
+  formelles.
+- Formuler des requêtes complexes en logique du premier ordre.
 
-## Integrate with your tools
+## Chapitre 3 : Gestion de l'incertitude
 
-* [Set up project integrations](https://gitlab.com/cblegareprof/420-611-bt-intelligence-artificielle-2/-/settings/integrations)
+Permet aux programmes et personnages non-joueurs de prendre des décisions
+avec des informations imparfaites (ex: brouillard de guerre).
+Alimente la conception de systèmes aléatoires contrôlés comme l'attribution
+de butins.
 
-## Collaborate with your team
+- Calculer des probabilités d'événements inclusifs, conjoints et
+  conditionnels.
+- Interpréter l'indépendance conditionnelle au sein d'un réseau bayésien.
+- Appliquer les probabilités conditionnelles à des scénarios de diagnostic
+  ou de génétique.
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## Chapitre 4 : Optimisation
 
-## Test and Deploy
+Crucial pour équilibrer la charge des serveurs, planifier des processus et
+gérer les comportements logistiques complexes
+(ex: jeux de gestion de type SimCity).
 
-Use the built-in continuous integration in GitLab.
+- Prévoir le comportement d'un algorithme de recherche locale
+  (ascension de colline).
+- Formuler une fonction objectif pour un problème d'allocation de ressources.
+- Définir mathématiquement des contraintes restrictives d'un problème.
+- Exécuter un algorithme de consistance d'arcs (AC-3) pour résoudre des
+  problèmes de satisfaction de contraintes.
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## Chapitre 5 : Apprentissage automatique
 
-***
+Essentiel pour construire des systèmes de jumelage (matchmaking),
+détecter la triche, prédire le comportement des joueurs et entraîner des
+bots adaptatifs.
 
-# Editing this README
+- Catégoriser les cas d'usage (supervisé, non supervisé, par renforcement).
+- Calculer la perte globale (L1/L2) d'un modèle de régression et évaluer
+  le surapprentissage.
+- Contrôler le compromis exploration/exploitation (epsilon-greedy) dans
+  l'apprentissage par renforcement.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Chapitre 6 : Réseaux de neurones et vision
 
-## Suggestions for a good README
+Révolutionne le rendu graphique et la vision par ordinateur, essentiels
+en réalité virtuelle ou augmentée pour le suivi des mouvements et l'analyse
+visuelle de l'environnement physique.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- Calculer la valeur de sortie d'un neurone artificiel selon différentes
+  fonctions d'activation (Step, ReLU).
+- Dimensionner les paramètres d'une architecture de réseau fully connected
+  multicouche.
+- Sélectionner la topologie de réseau récurrent adéquate selon le flux
+  de données (Many-to-One, etc.).
+- Simuler l'application d'un filtre de max-pooling sur une image matricielle.
 
-## Name
-Choose a self-explaining name for your project.
+## Chapitre 7 : Traitement du Langage Naturel
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Facilite les interactions textuelles naturelles avec les personnages, la
+création d'assistants virtuels, la modération automatique des chats et
+l'analyse massive de données textuelles.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- Valider la syntaxe d'une phrase via une grammaire hors contexte.
+- Critiquer les encodages discrets (One-Hot) vs les représentations
+  distribuées de mots.
+- Justifier l'utilité du lissage (smoothing) dans les classificateurs
+  probabilistes.
+- Extraire systématiquement des n-grammes d'une chaîne de caractères.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## Chapitre 8 : Développement d'outils MCP
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Passerelle standardisée entre les grands modèles de langage et les applications
+métiers. Permet d'intégrer l'IA dans un moteur de jeu ou de créer des agents
+capables d'interagir avec des bases de données et des APIs en temps réel.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- Expliquer l'architecture client-serveur du protocole Model Context Protocol
+  (MCP).
+- Concevoir un serveur MCP fonctionnel en Python.
+- Interfacer de manière sécurisée un modèle de langage avec des outils
+  et systèmes externes.
