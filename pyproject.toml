@@ -1,6 +1,7 @@
 [project]
-name = "201-sn4-re"
 version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
 
@@ -8,4 +9,7 @@ dependencies = []
 dev = [
     "badness>=0.22.1",
     "nox[uv]>=2026.8.17",
+    "ptpython>=3.0.32",
+    "pytest>=9.1.1",
+    "ruff>=0.16.4",
 ]
