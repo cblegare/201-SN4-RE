@@ -1,9 +1,28 @@
+##############################################################################
+# == Python project configurations ===========================================
+# region preamble
+#####
+#
+# See https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+#
+###
 [project]
 name = "intropy"
 version = "0.1.0"
-description = "Add your description here"
+description = "Dépôt accompagnant le cours 201-SN4-RE"
 readme = "README.md"
-requires-python = ">=3.14"
+authors = [
+    {name = "Charles Bouchard-Légaré", email = "charlesbouchardlegare@gmail.com"},
+]
+
+license-files = ["LICEN[CS]E*"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+]
+
+requires-python = ">=3.12"
 dependencies = []
 
 [project.scripts]
@@ -15,7 +34,232 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "coverage>=7.15.4",
+    "docs",
+    "mypy>=2.3.1",
+    "nox[uv]>=2026.8.17",
     "ptpython>=3.0.32",
     "pytest>=9.1.1",
     "ruff>=0.16.4",
 ]
+
+[tool.uv]
+managed = true
+package = true
+
+[tool.uv.pip]
+universal = true
+
+[tool.uv.workspace]
+members = [
+    "docs",
+]
+
+[tool.uv.sources]
+docs = { workspace = true }
+
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- ruff: code lint & format ------------------------------------------------
+# region ruff
+#####
+# Reference: https://docs.astral.sh/ruff/configuration/
+###
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+  ".eggs",
+  ".git",
+  ".mypy_cache",
+  ".nox",
+  ".ruff_cache",
+  ".venv",
+  "__pypackages__",
+  "build",
+  "dist",
+  "docs",
+]
+
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint]
+select = ["ALL", "D213"]
+ignore = [
+  # Google style with some tweaks
+  "D200",     # One-line docstring should fit on one line
+  "D203",     # 1 blank line required before class docstring
+  "D212",     # Multi-line docstring summary should start at the first line
+  "D215",     # Section underline is over-indented
+  "D406",     # Section name should end with a newline
+  "D407",     # Missing dashed underline after section
+  "D415",     # First line should end with a period, question mark, or exclamation point
+  # Some convention are simply wierd
+  "COM812",   # Trailing comma missing
+  # Some documentation are not needed
+  "D100",     # Missing docstring in public module
+  "D101",     # Missing docstring in public class
+  "D102",     # Missing docstring in public method
+  "D103",     # Missing docstring in public function
+  "D104",     # Missing docstring in public package
+  "D105",     # Missing docstring in public magic method
+  "D106",     # Missing docstring in public nested class
+  "D107",     # Missing docstring in `__init__`
+  "CPY001",   # Missing copyright notice at top of file
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"noxfile.py" = [
+  "D100",     # Missing docstring in public module
+  "D103",     # Missing docstring in public function
+  "ANN201",
+  "ANN001",
+  "ARG001",
+]
+"test/**" = [
+  "D100",     # Missing docstring in public module
+  "D103",     # Missing docstring in public function
+  "INP001",   # File is part of an implicit namespace package.
+]
+"test/**/test_*.py" = [
+  "ANN201",   # Missing return type annotation for public function.
+  "S101",     # Use of `assert` detected
+  "PLR2004",  # Magic value used in comparison, consider replacing `3` with a constant variable
+]
+
+[tool.ruff.lint.flake8-annotations]
+# Let __init__ not have return type annotation
+# https://docs.astral.sh/ruff/rules/missing-return-type-special-method/
+# We ignore this explicitely when no arguments to __init__ are defined.
+mypy-init-return = true
+
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- pytest: test runner -----------------------------------------------------
+# region pytest
+#####
+# Reference: https://docs.pytest.org/en/stable/customize.html
+###
+[tool.pytest.ini_options]
+addopts = [
+    # Verbose mode shows context of execution on failure
+    "-v",
+    "-W", "error",
+]
+testpaths = [
+]
+norecursedirs = [
+]
+doctest_optionflags = [
+    "NORMALIZE_WHITESPACE",
+    "IGNORE_EXCEPTION_DETAIL",
+    "ELLIPSIS",
+]
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- coverage.py: test coverage measures -------------------------------------
+# region coveragepy
+#####
+# Reference: https://coverage.readthedocs.io/en/latest/config.html
+###
+[tool.coverage.run]
+branch = true
+omit = [
+    ".nox/*",
+    "test/*",
+    "*/conf.py"  # The sphinx pytest fixture emits conf.py files, we don't want that
+]
+source = [
+]
+data_file = "build/report/coverage/coverage"
+parallel = true
+
+[tool.coverage.paths]
+source = [
+    "src",
+]
+
+[tool.coverage.report]
+# Don’t include files in the report that are 100% covered files.
+skip_covered = false
+show_missing = true
+# Sort the text report by the named column.
+# Allowed values are “Name”, “Stmts”, “Miss”, “Branch”, “BrPart”, or “Cover”.
+sort = "Miss"
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    "noqa",
+
+    # Don't complain about missing debug-only code
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+omit = [
+]
+
+[tool.coverage.html]
+show_contexts = true
+directory = "build/report/coverage/html"
+
+[tool.coverage.xml]
+output = "build/report/coverage.xml"
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- mypy: type checking -----------------------------------------------------
+# region mypy
+#####
+# Reference: https://mypy.readthedocs.io/en/stable/config_file.html
+###
+[tool.mypy]
+strict = true
+#no_implicit_reexport = True
+follow_imports_for_stubs = true
+# output options
+pretty = true
+# reports
+#html_report = "build/report/mypy"
+[[tool.mypy.overrides]]
+module = [
+]
+ignore_missing_imports = true
+#####
+# endregion
+##############################################################################

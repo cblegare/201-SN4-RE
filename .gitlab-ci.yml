@@ -1,13 +1,271 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/user/application_security/sast/#available-cicd-variables
-# Secret Detection customization: https://docs.gitlab.com/user/application_security/secret_detection/pipeline/configure/
-# Dependency Scanning customization: https://docs.gitlab.com/user/application_security/dependency_scanning/dependency_scanning_sbom/#customizing-analyzer-behavior
-# Container Scanning customization: https://docs.gitlab.com/user/application_security/container_scanning/#customizing-analyzer-behavior
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ci/variables/#cicd-variable-precedence
+##############################################################################
+# == CI/CD Pipeline ==========================================================
+# region preamble
+#####
+#
+# This files describe the lifecycle pipeline of our applications.
+#
+# Documentation for GitLab CI: https://docs.gitlab.com/ci/
+###
+
+###
+# -- Global configurations
+#
+
 stages:
-- test
+  - test
 sast:
   stage: test
 include:
-- template: Security/SAST.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      # Never run a 'branch' pipeline where this branch is under MRs.
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $CI_COMMIT_BRANCH == "$CI_DEFAULT_BRANCH"
+      # Do run pipelines for schedules on the default branch
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      # Do run detached MR pipelines
+      when: always
+    - if: $CI_COMMIT_BRANCH
+      # Do run manually triggered pipelines
+      when: always
+
+variables:
+  UV_VERSION: "0.12.7"
+  PYTHON_VERSION: "3.12"
+  BASE_LAYER: trixie-slim
+  # GitLab CI creates a separate mountpoint for the build directory,
+  # so we need to copy instead of using hard links.
+  UV_LINK_MODE: copy
+  UV_CACHE_DIR: .uv-cache
+
+.uv:
+  cache:
+    - key:
+        files:
+          - uv.lock
+      paths:
+        - $UV_CACHE_DIR
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$DEFAULT_PYTHON-$BASE_LAYER
+
+#
+###
+
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- STAGE: build ------------------------------------------------------------
+# region build
+#####
+#
+# build the code and dependencies and archive everything as artifacts
+#
+.build:
+  stage: build
+  needs: []
+  rules:
+    # Always run except on schedules
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: always
+
+# Build the distributables
+dist:
+  extends:
+    - .build
+    - .uv
+  script:
+    - uv build
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME-dist"
+    paths:
+      - dist/*.whl
+      - dist/*.tar.gz
+
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- STAGE: test -------------------------------------------------------------
+# region test
+#####
+
+.test:
+  stage: test
+  rules:
+    # Always run except on schedules
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: always
+
+###
+# -- Security and compliance jobs
+#
+
+#include:
+#  - template: Security/Dependency-Scanning.gitlab-ci.yml
+
+#
+###
+
+###
+# -- Unit testing
+
+# Unit tests
+test:
+  extends:
+    - .test
+    - .uv
+  script:
+    - uv nox -rs fulltest-${PYVERSION}
+  artifacts:
+    when: always
+    paths:
+      - build/report/coverage*
+  parallel:
+    matrix:
+      - PYVERSION: "3.13"
+      - PYVERSION: "3.12"
+      - PYVERSION: "3.11"
+  needs: []
+  allow_failure: true
+
+#
+###
+
+###
+# -- Conventions and code analysis
+#
+
+# Look for common error and antipatterns in the code
+lint:
+  extends:
+    - .test
+    - .uv
+  script:
+    - uvx nox -rs lint
+
+#
+###
+
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- STAGE: report -----------------------------------------------------------
+# region report
+#####
+
+.report:
+  stage: report
+  rules:
+    # Always run except on schedules
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: always
+
+# Various SQA reports
+coverage:
+  stage: report
+  extends:
+    - .report
+    - .uv
+  script:
+    - uv nox -rs coverage
+  artifacts:
+    when: always
+    paths:
+      - build/report/coverage
+  needs:
+    - test
+  coverage: '/TOTAL +\d+ +\d+ +\d+ +\d+ +(\d+)%/'
+  allow_failure: false
+
+#####
+# endregion
+##############################################################################
+
+##############################################################################
+# -- STAGE: release ----------------------------------------------------------
+# region release
+#####
+
+.release:
+  stage: release
+
+# Publish the doc as an environment
+doc-review:
+  extends:
+    - .release
+    - .uv
+  script:
+    - uv nox -rs docs
+  environment:
+    name: doc-review/$CI_COMMIT_REF_SLUG
+    deployment_tier: development
+    on_stop: stop-doc-review
+    auto_stop_in: 2 week
+    url: https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/public/index.html
+  rules:
+    # Only on branches and never on schedule
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
+    - when: always
+
+# Publish the official docs on gitlab pages.
+pages:
+  extends:
+    - .release
+    - .uv
+  script:
+    - uv nox -rs docs
+    - mkdir public
+    - mv build/sphinx/html/* public/
+  environment:
+    name: production
+    deployment_tier: production
+    url: $CI_PAGES_URL
+  artifacts:
+    paths:
+      - public
+    expire_in: never
+  rules:
+    # Only run after a merge on default branch
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+
+# Kill the doc environment from time to time
+stop-doc-review:
+  extends:
+    - .release
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - echo "Remove review documentation"
+  environment:
+    name: doc-review/$CI_COMMIT_REF_SLUG
+    action: stop
+  rules:
+    # Run either (optionally) manually on a MR pipeline or triggered by on_stop.
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: never
+    - when: manual
+      allow_failure: true
+
+#####
+# endregion
+##############################################################################
