@@ -1,80 +1,138 @@
+#!/usr/bin/env -S uv run --script --quiet
+
+# /// script
+# dependencies = ["nox[uv]"]
+# ///
+
 from __future__ import annotations
 
-import os
-import shutil
-from doctest import Example
 from pathlib import Path
-from typing import List
 
 import nox
+
+PYTHON_VERSIONS = [
+    # "3.11",
+    # "3.12",
+    # "3.13",
+    "3.14"
+]
+DEFAULT_PYTHON = max(PYTHON_VERSIONS)
+
+repo_root = Path(__file__).parent
+
+reports_root = repo_root / "build/report"
+
 
 nox.options.default_venv_backend = "uv"
 
 
-repo_root = Path(__file__).parent
-build_root = repo_root / "build"
-dist_root = repo_root / "dist"
-build_root.mkdir(parents=True, exist_ok=True)
+@nox.session(python=DEFAULT_PYTHON)
+def lint(session: nox.Session):
+    session.install("ruff")
+    session.run("ruff", "check", "--fix", "--unsafe-fixes", "src", "test")
 
 
-@nox.session(reuse_venv=True)
-def format_latex(session):
-    session.run_install("uv", "sync", "--all-packages")
-    session.run("uv", "run", "badness", "format", ".")
-
-
-@nox.session(reuse_venv=True)
-def build_latex(session):
-    _run_latex(session, repo_root.joinpath("exercices/constellations.tex"))
-
-
-def _run_latex(
-    session: nox.Session,
-    src_file: Path,
-    name: str | None = None,
-    extra_def: dict[str, str] | None = None,
-    extra_texinputs: list[Path] | None = None,
-    latexmk_args: list[str] | None = None,
-) -> Path:
-    name = name or src_file.stem
-    extra_def = extra_def or {}
-    extra_texinputs = extra_texinputs or []
-    latexmk_args = latexmk_args or []
-
-    build_directory = build_root.joinpath(f"latexmk/{name}")
-    working_directory = src_file.parent
-    built_file = working_directory.joinpath(f"{src_file.stem}.pdf")
-
-    working_directory.mkdir(parents=True, exist_ok=True)
-
-    proc_env = os.environ.copy()
-
-    proc_env["TEXINPUTS"] = ":".join(
-        *proc_env.get("TEXINPUTS", "").split(":"), *extra_texinputs
+@nox.session(python=PYTHON_VERSIONS)
+def pytest(session: nox.Session):
+    session.run_install(
+        "uv",
+        "sync",
+        f"--python={session.virtualenv.location}",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
+    session.run(*_coverage_cmd(session.name, ["pytest", "test"]))
 
-    latex_def = " ".join(rf"\def\{key}{{{value}}}" for key, value in extra_def.items())
 
-    pdflatex_cmd = (
-        rf"-pdflatex=pdflatex -interaction=nonstopmode %O '{latex_def}\input{{%S}}'"
+@nox.session(python=PYTHON_VERSIONS, default=False)
+def typing(session: nox.Session):
+    session.run_install(
+        "uv",
+        "sync",
+        f"--python={session.virtualenv.location}",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
     )
+    session.run("mypy", "--python-version", session.python, "src")
 
-    # latexmk_args.extend(("-use-make", pdflatex_cmd))
 
-    with session.chdir(working_directory):
-        session.run(
-            *[
-                "latexmk",
-                "-pdf",
-                "-dvi-",
-                "-ps-",
-                "-f",
-                f"-output-directory={build_directory}",
-                *latexmk_args,
-                "-xelatex",
-                src_file.resolve(),
-            ],
-            env=proc_env,
-        )
+@nox.session(python=DEFAULT_PYTHON)
+def coverage(session: nox.Session):
+    session.run_install(
+        "uv",
+        "sync",
+        f"--python={session.virtualenv.location}",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    session.run("coverage", "combine", "--keep")
+    session.run("coverage", "xml")
+    session.run("coverage", "html")
+    session.run("coverage", "report")
 
-    return built_file
+    html_report = reports_root / "coverage/html/index.html"
+    xml_report = reports_root / "coverage.xml"
+
+    session.log(f"Cobertura-compatible test coverage report at {xml_report.resolve()}")
+    session.log(f"Browse HTML test coverage report at {html_report.resolve()}")
+
+
+@nox.session(python=DEFAULT_PYTHON)
+def docs(session: nox.Session):
+    session.run_install(
+        "uv",
+        "sync",
+        f"--python={session.virtualenv.location}",
+        env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location},
+    )
+    # session.run(*_python_cmd(_sphinx_apidoc_modulecmd()))
+    session.run(*_python_cmd(_sphinx_build_modulecmd()))
+
+
+def _sphinx_apidoc_modulecmd() -> list[str]:
+    return [
+        "sphinx.ext.apidoc",
+        "-o",
+        "docs/apidoc",
+        "--force",
+        "--no-toc",
+        "--separate",
+        "--module-first",
+        "src",
+    ]
+
+
+def _sphinx_build_modulecmd(
+    build_root: str = "build", session_name: str = "sphinx", builder: str = "html"
+) -> list[str]:
+    return [
+        "sphinx",
+        "-b",
+        builder,
+        "-d",
+        f"{build_root}/{session_name}/doctrees",
+        "-E",
+        "-n",
+        "-W",
+        "--keep-going",
+        "-T",
+        "docs",
+        f"{build_root}/{session_name}/{builder}",
+    ]
+
+
+def _python_cmd(modulecmd: list[str]) -> list[str]:
+    return ["python", "-m", *modulecmd]
+
+
+def _coverage_cmd(context: str, modulecmd: list[str]) -> list[str]:
+    return [
+        "python",
+        "-m",
+        "coverage",
+        "run",
+        f"--context={context}",
+        "-m",
+        *modulecmd,
+    ]
+
+
+if __name__ == "__main__":
+    nox.main()

@@ -1,40 +1,54 @@
-Introduction à Python
-=====================
+Dépôt accompagnant le cours 201-SN4-RE
+======================================
 
-1.  Clonez le dépôt suivant:
+Démarrage
+---------
 
-    ```
-    git clone https://gitlab.com/cblegareprof/intropy
-    ```
+1.  Clonez ce dépôt sur votre poste en utilisant Git.
 
-2.  Ouvrez-votre éditeur sur ce dépôt
+1.  Ouvrez-votre éditeur sur ce dépôt
 
-3.  Assurez-vous d'avoir [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+1.  Assurez-vous d'avoir [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
 
-    ```ps1
-    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/0.12.6/install.ps1 | iex"
-    ```
+1.  Ouvrez un terminal dans le répertoire du dépôt
 
-4.  Installer les dépendances
-    
+1.  Installer les dépendances
+
     ```
     uv sync
     ```
-    
-5.  Ajouter des dépendances
+
+1.  Exécuter l'ensemble des scripts d'assurance qualité
+
+    ```
+    uv run nox
+    ```
+
+Aide-mémoire
+------------
+
+1.  Ajouter des dépendancesW
 
     ```
     uv add --dev pytest
     ```
 
-6.  Exécuter les tests
-
-    ```
-    uv run pytest
-    ```
-
-7.  Exécuter le programme
+1.  Exécuter le programme
 
     ```
     uv run intropy
     ```
+
+Permissions
+-----------
+
+Le contenu de ce dépôt est distribué sous différentes licences:
+
+- Le code source (Python) est distribué sous licence
+  _BSD-2-Clause Plus Patent License_ (`BSD-2-Clause-Patent`).
+
+- La documentation, notes de cours, diapos, et autres contenus didactiques
+  sont distribués sous licence
+  _Creative Commons Attribution Share Alike 4.0 International_ (`CC-BY-SA-4.0`).
+
+Copyright (c) 2026 Charles Bouchard-Légaré
