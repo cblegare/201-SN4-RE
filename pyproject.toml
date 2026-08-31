@@ -23,10 +23,13 @@ classifiers = [
 ]
 
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pygame-ce",
+]
 
 [project.scripts]
 intropy = "intropy:main"
+tictactoe = "intropy.tictactoe.runner:run_game"
 
 [build-system]
 requires = ["uv_build>=0.12.6,<0.13.0"]
