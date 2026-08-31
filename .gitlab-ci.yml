@@ -41,7 +41,7 @@ workflow:
 
 variables:
   UV_VERSION: "0.12.7"
-  PYTHON_VERSION: "3.12"
+  DEFAULT_PYTHON: "3.12"
   BASE_LAYER: trixie-slim
   # GitLab CI creates a separate mountpoint for the build directory,
   # so we need to copy instead of using hard links.
