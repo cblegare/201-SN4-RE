@@ -128,7 +128,8 @@ ignore = [
   "D105",     # Missing docstring in public magic method
   "D106",     # Missing docstring in public nested class
   "D107",     # Missing docstring in `__init__`
-  "CPY001",   # Missing copyright notice at top of file
+  "CPY001",   # Missing copyright notice at top of file,
+  "T201",
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.

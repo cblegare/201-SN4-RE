@@ -233,7 +233,7 @@ pages:
     - .release
     - .uv
   script:
-    - uv run nox -rs docs
+    - uv nox -rs docs
     - mkdir public
     - mv build/sphinx/html/* public/
   environment:

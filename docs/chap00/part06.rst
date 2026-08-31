@@ -1,353 +1,331 @@
-Fonctions productives
-=====================
+Itération
+=========
 
-Valeurs de retour
------------------
+Réaffectation
+-------------
 
-Certaines des fonctions intégrées que nous avons utilisées, telles que les
-fonctions mathématiques, produisent des résultats. L'appel de la fonction
-génère une valeur, que nous affectons généralement à une variable ou que
-nous utilisons dans une expression.
-
-.. code:: python
-
-    e = math.exp(1.0)
-    hauteur = rayon * math.sin(radians)
-
-Mais jusqu'à présent, aucune des fonctions que nous avons écrites n'a retourné
-de valeur.
-
-Dans ce chapitre, nous allons écrire des fonctions productives
-(*fruitful functions*).
-Le premier exemple est ``aire``, qui retourne l'aire d'un cercle avec
-le rayon donné :
+Comme vous l'avez peut-être déjà découvert, il est légal d'effectuer plus
+d'une affectation sur la même variable. Une nouvelle affectation fait en
+sorte qu'une variable existante se réfère à une nouvelle valeur (et cesse de
+se référer à l'ancienne).
 
 .. code:: python
 
-    import math
+    >>> x = 5
+    >>> x
+    5
+    >>> x = 7
+    >>> x
+    7
 
-    def aire(rayon):
-        a = math.pi * rayon**2
-        return a
+La première fois que nous affichons ``x``, sa valeur est 5 ;
+la deuxième fois, sa valeur est 7.
 
-Nous avons vu l'instruction ``return`` auparavant, mais dans une fonction productive,
-l'instruction ``return`` inclut une expression. Cette instruction signifie :
-« Retourne immédiatement de cette fonction et utilise l'expression suivante
-comme valeur de retour. » L'expression fournie peut être arbitrairement compliquée,
-nous pourrions donc écrire cette fonction de manière plus concise :
+L'une des sources de confusion les plus courantes lors de l'apprentissage de
+la programmation est la différence entre l'affectation et l'égalité. En
+mathématiques, le signe égal indique que deux éléments sont égaux et le
+resteront. En Python, une instruction d'affectation utilise le signe égal (``=``),
+mais ce n'est pas une affirmation d'égalité.
 
-.. code:: python
-
-    def aire(rayon):
-        return math.pi * rayon**2
-
-D'un autre côté, les variables temporaires comme ``a`` peuvent rendre le
-débogage plus facile.
-
-Parfois, il est utile d'avoir plusieurs instructions de retour,
-une dans chaque branche d'une condition :
+Par exemple, si vous écrivez ``a = b``, vous affirmez que ``a`` et ``b``
+ont actuellement la même valeur, mais ils ne sont pas obligés de rester égaux
+indéfiniment :
 
 .. code:: python
 
-    def valeur_absolue(x):
-        if x < 0:
-            return -x
-        else:
-            return x
+    a = 5
+    b = a    # a et b sont maintenant égaux
+    a = 3    # a et b ne sont plus égaux
 
-Puisque ces instructions ``return`` sont dans une condition alternative,
-une seule d'entre elles sera exécutée.
+Mise à jour de variables
+------------------------
 
-Dès qu'une instruction de retour s'exécute, la fonction se termine
-sans exécuter les instructions suivantes. Tout code qui apparaît
-après une instruction ``return``, ou à tout autre endroit que le flux
-d'exécution ne peut jamais atteindre, est appelé du code mort (*dead code*).
-
-Dans une fonction productive, c'est une bonne idée de s'assurer que chaque
-chemin possible à travers le programme atteint une instruction ``return``.
-Par exemple :
+Un des types de réaffectation les plus courants est la mise à jour
+(*update*), où la nouvelle valeur de la variable dépend de l'ancienne.
 
 .. code:: python
 
-    def valeur_absolue(x):
-        if x < 0:
-            return -x
-        if x > 0:
-            return x
+    x = x + 1
 
-Cette fonction est incorrecte car si ``x`` se trouve être 0, aucune des
-conditions n'est vraie, et la fonction se termine sans toucher à une instruction
-``return``. Si le flux d'exécution atteint la fin d'une fonction,
-la valeur de retour est ``None``, ce qui n'est pas la valeur absolue de 0.
+Cela signifie « récupère la valeur actuelle de ``x``, ajoute 1, et met ensuite
+à jour ``x`` avec la nouvelle valeur. »
+
+Si vous essayez de mettre à jour une variable qui n'existe pas, vous
+obtenez une erreur, car Python évalue le côté droit avant d'affecter
+la valeur à ``x`` :
 
 .. code:: python
 
-    >>> print(valeur_absolue(0))
-    None
+    >>> x = x + 1
+    NameError: name 'x' is not defined
 
-Développement incrémental
--------------------------
-
-Au fur et à mesure que vous écrirez des fonctions plus grandes, vous constaterez
-peut-être que vous passez plus de temps à déboguer.
-Pour faire face à des programmes de plus en plus complexes, vous voudrez peut-être
-essayer un processus appelé développement incrémental (*incremental development*).
-
-L'objectif du développement incrémental est d'éviter les longues sessions
-de débogage en ajoutant et en testant seulement une petite quantité de code à la fois.
-
-À titre d'exemple, supposons que vous souhaitiez trouver la distance
-entre deux points, donnés par leurs coordonnées (x\ :sub:`1`, y\ :sub:`1`)
-et (x\ :sub:`2`, y\ :sub:`2`). Par le théorème de Pythagore, la distance est :
-
-.. math::
-
-    distance = \sqrt{(x_2 - x_1)^2 + (y_2) - Y_1)^2}
-
-La première étape consiste à considérer à quoi devrait ressembler la fonction ``distance``
-en Python. Autrement dit, quelles sont les entrées (paramètres) et quelle est la sortie
-(valeur de retour) ?
-
-Dans ce cas, les entrées sont deux points, que vous pouvez représenter à l'aide de
-quatre nombres. La valeur de retour est la distance, qui est une valeur à
-virgule flottante.
-
-Vous pouvez déjà écrire le squelette de la fonction :
+Avant de pouvoir mettre à jour une variable, vous devez l'initialiser
+(*initialize*), généralement par une affectation simple :
 
 .. code:: python
 
-    def distance(x1, y1, x2, y2):
-        return 0.0
+    >>> x = 0
+    >>> x = x + 1
 
-Évidemment, cette version ne calcule pas les distances ; elle retourne toujours zéro.
-Mais elle est syntaxiquement correcte, et elle s'exécutera, ce qui signifie
-que vous pouvez la tester avant de la rendre plus compliquée.
+La mise à jour d'une variable par l'ajout de 1 s'appelle une incrémentation
+(*increment*) ; la soustraction de 1 s'appelle une décrémentation (*decrement*).
 
-Pour tester la nouvelle fonction, appelez-la avec des exemples d'arguments :
+L'instruction ``while``
+-----------------------
 
-.. code:: python
+Les ordinateurs sont souvent utilisés pour automatiser des tâches répétitives.
+Répéter des tâches identiques ou similaires sans faire d'erreurs est une chose
+que les ordinateurs font bien et que les humains font mal. En programmation,
+la répétition est aussi appelée itération (*iteration*).
 
-    >>> distance(1, 2, 4, 6)
-    0.0
-
-J'ai choisi ces valeurs pour que la distance horizontale soit 3 et la
-distance verticale soit 4 ; de cette façon, le résultat est 5 (l'hypoténuse
-d'un triangle 3-4-5). Lors du test d'une fonction, il est utile de
-connaître la bonne réponse.
-
-À ce stade, nous avons confirmé que la fonction est syntaxiquement
-correcte, et nous pouvons commencer à ajouter du code. Après chaque
-changement, nous testons à nouveau le programme. Si une erreur survient
-à n'importe quel point, nous savons où elle se trouve : elle doit se trouver
-dans la dernière ligne que nous avons ajoutée.
-
-Une étape logique de calcul consiste à trouver les différences x\ :sub:`2` - x\ :sub:`1`
-et y\ :sub:`2` - y\ :sub:`1`. Nous stockerons ces valeurs dans des
-variables temporaires et les imprimerons :
+Python fournit une instruction ``while`` pour faciliter l'itération.
+Voici une version de ``compte_a_rebours`` qui utilise une instruction ``while`` :
 
 .. code:: python
 
-    def distance(x1, y1, x2, y2):
-        dx = x2 - x1
-        dy = y2 - y1
-        print('dx est', dx)
-        print('dy est', dy)
-        return 0.0
+    def compte_a_rebours(n):
+        while n > 0:
+            print(n)
+            n = n - 1
+        print('Décollage !')
 
-Si la fonction fonctionne, elle devrait afficher ``dx est 3`` et ``dy est 4``.
-Si c'est le cas, nous savons que la fonction obtient les bons arguments
-et effectue le premier calcul correctement. Si ce n'est pas le cas,
-il n'y a que quelques lignes à vérifier.
+Vous pouvez lire l'instruction ``while`` presque comme de l'anglais.
+Elle signifie : « Tant que ``n`` est strictement supérieur à 0, affiche
+la valeur de ``n`` et diminue la valeur de ``n`` de 1.
+Une fois que tu as terminé, affiche le mot Décollage ! »
 
-Ensuite, nous calculons la somme des carrés de ``dx`` et ``dy`` :
+Plus formellement, voici le flux d'exécution pour une instruction ``while`` :
+
+1. Déterminez si la condition est vraie ou fausse.
+2. Si la condition est fausse, quittez l'instruction ``while`` et continuez
+   l'exécution à la prochaine instruction.
+3. Si la condition est vraie, exécutez le corps de la boucle et retournez à
+   l'étape 1.
+
+Ce type de flux est appelé une boucle (*loop*).
+Si la condition est fausse dès le départ, le corps de la boucle ne s'exécute jamais.
+
+Le corps de la boucle doit changer la valeur d'une ou plusieurs variables
+pour qu'à un moment donné, la condition devienne fausse et que la boucle
+se termine. Si la condition ne devient jamais fausse, la boucle se répétera
+pour toujours, ce qu'on appelle une boucle infinie (*infinite loop*).
+
+L'instruction ``break``
+-----------------------
+
+Parfois, vous ne savez pas qu'il est temps de terminer une boucle avant
+d'être au milieu du corps de la boucle.
+Dans ce cas, vous pouvez utiliser l'instruction ``break`` pour sortir de
+la boucle immédiatement.
+
+Par exemple, supposons que vous souhaitiez demander une saisie à l'utilisateur
+jusqu'à ce qu'il tape ``'fin'``. Vous pourriez écrire :
 
 .. code:: python
 
-    def distance(x1, y1, x2, y2):
-        dx = x2 - x1
-        dy = y2 - y1
-        carre_dx = dx**2
-        carre_dy = dy**2
-        print('carre_dx est', carre_dx)
-        print('carre_dy est', carre_dy)
-        return 0.0
+    while True:
+        ligne = input('> ')
+        if ligne == 'fin':
+            break
+        print(ligne)
+    print('Terminé !')
 
-Encore une fois, vous devez exécuter le programme à ce stade et vérifier la sortie
-(qui devrait être 25).
+La condition de la boucle est ``True``, ce qui est toujours vrai, donc
+la boucle s'exécutera jusqu'à ce qu'elle rencontre l'instruction ``break``.
+À chaque itération, elle invite l'utilisateur avec un chevron. Si
+l'utilisateur tape ``fin``, l'instruction ``break`` quitte la boucle.
+Sinon, le programme affiche ce que l'utilisateur a tapé et retourne
+au début de la boucle.
 
-Enfin, vous pouvez utiliser la fonction ``math.sqrt`` pour calculer et
-retourner le résultat :
+Racines carrées
+---------------
+
+Les boucles sont souvent utilisées dans les programmes qui calculent
+des résultats numériques en commençant par une réponse approximative et
+en l'améliorant de manière itérative.
+
+Par exemple, l'une des façons de calculer les racines carrées est la méthode
+de Newton. Supposons que vous souhaitiez connaître la racine carrée de $a$.
+Si vous commencez avec une estimation quelconque, $x$, vous pouvez calculer une meilleure
+estimation avec la formule suivante :
+
+  $y = \frac{x + a / x}{2}$
+
+Par exemple, si $a$ vaut 4 et $x$ vaut 3 :
 
 .. code:: python
 
-    import math
+    >>> a = 4
+    >>> x = 3
+    >>> y = (x + a/x) / 2
+    >>> y
+    2.1666666666666665
 
-    def distance(x1, y1, x2, y2):
-        dx = x2 - x1
-        dy = y2 - y1
-        carre_dx = dx**2
-        carre_dy = dy**2
-        resultat = math.sqrt(carre_dx + carre_dy)
-        return resultat
+Le résultat est plus proche de la bonne réponse ($\sqrt{4} = 2$). Si nous répétons
+le processus avec la nouvelle estimation, le résultat s'améliore encore :
 
-Si cela fonctionne correctement, vous avez terminé.
-Sinon, vous voudrez peut-être afficher la valeur de ``resultat`` avant l'instruction de retour.
+.. code:: python
 
-La version finale de la fonction n'affiche rien lorsqu'elle est exécutée ;
-elle retourne simplement une valeur. Les instructions ``print``
-que nous avons écrites sont utiles pour le débogage, mais une fois
-que vous avez vérifié que la fonction fonctionne, vous devez les supprimer.
-Un code comme celui-ci est appelé code d'échafaudage (*scaffolding*) car il
-est utile pour construire le programme mais ne fait pas partie du produit final.
+    >>> x = y
+    >>> y = (x + a/x) / 2
+    >>> y
+    2.0064102564102564
 
-Composition
+Lorsque $y == x$, vous pouvez arrêter le calcul. Vous pouvez exprimer cela
+dans une boucle :
+
+.. code:: python
+
+    while True:
+        print(x)
+        y = (x + a/x) / 2
+        if y == x:
+            break
+        x = y
+
+Pour la plupart des valeurs de $a$, cela fonctionne bien, mais de manière
+générale, tester l'égalité stricte des nombres à virgule flottante est
+dangereux. Plutôt que de vérifier si ``x`` et ``y`` sont exactement
+égaux, il est plus sûr d'utiliser la fonction intégrée ``abs`` pour calculer
+la valeur absolue de leur différence :
+
+.. code:: python
+
+    if abs(y - x) < epsilon:
+        break
+
+où ``epsilon`` a une valeur petite comme ``0.0000001`` qui détermine
+la précision requise.
+
+Algorithmes
 -----------
 
-Comme vous devriez vous y attendre à ce jour, vous pouvez appeler une fonction
-à partir d'une autre. Cette capacité est appelée composition (*composition*).
+La méthode de Newton est un exemple d'algorithme (*algorithm*) : c'est
+un processus mécanique pour résoudre une catégorie de problèmes
+(dans ce cas, calculer des racines carrées).
 
-À titre d'exemple, nous allons écrire une fonction qui prend deux points,
-le centre du cercle et un point sur le périmètre, et qui calcule l'aire
-du cercle.
+Pour comprendre ce qu'est un algorithme, il peut être utile de commencer par
+ce qui n'en est pas un. L'arithmétique de base que vous avez apprise
+n'est généralement pas algorithmique. Mais si vous avez appris la division
+longue, vous avez appris un algorithme. Un algorithme est une suite d'étapes
+systématiques, sans nécessiter d'intelligence ni d'intuition pour les exécuter.
 
-Supposons que le point central est stocké dans les variables ``xc`` et ``yc``,
-et le point de périmètre est dans ``xp`` et ``yp``.
-La première étape consiste à trouver le rayon du cercle,
-qui est la distance entre les deux points.
-Nous venons d'écrire une fonction, ``distance``, qui fait cela :
+Débogage
+--------
 
-.. code:: python
+À mesure que vous commencez à écrire des programmes plus longs, vous
+pourriez vous retrouver à passer plus de temps à déboguer.
+Réduire la quantité de code que vous ajoutez avant de tester (développement
+incrémental) peut aider.
 
-    rayon = distance(xc, yc, xp, yp)
-
-La deuxième étape consiste à trouver l'aire d'un cercle avec ce rayon;
-nous venons d'écrire cela aussi :
-
-.. code:: python
-
-    resultat = aire(rayon)
-
-Encapsuler ces étapes dans une fonction produit ceci :
-
-.. code:: python
-
-    def aire_du_cercle(xc, yc, xp, yp):
-        rayon = distance(xc, yc, xp, yp)
-        resultat = aire(rayon)
-        return resultat
-
-Les variables temporaires ``rayon`` et ``resultat`` sont utiles
-pour le développement et le débogage, mais une fois que le
-programme fonctionne, nous pouvons le rendre plus concis
-en composant les appels de fonctions :
-
-.. code:: python
-
-    def aire_du_cercle(xc, yc, xp, yp):
-        return aire(distance(xc, yc, xp, yp))
-
-Fonctions booléennes
---------------------
-
-Les fonctions peuvent retourner des booléens,
-ce qui est souvent pratique pour cacher des tests complexes
-à l'intérieur de fonctions. Par exemple :
-
-.. code:: python
-
-    def est_divisible(x, y):
-        if x % y == 0:
-            return True
-        else:
-            return False
-
-Il est courant de donner aux fonctions booléennes
-des noms qui ressemblent à des questions par oui ou par non;
-``est_divisible`` retourne ``True`` ou ``False``
-pour indiquer si ``x`` est divisible par ``y``.
-
-Voici un exemple :
-
-.. code:: python
-
-    >>> est_divisible(6, 4)
-    False
-    >>> est_divisible(6, 3)
-    True
-
-Le résultat de l'opérateur ``==`` est un booléen, nous pouvons
-donc écrire la fonction de manière plus concise en le retournant
-directement :
-
-.. code:: python
-
-    def est_divisible(x, y):
-        return x % y == 0
-
-Les fonctions booléennes sont souvent utilisées
-dans des instructions conditionnelles :
-
-.. code:: python
-
-    if est_divisible(x, y):
-        print('x est divisible par y')
-
-Il peut être tentant d'écrire quelque chose comme :
-
-.. code:: python
-
-    if est_divisible(x, y) == True:
-        print('x est divisible par y')
-
-Mais la comparaison supplémentaire est inutile.
+Une autre technique utile est la division par deux de la recherche
+(*bisection*). Si vous avez 100 lignes de code et qu'il y a une erreur,
+vous pouvez placer une instruction ``print`` au milieu pour vérifier
+si l'état du programme est correct.
+S'il l'est, l'erreur se trouve dans la seconde moitié ; sinon, elle est
+dans la première. En coupant à chaque fois la zone de recherche en deux,
+vous trouverez plus vite le problème.
 
 Glossaire
 ---------
 
 .. glossary::
 
-    variable temporaire
-    temporary variable
-        Une variable utilisée pour stocker une valeur intermédiaire
-        dans un calcul complexe.
+    réaffectation
+    reassignment
+        Le fait d'assigner une nouvelle valeur à une variable qui
+        existait déjà.
 
-    code mort
-    dead code
-        Une partie d'un programme qui ne peut jamais être exécutée,
-        souvent parce qu'elle apparaît après une instruction de retour.
+    mise à jour
+    update
+        Une affectation où la nouvelle valeur de la variable dépend de
+        l'ancienne.
 
-    développement incrémental
-    incremental development
-        Un plan de développement de programme destiné à éviter
-        le débogage en ajoutant et en testant seulement une petite
-        quantité de code à la fois.
+    initialisation
+    initialization
+        Une affectation qui donne une valeur initiale à une variable qui
+        sera mise à jour par la suite.
 
-    code d'échafaudage
-    scaffolding
-        Code qui est utilisé pendant le développement du programme
-        mais qui ne fait pas partie du produit final.
+    incrémenter
+    increment
+        Une mise à jour qui augmente la valeur d'une variable (souvent de 1).
 
-    fonction booléenne
-    boolean function
-        Une fonction qui retourne un booléen.
+    décrémenter
+    decrement
+        Une mise à jour qui diminue la valeur d'une variable.
+
+    itération
+    iteration
+        L'exécution répétée d'un ensemble d'instructions en utilisant soit une
+        fonction récursive, soit une boucle.
+
+    boucle infinie
+    infinite loop
+        Une boucle dont la condition de terminaison n'est jamais satisfaite.
+
+    algorithme
+    algorithm
+        Un processus général pour résoudre une catégorie de problèmes.
 
 Exercices
 ---------
 
 .. topic:: Exercice 1
 
-    Écrivez une fonction ``compare`` qui prend deux valeurs, ``x`` et ``y``,
-    et qui retourne ``1`` si ``x > y``, ``0`` si ``x == y``, et ``-1`` si ``x < y``.
+    Copiez la boucle de la section sur les racines carrées et
+    encapsulez-la dans une fonction appelée ``ma_racine(a)``.
+
+    Pour tester votre fonction, écrivez une fonction nommée
+    ``tester_racine_carree`` qui affiche un tableau semblable à celui-ci :
+
+    .. code:: text
+
+        a   ma_racine(a)      math.sqrt(a)   diff
+        -   ------------      ------------   ----
+        1.0 1.0               1.0            0.0
+        2.0 1.41421356237     1.41421356237  2.22044604925e-16
+        3.0 1.73205081001     1.73205081001  0.0
+        4.0 2.0               2.0            0.0
+
+    La première colonne correspond aux nombres de 1 à 9. La deuxième
+    colonne est le résultat calculé par votre fonction ``ma_racine``.
+    La troisième est le résultat de ``math.sqrt``, et la quatrième
+    colonne est la différence absolue entre les deux.
+
 
 .. topic:: Exercice 2
 
-    Utilisez un développement incrémental pour écrire une fonction
-    nommée ``hypotenuse`` qui retourne la longueur de l'hypoténuse
-    d'un triangle rectangle, étant donné la longueur des deux
-    autres côtés. Enregistrez chaque étape du processus de développement
-    au fur et à mesure que vous avancez.
+    La fonction intégrée ``eval`` prend une chaîne de caractères et
+    l'évalue à l'aide de l'interpréteur Python. Par exemple :
+
+    .. code:: python
+
+        >>> eval('1 + 2 * 3')
+        7
+        >>> import math
+        >>> eval('math.sqrt(5)')
+        2.2360679774997898
+        >>> eval('type(math.pi)')
+        <class 'float'>
+
+    Écrivez une fonction appelée ``eval_loop`` qui invite itérativement
+    l'utilisateur à entrer une saisie, prend la saisie, et l'évalue
+    en utilisant ``eval``, pour finalement afficher le résultat.
+
+    Elle devrait continuer ainsi jusqu'à ce que l'utilisateur tape
+    ``'done'``, et elle devrait ensuite retourner la valeur de la dernière
+    expression évaluée.
 
 .. topic:: Exercice 3
 
-    Écrivez une fonction booléenne ``est_entre(x, y, z)`` qui
-    retourne ``True`` si ``x ≤ y ≤ z`` et ``False`` sinon.
+    Le brillant mathématicien Srinivasa Ramanujan a découvert une série infinie
+    permettant de calculer une approximation de $\pi$ :
+
+    $$ \frac{1}{\pi} = \frac{2\sqrt{2}}{9801} \sum_{k=0}^{\infty} \frac{(4k)!(1103 + 26390k)}{(k!)^4 396^{4k}} $$
+
+    Écrivez une fonction appelée ``estimer_pi`` qui utilise cette formule pour
+    calculer et retourner une estimation de $\pi$. Elle doit utiliser une boucle
+    ``while`` pour calculer les termes de la somme jusqu'à ce que le dernier
+    terme calculé soit strictement inférieur à ``1e-15`` (soit la notation
+    scientifique de Python pour $10^{-15}$). Vous pourrez vérifier votre
+    résultat en le comparant à ``math.pi``.
