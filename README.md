@@ -9,6 +9,12 @@ Démarrage
 1.  Ouvrez-votre éditeur sur ce dépôt
 
 1.  Assurez-vous d'avoir [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+    
+    Powershell
+
+    ```ps1
+    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+    ```
 
 1.  Ouvrez un terminal dans le répertoire du dépôt
 
