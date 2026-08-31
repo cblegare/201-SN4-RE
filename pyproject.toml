@@ -62,6 +62,20 @@ docs = { workspace = true }
 # endregion
 ##############################################################################
 
+[tool.docstrfmt]
+files = [
+    "docs/**/*.py",
+    "docs/**/*.rst",
+    "src/**/*.py",
+    "./*.rst",
+    "./*.py"
+]
+section-adornments = "=-|~+.'\"`^_*:#"
+line-length = 80
+indent-width = 4
+bullet-list-marker = "*"
+
+
 ##############################################################################
 # -- ruff: code lint & format ------------------------------------------------
 # region ruff
