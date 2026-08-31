@@ -55,7 +55,9 @@ variables:
           - uv.lock
       paths:
         - $UV_CACHE_DIR
-  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$DEFAULT_PYTHON-$BASE_LAYER
+  variables:
+    PYTHON_VERSION: ${DEFAULT_PYTHON}
+  image: ghcr.io/astral-sh/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
 
 #
 ###
@@ -129,16 +131,14 @@ test:
     - .test
     - .uv
   script:
-    - uv nox -rs fulltest-${PYVERSION}
+    - uv nox -rs fulltest-${PYTHON_VERSION}
   artifacts:
     when: always
     paths:
       - build/report/coverage*
   parallel:
     matrix:
-      - PYVERSION: "3.13"
-      - PYVERSION: "3.12"
-      - PYVERSION: "3.11"
+      - PYTHON_VERSION: ${DEFAULT_PYTHON}
   needs: []
   allow_failure: true
 
