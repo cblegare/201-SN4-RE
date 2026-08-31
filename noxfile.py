@@ -21,7 +21,8 @@ DEFAULT_PYTHON = max(PYTHON_VERSIONS)
 repo_root = Path(__file__).parent
 
 reports_root = repo_root / "build/report"
-
+src_root = repo_root / "src"
+docs_root = repo_root / "docs"
 
 nox.options.default_venv_backend = "uv"
 
@@ -30,6 +31,12 @@ nox.options.default_venv_backend = "uv"
 def lint(session: nox.Session):
     session.install("ruff")
     session.run("ruff", "check", "--fix", "--unsafe-fixes", "src", "test")
+
+
+@nox.session(python=DEFAULT_PYTHON)
+def format_doc(session: nox.Session):
+    session.install("docstrfmt")
+    session.run("docstrfmt")
 
 
 @nox.session(python=PYTHON_VERSIONS)
