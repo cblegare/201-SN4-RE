@@ -1,0 +1,348 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{etoolbox}
+
+\usepackage{tikz}
+
+\title{Exercice d'algèbre linéaire : La rotation des constellations}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Situation}
+
+Considérons deux constellations d'étoiles, la Grande Ourse et la Petite Ourse.
+Chacune est composée d'étoiles qu'on dispose sur un plan cartésien où l'origine
+pointe vers le pôle nord. Les coordonnées de chaque étoile sont :
+
+\begin{center}
+  \begin{tabular}{llc}
+    \toprule
+    \textbf{Constellation} & \textbf{Étoile}                       & \textbf{Coordonnées $(x, y)$} \\
+    \midrule
+    \textbf{Grande Ourse}  & Dubhe (coin supérieur droit du bol)   &           $(1, -4)$           \\
+                           & Merak (coin inférieur droit du bol)   &           $(0, -6)$           \\
+                           & Phecda (coin inférieur gauche du bol) &          $(-3, -5)$           \\
+                           & Megrez (coin supérieur gauche du bol) &          $(-3, -3)$           \\
+                           & Alioth (1er point de la queue)        &          $(-5, -2)$           \\
+                           & Mizar (milieu de la queue)            &          $(-6, -1)$           \\
+                           & Alkaid (bout de la queue)             &          $(-7, -2)$           \\
+    \addlinespace
+    \textbf{Petite Ourse}  & Étoile Polaire (Polaris)              &           $(6, 6)$            \\
+                           & Yildun (milieu de la queue)           &           $(5, 7)$            \\
+                           & Étoile 9 (base de la queue)           &           $(3, 7)$            \\
+                           & Étoile 10 (jonction avec le bol)      &           $(2, 6)$            \\
+                           & Kochab (coin supérieur gauche)        &           $(-1, 7)$           \\
+                           & Pherkad (coin inférieur gauche)       &           $(-1, 5)$           \\
+                           & Étoile 11 (coin inférieur droit)      &           $(1, 4)$            \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+Voici la disposition initiale des étoiles dans le ciel :
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.45,>=latex]
+    % Grille et axes
+    \draw[step=1cm,gray!30,very thin] (-11,-11) grid (11,11);
+    \draw[->, thick] (-11.5,0) -- (11.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-11.5) -- (0,11.5) node[above] {$y$};
+
+    % Coordonnées d'origine Grande Ourse (+3 en x)
+    \coordinate (G1) at (1,-4);
+    \coordinate (G2) at (0,-6);
+    \coordinate (G3) at (-3,-5);
+    \coordinate (G4) at (-3,-3);
+    \coordinate (G5) at (-5,-2);
+    \coordinate (G6) at (-6,-1);
+    \coordinate (G7) at (-7,-2);
+
+    % Coordonnées d'origine Petite Ourse (+3 en x)
+    \coordinate (P1) at (6,6);
+    \coordinate (P2) at (5,7);
+    \coordinate (P3) at (3,7);
+    \coordinate (P4) at (2,6);
+    \coordinate (P5) at (-1,7);
+    \coordinate (P6) at (-1,5);
+    \coordinate (P7) at (1,4);
+
+    % Tracé Grande Ourse
+    \draw[blue, thick] (G1) -- (G2) -- (G3) -- (G4) -- cycle;
+    \draw[blue, thick] (G4) -- (G5) -- (G6) -- (G7);
+    \foreach \p in {G1,G2,G3,G4,G5,G6,G7} \fill[blue] (\p) circle (4pt);
+
+    % Tracé Petite Ourse (le bol et la queue)
+    \draw[blue, thick] (P1) -- (P2) -- (P3) -- (P4);
+    \draw[blue, thick] (P4) -- (P5) -- (P6) -- (P7) -- cycle;
+    \foreach \p in {P1,P2,P3,P4,P5,P6,P7} \fill[blue] (\p) circle (4pt);
+
+    % Ligne d'alignement pointée
+    \draw[dashed, thick, gray] (G2) -- (P1);
+    % Ajouter les petits points intermédiaires pour illustrer les "5 fois"
+    \foreach \i in {1,2,3,4} { \fill[gray] (1+\i, -4+2*\i) circle (2.5pt); }
+      \node[gray, right, align=left] at (3, 0) {\footnotesize Prolonger 5 fois};
+
+    % Quelques étiquettes pour se repérer
+    \node[blue, below right] at (G1) {\tiny Dubhe};
+    \node[blue, below left] at (G2) {\tiny Merak};
+    \node[blue, above right] at (P1) {\tiny Polaris};
+    \node[blue, below right] at (G7) {\tiny Grande Ourse};
+    \node[blue, above left] at (P5) {\tiny Petite Ourse};
+  \end{tikzpicture}
+\end{center}
+
+Considérons la Terre qui tourne sur son axe. Faisant une rotation complète par
+jour, son angle parcouru dans le temps est donné par la fonction suivante :
+
+\[
+  \theta(t) = \frac{2\pi}{24}t
+            = \frac{\pi}{12}t \quad (\text{où } t \text{ est exprimé en heures})
+\]
+
+Une matrice de rotation est une matrice permettant d'effectuer une rotation
+vectorielle dans le plan. Voici la matrice de rotation 2D pour un angle $\theta$
+(\emph{theta}) donné :
+
+\[
+  R(\theta) = \begin{bmatrix}
+                \cos\theta & -\sin\theta \\
+                \sin\theta & \cos\theta
+              \end{bmatrix}
+\]
+
+Par exemple après 6h, la Terre aura fait un quart de tour sur elle-même.
+Construisons la matrice de rotation d'un quart de tour:
+
+\[
+  R_{1/4} = R(6)
+          = \begin{bmatrix}
+              \cos \frac{\pi}{12}6 & -\sin \frac{\pi}{12}6 \\
+              \sin \frac{\pi}{12}6 & \cos \frac{\pi}{12}6
+            \end{bmatrix}
+          = \begin{bmatrix}
+              \cos \frac{\pi}{2} & -\sin \frac{\pi}{2} \\
+              \sin \frac{\pi}{2} & \cos \frac{\pi}{2}
+            \end{bmatrix}
+          = \begin{bmatrix}
+              0  & 1 \\
+              -1 & 0
+            \end{bmatrix}
+\]
+
+\section{Questions}
+
+\begin{enumerate}
+  \item Dessinez les constellations telles qu'elles seront dans 6 heures. Voici
+        un indice pour trouver la position de l'étoile Polaire après 6 heures:
+
+        \[
+          \begin{bmatrix}
+            0  & 1 \\
+            -1 & 0
+          \end{bmatrix} \begin{bmatrix}
+                          6 \\
+                          6
+                        \end{bmatrix}
+          = ?
+        \]
+
+  \item En combien de temps les étoilent reviennent-elles à la position
+        initiale?
+  \item Démontrez que $R^4_{1/4} = I$
+\end{enumerate}
+
+\newpage
+
+\section*{Annexes}
+
+\subsection*{Degrés et radians}
+
+\begin{tikzpicture}[scale=5.3,cap=round,>=latex]
+  % draw the coordinates
+  \draw[->] (-1.5cm,0cm) -- (1.5cm,0cm) node[right,fill=white] {$x$};
+  \draw[->] (0cm,-1.5cm) -- (0cm,1.5cm) node[above,fill=white] {$y$};
+
+  % draw the unit circle
+  \draw[thick] (0cm,0cm) circle(1cm);
+
+  \foreach \x in {0,30,...,360}
+  {
+    % lines from center to point
+    \draw[gray] (0cm,0cm) -- (\x:1cm);
+    % dots at each point
+    \filldraw[black] (\x:1cm) circle(0.4pt);
+    % draw each angle in degrees
+    \draw (\x:0.6cm) node[fill=white] {$\x^\circ$};
+  }
+
+  % draw each angle in radians
+  \foreach \x/\xtext in
+    {
+      30/\frac{\pi}{6}, 45/\frac{\pi}{4}, 60/\frac{\pi}{3}, 90/\frac{\pi}{2},
+      120/\frac{2\pi}{3}, 135/\frac{3\pi}{4}, 150/\frac{5\pi}{6}, 180/\pi,
+      210/\frac{7\pi}{6}, 225/\frac{5\pi}{4}, 240/\frac{4\pi}{3},
+      270/\frac{3\pi}{2}, 300/\frac{5\pi}{3}, 315/\frac{7\pi}{4},
+      330/\frac{11\pi}{6}, 360/2\pi}
+    \draw (\x:0.85cm) node[fill=white] {$\xtext$};
+
+  \foreach \x/\xtext/\y in
+    {
+      % the coordinates for the first quadrant
+      30/\frac{\sqrt{3}}{2}/\frac{1}{2},
+      45/\frac{\sqrt{2}}{2}/\frac{\sqrt{2}}{2},
+      60/\frac{1}{2}/\frac{\sqrt{3}}{2},
+      % the coordinates for the second quadrant
+      150/-\frac{\sqrt{3}}{2}/\frac{1}{2},
+      135/-\frac{\sqrt{2}}{2}/\frac{\sqrt{2}}{2},
+      120/-\frac{1}{2}/\frac{\sqrt{3}}{2},
+      % the coordinates for the third quadrant
+      210/-\frac{\sqrt{3}}{2}/-\frac{1}{2},
+      225/-\frac{\sqrt{2}}{2}/-\frac{\sqrt{2}}{2},
+      240/-\frac{1}{2}/-\frac{\sqrt{3}}{2},
+      % the coordinates for the fourth quadrant
+      330/\frac{\sqrt{3}}{2}/-\frac{1}{2},
+      315/\frac{\sqrt{2}}{2}/-\frac{\sqrt{2}}{2},
+      300/\frac{1}{2}/-\frac{\sqrt{3}}{2}}
+    \draw (\x:1.25cm) node[fill=white] {$\left( \xtext,\y \right)$};
+
+  % draw the horizontal and vertical coordinates
+  % the placement is better this way
+  \draw (-1.25cm,0cm) node[above=1pt] {$(-1,0)$} (1.25cm,0cm) node[above=1pt]
+    {$(1,0)$} (0cm,-1.25cm) node[fill=white] {$(0,-1)$}
+    (0cm,1.25cm) node[fill=white] {$(0,1)$};
+\end{tikzpicture}
+
+\newpage
+
+\section*{Corrigé}
+
+\textbf{1. Calcul de l'angle pour $t = 6$ heures :} Pour $t = 6$, l'angle de
+rotation est :
+\[
+  \theta(6) = \frac{\pi}{12} \times 6
+            = \frac{\pi}{2} \text{ radians } (90^\circ)
+\]
+
+\textbf{2. Évaluation de la matrice de rotation :} Pour
+$\theta = \frac{\pi}{2}$, on a $\cos\left( \frac{\pi}{2} \right) = 0$ et
+$\sin\left( \frac{\pi}{2} \right) = 1$. La matrice de rotation devient donc :
+\[
+  R\left( \frac{\pi}{2} \right) = \begin{bmatrix}
+                                    0 & -1 \\
+                                    1 & 0
+                                  \end{bmatrix}
+\]
+
+\textbf{3. Exemple de transformation (pour l'étoile Merak) :} Si l'on prend
+l'étoile Merak de la Grande Ourse située en $P = \begin{bmatrix}
+                                                   0  \\
+                                                   -6
+                                                 \end{bmatrix}$, sa nouvelle position après 6 heures est :
+\[
+  P' = R\left( \frac{\pi}{2} \right) P
+     = \begin{bmatrix}
+         0 & -1 \\
+         1 & 0
+       \end{bmatrix} \begin{bmatrix}
+                       0  \\
+                       -6
+                     \end{bmatrix}
+     = \begin{bmatrix}
+         6 \\
+         0
+       \end{bmatrix}
+\]
+
+En appliquant cette même multiplication matricielle à l'ensemble des sommets,
+toute la constellation pivote d'un quart de tour autour de l'origine (le pôle
+nord).
+
+\vspace{2em}
+\textbf{Représentation visuelle de la transformation :}
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.45,>=latex]
+    % Grille et axes
+    \draw[step=1cm,gray!30,very thin] (-11,-11) grid (11,11);
+    \draw[->, thick] (-11.5,0) -- (11.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-11.5) -- (0,11.5) node[above] {$y$};
+
+    % ---- Points d'origine (bleu ciel) ----
+    \coordinate (G1) at (1,-4);
+    \coordinate (G2) at (0,-6);
+    \coordinate (G3) at (-3,-5);
+    \coordinate (G4) at (-3,-3);
+    \coordinate (G5) at (-5,-2);
+    \coordinate (G6) at (-6,-1);
+    \coordinate (G7) at (-7,-2);
+
+    \coordinate (P1) at (6,6);
+    \coordinate (P2) at (5,7);
+    \coordinate (P3) at (3,7);
+    \coordinate (P4) at (2,6);
+    \coordinate (P5) at (-1,7);
+    \coordinate (P6) at (-1,5);
+    \coordinate (P7) at (1,4);
+
+    % Tracé d'origine
+    \draw[blue!40, thick] (G1) -- (G2) -- (G3) -- (G4) -- cycle;
+    \draw[blue!40, thick] (G4) -- (G5) -- (G6) -- (G7);
+    \foreach \p in {G1,G2,G3,G4,G5,G6,G7} \fill[blue!40] (\p) circle (4pt);
+
+    \draw[blue!40, thick] (P1) -- (P2) -- (P3) -- (P4);
+    \draw[blue!40, thick] (P4) -- (P5) -- (P6) -- (P7) -- cycle;
+    \foreach \p in {P1,P2,P3,P4,P5,P6,P7} \fill[blue!40] (\p) circle (4pt);
+
+    % ---- Points de destination (rouge) ----
+    % Application de la matrice R(90) -> (x,y) devient (-y, x)
+    \coordinate (G1_new) at (4,1);
+    \coordinate (G2_new) at (6,0);
+    \coordinate (G3_new) at (5,-3);
+    \coordinate (G4_new) at (3,-3);
+    \coordinate (G5_new) at (2,-5);
+    \coordinate (G6_new) at (1,-6);
+    \coordinate (G7_new) at (2,-7);
+
+    \coordinate (P1_new) at (-6,6);
+    \coordinate (P2_new) at (-7,5);
+    \coordinate (P3_new) at (-7,3);
+    \coordinate (P4_new) at (-6,2);
+    \coordinate (P5_new) at (-7,-1);
+    \coordinate (P6_new) at (-5,-1);
+    \coordinate (P7_new) at (-4,1);
+
+    % Tracé d'arrivée
+    \draw[red, thick] (G1_new) -- (G2_new) -- (G3_new) -- (G4_new) -- cycle;
+    \draw[red, thick] (G4_new) -- (G5_new) -- (G6_new) -- (G7_new);
+    \foreach \p in {G1_new,G2_new,G3_new,G4_new,G5_new,G6_new,G7_new} \fill[red]
+      (\p) circle (4pt);
+
+    \draw[red, thick] (P1_new) -- (P2_new) -- (P3_new) -- (P4_new);
+    \draw[red, thick] (P4_new) -- (P5_new) -- (P6_new) -- (P7_new) -- cycle;
+    \foreach \p in {P1_new,P2_new,P3_new,P4_new,P5_new,P6_new,P7_new} \fill[red]
+      (\p) circle (4pt);
+
+    % ---- Flèches de rotation ----
+    % Courbure à 30 degrés pour montrer le pivot
+    \foreach \i in {1,...,7} {
+      \draw[->, dashed, black!60, bend right=30] (G\i) to node[midway,
+      fill=white, inner sep=1pt] {\tiny $90^\circ$} (G\i_new);
+    }
+    \foreach \i in {1,...,7}
+    {
+      \draw[->, dashed, black!60, bend right=30] (P\i) to node[midway,
+      fill=white, inner sep=1pt] {\tiny $90^\circ$} (P\i_new);
+    }
+  \end{tikzpicture}
+\end{center}
+
+\end{document}

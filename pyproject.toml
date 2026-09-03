@@ -1,0 +1,11 @@
+[project]
+name = "201-sn4-re"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "badness>=0.22.1",
+    "nox[uv]>=2026.8.17",
+]
