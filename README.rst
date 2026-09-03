@@ -14,9 +14,11 @@ Ces instructions mène à la compilation des documents.
 Prérequis
 ---------
 
-Ce dépôt utilise [`uv`](https://docs.astral.sh/uv/) pour la résolution et
+Ce dépôt utilise `uv`_ pour la résolution et
 l'installation de certaines dépendances. Le logiciel doit être installé
 et utilisable dans un terminal. Vérifiez votre installation:
+
+.. _uv: https://docs.astral.sh/uv/
 
 .. code-block:: shell
 
