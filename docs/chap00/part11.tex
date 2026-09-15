@@ -1,0 +1,849 @@
+\hypertarget{fichiers}{%
+\section{Fichiers}\label{fichiers}}
+
+\hypertarget{persistance}{%
+\subsection{Persistance}\label{persistance}}
+
+La plupart des programmes que nous avons vus jusqu\textquotesingle à
+présent sont éphémères dans le sens où ils s\textquotesingle exécutent
+pendant un court moment et produisent un certain résultat, mais
+lorsqu\textquotesingle ils se terminent, leurs données disparaissent. Si
+vous relancez le programme, il repart sur une feuille blanche{[}cite:
+1{]}.
+
+D\textquotesingle autres programmes sont persistants : ils
+s\textquotesingle exécutent longtemps (ou en continu) ; ils conservent
+au moins une partie de leurs données dans un stockage permanent (un
+disque dur, par exemple) ; et s\textquotesingle ils
+s\textquotesingle arrêtent et redémarrent, ils reprennent là où ils
+s\textquotesingle étaient arrêtés. Des exemples de programmes
+persistants sont les systèmes d\textquotesingle exploitation, qui
+s\textquotesingle exécutent à peu près chaque fois qu\textquotesingle un
+ordinateur est allumé, et les serveurs web, qui fonctionnent en
+permanence en attendant que des requêtes arrivent sur le réseau{[}cite:
+1{]}.
+
+L\textquotesingle un des moyens les plus simples pour les programmes de
+conserver leurs données consiste à lire et à écrire des fichiers texte.
+Nous avons déjà vu des programmes qui lisent des fichiers texte ; dans
+ce chapitre, nous verrons des programmes qui en écrivent{[}cite: 1{]}.
+
+Une alternative est de stocker l\textquotesingle état du programme dans
+une base de données. Dans ce chapitre, je présenterai une base de
+données simple et un module, \texttt{pickle}, qui facilite le stockage
+des données de programmes{[}cite: 1{]}.
+
+\hypertarget{lecture-et-uxe9criture}{%
+\subsection{Lecture et écriture}\label{lecture-et-uxe9criture}}
+
+Un fichier texte est une séquence de caractères stockée sur un support
+permanent comme un disque dur, une mémoire flash ou un cédérom. Nous
+avons vu comment ouvrir et lire un fichier à la section 9.1{[}cite:
+1{]}.
+
+Pour écrire dans un fichier, vous devez l\textquotesingle ouvrir avec le
+mode \texttt{\textquotesingle{}w\textquotesingle{}} comme second
+paramètre{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}output.txt\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ fout}
+\OperatorTok{\textless{}}\BuiltInTok{open} \BuiltInTok{file} \StringTok{\textquotesingle{}output.txt\textquotesingle{}}\NormalTok{, mode }\StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{ at }\BaseNTok{0xb7eb2410}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si le fichier existe déjà, l\textquotesingle ouvrir en mode écriture
+efface les anciennes données et repart à neuf, alors soyez prudent ! Si
+le fichier n\textquotesingle existe pas, un nouveau est créé{[}cite:
+1{]}.
+
+La méthode \texttt{write} place des données dans le fichier{[}cite: 1{]}
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ line1 }\OperatorTok{=} \StringTok{"This here\textquotesingle{}s the wattle,}\CharTok{\textbackslash{}n}\StringTok{"}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout.write(line1)}
+\end{Highlighting}
+\end{Shaded}
+
+Encore une fois, l\textquotesingle objet fichier garde une trace de sa
+position, donc si vous appelez \texttt{write} à nouveau, il ajoute les
+nouvelles données à la fin{[}cite: 1{]}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ line2 }\OperatorTok{=} \StringTok{"the emblem of our land.}\CharTok{\textbackslash{}n}\StringTok{"}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout.write(line2)}
+\end{Highlighting}
+\end{Shaded}
+
+Lorsque vous avez fini d\textquotesingle écrire, vous devez fermer le
+fichier{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout.close()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{opuxe9rateur-de-formatage}{%
+\subsection{Opérateur de formatage}\label{opuxe9rateur-de-formatage}}
+
+L\textquotesingle argument de \texttt{write} doit être une chaîne de
+caractères, donc si nous voulons placer d\textquotesingle autres valeurs
+dans un fichier, nous devons les convertir en chaînes. Le moyen le plus
+simple d\textquotesingle y parvenir est d\textquotesingle utiliser
+\texttt{str}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=} \DecValTok{52}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout.write(}\BuiltInTok{str}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
+
+Une alternative consiste à utiliser l\textquotesingle opérateur de
+formatage, \texttt{\%}. Lorsqu\textquotesingle il est appliqué à des
+entiers, \texttt{\%} est l\textquotesingle opérateur modulo. Mais
+lorsque le premier opérande est une chaîne, \texttt{\%} est
+l\textquotesingle opérateur de formatage{[}cite: 1{]}.
+
+Le premier opérande est la chaîne de format, qui contient une ou
+plusieurs séquences de format spécifiant comment le second opérande est
+formaté. Le résultat est une chaîne de caractères{[}cite: 1{]}.
+
+Par exemple, la séquence de format
+\texttt{\textquotesingle{}\%d\textquotesingle{}} signifie que le second
+opérande doit être formaté en tant qu\textquotesingle entier (le « d »
+signifie « décimal »){[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ camels }\OperatorTok{=} \DecValTok{42}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}}\SpecialCharTok{\%d}\StringTok{\textquotesingle{}} \OperatorTok{\%}\NormalTok{ camels}
+\CommentTok{\textquotesingle{}42\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Le résultat est la chaîne
+\texttt{\textquotesingle{}42\textquotesingle{}}, à ne pas confondre avec
+la valeur entière 42{[}cite: 1{]}.
+
+Une séquence de format peut apparaître n\textquotesingle importe où dans
+la chaîne, ce qui vous permet d\textquotesingle intégrer une valeur dans
+une phrase{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ camels }\OperatorTok{=} \DecValTok{42}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}I have spotted }\SpecialCharTok{\%d}\StringTok{ camels.\textquotesingle{}} \OperatorTok{\%}\NormalTok{ camels}
+\CommentTok{\textquotesingle{}I have spotted 42 camels.\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+S\textquotesingle il y a plus d\textquotesingle une séquence de format
+dans la chaîne, le second argument doit être un tuple. Chaque séquence
+de format correspond à un élément du tuple, dans
+l\textquotesingle ordre{[}cite: 1{]}.
+
+L\textquotesingle exemple suivant utilise
+\texttt{\textquotesingle{}\%d\textquotesingle{}} pour formater un
+entier, \texttt{\textquotesingle{}\%g\textquotesingle{}} pour formater
+un nombre à virgule flottante (ne demandez pas pourquoi), et
+\texttt{\textquotesingle{}\%s\textquotesingle{}} pour formater une
+chaîne{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}In }\SpecialCharTok{\%d}\StringTok{ years I have spotted }\SpecialCharTok{\%g}\StringTok{ }\SpecialCharTok{\%s}\StringTok{.\textquotesingle{}} \OperatorTok{\%}\NormalTok{ (}\DecValTok{3}\NormalTok{, }\FloatTok{0.1}\NormalTok{, }\StringTok{\textquotesingle{}camels\textquotesingle{}}\NormalTok{)}
+\CommentTok{\textquotesingle{}In 3 years I have spotted 0.1 camels.\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Le nombre d\textquotesingle éléments dans le tuple doit correspondre au
+nombre de séquences de format dans la chaîne. De plus, les types des
+éléments doivent correspondre aux séquences de format{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}}\SpecialCharTok{\%d}\StringTok{ }\SpecialCharTok{\%d}\StringTok{ }\SpecialCharTok{\%d}\StringTok{\textquotesingle{}} \OperatorTok{\%}\NormalTok{ (}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\PreprocessorTok{TypeError}\NormalTok{: }\KeywordTok{not}\NormalTok{ enough arguments }\ControlFlowTok{for} \BuiltInTok{format}\NormalTok{ string}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}}\SpecialCharTok{\%d}\StringTok{\textquotesingle{}} \OperatorTok{\%} \StringTok{\textquotesingle{}dollars\textquotesingle{}}
+\PreprocessorTok{TypeError}\NormalTok{: illegal argument }\BuiltInTok{type} \ControlFlowTok{for}\NormalTok{ built}\OperatorTok{{-}}\KeywordTok{in}\NormalTok{ operation}
+\end{Highlighting}
+\end{Shaded}
+
+Dans le premier exemple, il n\textquotesingle y a pas assez
+d\textquotesingle éléments ; dans le second, l\textquotesingle élément
+est du mauvais type{[}cite: 1{]}.
+
+L\textquotesingle opérateur de formatage est puissant, mais il peut
+s\textquotesingle avérer difficile à utiliser. Vous pouvez en lire
+davantage à son sujet sur
+\url{http://docs.python.org/2/library/stdtypes.html\#string-formatting\%5Bcite}:
+1{]}.
+
+Noms de fichiers et chemins
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Les fichiers sont organisés en répertoires (également appelés « dossiers
+»). Chaque programme en cours d\textquotesingle exécution possède un «
+répertoire courant », qui est le répertoire par défaut pour la plupart
+des opérations{[}cite: 1{]}.
+
+Par exemple, lorsque vous ouvrez un fichier en lecture, Python le
+recherche dans le répertoire courant{[}cite: 1{]}.
+
+Le module \texttt{os} fournit des fonctions pour travailler avec les
+fichiers et les répertoires (« os » signifie « operating system »).
+\texttt{os.getcwd} renvoie le nom du répertoire courant{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ os}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ cwd }\OperatorTok{=}\NormalTok{ os.getcwd()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ cwd}
+\OperatorTok{/}\NormalTok{home}\OperatorTok{/}\NormalTok{dinsdale}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{cwd} signifie « current working directory » (répertoire de
+travail courant). Le résultat dans cet exemple est
+\texttt{/home/dinsdale}, qui est le répertoire personnel
+d\textquotesingle un utilisateur nommé \texttt{dinsdale}{[}cite: 1{]}.
+
+Une chaîne comme \texttt{cwd} qui identifie un fichier est appelée un
+\textbf{chemin} (\emph{path}). Un chemin relatif part du répertoire
+courant ; un chemin absolu part du répertoire le plus haut du système de
+fichiers{[}cite: 1{]}.
+
+Les chemins que nous avons vus jusqu\textquotesingle à présent sont de
+simples noms de fichiers, ils sont donc relatifs au répertoire courant.
+Pour trouver le chemin absolu d\textquotesingle un fichier, vous pouvez
+utiliser \texttt{os.path.abspath}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ os.path.abspath(}\StringTok{\textquotesingle{}memo.txt\textquotesingle{}}\NormalTok{)}
+\CommentTok{\textquotesingle{}/home/dinsdale/memo.txt\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{os.path.exists} vérifie si un fichier ou un répertoire
+existe{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ os.path.exists(}\StringTok{\textquotesingle{}memo.txt\textquotesingle{}}\NormalTok{)}
+\VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+S\textquotesingle il existe, \texttt{os.path.isdir} vérifie
+s\textquotesingle il s\textquotesingle agit d\textquotesingle un
+répertoire{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ os.path.isdir(}\StringTok{\textquotesingle{}memo.txt\textquotesingle{}}\NormalTok{)}
+\VariableTok{False}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ os.path.isdir(}\StringTok{\textquotesingle{}music\textquotesingle{}}\NormalTok{)}
+\VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+De même, \texttt{os.path.isfile} vérifie s\textquotesingle il
+s\textquotesingle agit d\textquotesingle un fichier{[}cite: 1{]}.
+
+\texttt{os.listdir} renvoie une liste des fichiers (et autres
+répertoires) dans le répertoire donné{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ os.listdir(cwd)}
+\NormalTok{[}\StringTok{\textquotesingle{}music\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}photos\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}memo.txt\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Pour illustrer ces fonctions, l\textquotesingle exemple suivant «
+parcourt » (\emph{walks}) un répertoire, affiche les noms de tous les
+fichiers et s\textquotesingle appelle lui-même de manière récursive sur
+tous les répertoires{[}cite: 1{]}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ walk(dirname):}
+    \ControlFlowTok{for}\NormalTok{ name }\KeywordTok{in}\NormalTok{ os.listdir(dirname):}
+\NormalTok{        path }\OperatorTok{=}\NormalTok{ os.path.join(dirname, name)}
+
+        \ControlFlowTok{if}\NormalTok{ os.path.isfile(path):}
+            \BuiltInTok{print}\NormalTok{ path}
+        \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{            walk(path)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{os.path.join} prend un répertoire et un nom de fichier et les
+combine pour former un chemin complet{[}cite: 1{]}.
+
+\textbf{Exercice}
+
+Le module \texttt{os} fournit une fonction appelée \texttt{walk} qui est
+similaire à celle-ci mais plus polyvalente. Lisez la documentation et
+utilisez-la pour afficher les noms des fichiers dans un répertoire donné
+et ses sous-répertoires{[}cite: 1{]}. Solution :
+\url{http://thinkpython.com/code/walk.py\%5Bcite}: 1{]}.
+
+\hypertarget{capture-dexceptions}{%
+\subsection{Capture
+d\textquotesingle exceptions}\label{capture-dexceptions}}
+
+Beaucoup de choses peuvent mal tourner lorsque vous essayez de lire et
+d\textquotesingle écrire des fichiers. Si vous essayez
+d\textquotesingle ouvrir un fichier qui n\textquotesingle existe pas,
+vous obtenez une \texttt{IOError}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fin }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}bad\_file\textquotesingle{}}\NormalTok{)}
+\PreprocessorTok{IOError}\NormalTok{: [Errno }\DecValTok{2}\NormalTok{] No such }\BuiltInTok{file} \KeywordTok{or}\NormalTok{ directory: }\StringTok{\textquotesingle{}bad\_file\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous n\textquotesingle avez pas la permission
+d\textquotesingle accéder à un fichier{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fout }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}/etc/passwd\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}w\textquotesingle{}}\NormalTok{)}
+\PreprocessorTok{IOError}\NormalTok{: [Errno }\DecValTok{13}\NormalTok{] Permission denied: }\StringTok{\textquotesingle{}/etc/passwd\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Et si vous essayez d\textquotesingle ouvrir un répertoire en lecture,
+vous obtenez{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fin }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}/home\textquotesingle{}}\NormalTok{)}
+\PreprocessorTok{IOError}\NormalTok{: [Errno }\DecValTok{21}\NormalTok{] Is a directory}
+\end{Highlighting}
+\end{Shaded}
+
+Pour éviter ces erreurs, vous pourriez utiliser des fonctions comme
+\texttt{os.path.exists} et \texttt{os.path.isfile}, mais cela prendrait
+beaucoup de temps et de code pour vérifier toutes les possibilités (si «
+Errno 21 » est un indice, il y a au moins 21 choses qui peuvent mal
+tourner){[}cite: 1{]}.
+
+Il vaut mieux foncer et essayer --- et gérer les problèmes
+s\textquotesingle ils surviennent ---, ce qui est précisément ce que
+fait l\textquotesingle instruction \texttt{try}. La syntaxe est
+similaire à une instruction \texttt{if}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{try}\NormalTok{:}
+\NormalTok{    fin }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}bad\_file\textquotesingle{}}\NormalTok{)}
+    \ControlFlowTok{for}\NormalTok{ line }\KeywordTok{in}\NormalTok{ fin:}
+        \BuiltInTok{print}\NormalTok{ line}
+\NormalTok{    fin.close()}
+\ControlFlowTok{except}\NormalTok{:}
+    \BuiltInTok{print} \StringTok{\textquotesingle{}Something went wrong.\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Python commence par exécuter la clause \texttt{try}. Si tout se passe
+bien, il ignore la clause \texttt{except} et continue. Si une exception
+se produit, il sort de la clause \texttt{try} et exécute la clause
+\texttt{except}{[}cite: 1{]}.
+
+Gérer une exception avec une instruction \texttt{try}
+s\textquotesingle appelle \textbf{capturer} (\emph{catch}) une
+exception. Dans cet exemple, la clause \texttt{except} affiche un
+message d\textquotesingle erreur qui n\textquotesingle est pas très
+utile. En général, capturer une exception vous donne
+l\textquotesingle opportunité de résoudre le problème, de réessayer, ou
+du moins de quitter le programme proprement{[}cite: 1{]}.
+
+\textbf{Exercice}
+
+Écrivez une fonction appelée \texttt{sed} qui prend comme arguments une
+chaîne modèle, une chaîne de remplacement et deux noms de fichiers ;
+elle doit lire le premier fichier et écrire le contenu dans le second
+fichier (en le créant si nécessaire). Si la chaîne modèle apparaît
+n\textquotesingle importe où dans le fichier, elle doit être remplacée
+par la chaîne de remplacement{[}cite: 1{]}. Si une erreur se produit
+lors de l\textquotesingle ouverture, de la lecture, de
+l\textquotesingle écriture ou de la fermeture de fichiers, votre
+programme doit capturer l\textquotesingle exception, afficher un message
+d\textquotesingle erreur et se terminer{[}cite: 1{]}. Solution :
+\url{http://thinkpython.com/code/sed.py\%5Bcite}: 1{]}.
+
+\hypertarget{bases-de-donnuxe9es}{%
+\subsection{Bases de données}\label{bases-de-donnuxe9es}}
+
+Une base de données est un fichier organisé pour stocker des données. La
+plupart des bases de données sont organisées comme un dictionnaire en ce
+sens qu\textquotesingle elles associent des clés à des valeurs. La plus
+grande différence est que la base de données se trouve sur le disque (ou
+un autre stockage permanent), de sorte qu\textquotesingle elle persiste
+après la fin du programme{[}cite: 1{]}.
+
+Le module \texttt{anydbm} fournit une interface pour créer et mettre à
+jour des fichiers de bases de données. À titre
+d\textquotesingle exemple, je vais créer une base de données qui
+contient des légendes pour des fichiers d\textquotesingle images{[}cite:
+1{]}.
+
+L\textquotesingle ouverture d\textquotesingle une base de données est
+similaire à l\textquotesingle ouverture d\textquotesingle autres
+fichiers{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ anydbm}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ db }\OperatorTok{=}\NormalTok{ anydbm.}\BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}captions.db\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Le mode \texttt{\textquotesingle{}c\textquotesingle{}} signifie que la
+base de données doit être créée si elle n\textquotesingle existe pas
+déjà. Le résultat est un objet base de données qui peut être utilisé
+(pour la plupart des opérations) comme un dictionnaire{[}cite: 1{]}.
+
+Si vous créez un nouvel élément, \texttt{anydbm} met à jour le fichier
+de la base de données{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ db[}\StringTok{\textquotesingle{}cleese.png\textquotesingle{}}\NormalTok{] }\OperatorTok{=} \StringTok{\textquotesingle{}Photo of John Cleese.\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Lorsque vous accédez à l\textquotesingle un des éléments,
+\texttt{anydbm} lit le fichier{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ db[}\StringTok{\textquotesingle{}cleese.png\textquotesingle{}}\NormalTok{]}
+\NormalTok{Photo of John Cleese.}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous effectuez une autre affectation sur une clé existante,
+\texttt{anydbm} remplace l\textquotesingle ancienne valeur{[}cite: 1{]}
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ db[}\StringTok{\textquotesingle{}cleese.png\textquotesingle{}}\NormalTok{] }\OperatorTok{=} \StringTok{\textquotesingle{}Photo of John Cleese doing a silly walk.\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ db[}\StringTok{\textquotesingle{}cleese.png\textquotesingle{}}\NormalTok{]}
+\NormalTok{Photo of John Cleese doing a silly walk.}
+\end{Highlighting}
+\end{Shaded}
+
+De nombreuses méthodes de dictionnaires, comme \texttt{keys} et
+\texttt{items}, fonctionnent également avec les objets de bases de
+données. L\textquotesingle itération avec une instruction \texttt{for}
+fonctionne de même{[}cite: 1{]}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ key }\KeywordTok{in}\NormalTok{ db:}
+    \BuiltInTok{print}\NormalTok{ key}
+\end{Highlighting}
+\end{Shaded}
+
+Comme avec les autres fichiers, vous devez fermer la base de données
+lorsque vous avez terminé{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ db.close()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{suxe9rialisation-pickling}{%
+\subsection{Sérialisation (Pickling)}\label{suxe9rialisation-pickling}}
+
+Une limitation de \texttt{anydbm} est que les clés et les valeurs
+doivent être des chaînes de caractères. Si vous essayez
+d\textquotesingle utiliser un autre type, vous obtenez une
+erreur{[}cite: 1{]}.
+
+Le module \texttt{pickle} peut aider. Il traduit presque
+n\textquotesingle importe quel type d\textquotesingle objet en une
+chaîne adaptée au stockage dans une base de données, puis retransforme
+les chaînes en objets{[}cite: 1{]}.
+
+\texttt{pickle.dumps} prend un objet en paramètre et renvoie une
+représentation sous forme de chaîne (« dumps » est
+l\textquotesingle abréviation de « dump string »){[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ pickle}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ pickle.dumps(t)}
+\CommentTok{\textquotesingle{}(lp0}\CharTok{\textbackslash{}n}\CommentTok{I1}\CharTok{\textbackslash{}n}\CommentTok{aI2}\CharTok{\textbackslash{}n}\CommentTok{aI3}\CharTok{\textbackslash{}n}\CommentTok{a.\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Le format n\textquotesingle est pas évident pour les lecteurs humains ;
+il est conçu pour être facilement interprété par \texttt{pickle}.
+\texttt{pickle.loads} (« load string ») reconstitue
+l\textquotesingle objet{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1 }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s }\OperatorTok{=}\NormalTok{ pickle.dumps(t1)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t2 }\OperatorTok{=}\NormalTok{ pickle.loads(s)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ t2}
+\NormalTok{[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Bien que le nouvel objet ait la même valeur que
+l\textquotesingle ancien, ce n\textquotesingle est (en général) pas le
+même objet{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1 }\OperatorTok{==}\NormalTok{ t2}
+\VariableTok{True}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1 }\KeywordTok{is}\NormalTok{ t2}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+En d\textquotesingle autres termes, sérialiser puis désérialiser
+(\emph{pickling and unpickling}) a le même effet que copier
+l\textquotesingle objet{[}cite: 1{]}.
+
+Vous pouvez utiliser \texttt{pickle} pour stocker des types autres que
+des chaînes dans une base de données. En fait, cette combinaison est si
+courante qu\textquotesingle elle a été encapsulée dans un module appelé
+\texttt{shelve}{[}cite: 1{]}.
+
+\textbf{Exercice}
+
+Si vous téléchargez ma solution à l\textquotesingle Exercice 4 depuis
+\url{http://thinkpython.com/code/anagram_sets.py}, vous verrez
+qu\textquotesingle elle crée un dictionnaire qui associe une chaîne
+triée de lettres à la liste des mots qui peuvent être épelés avec ces
+lettres. Par exemple, \texttt{\textquotesingle{}opst\textquotesingle{}}
+est associé à la liste
+\texttt{{[}\textquotesingle{}opts\textquotesingle{},\ \textquotesingle{}post\textquotesingle{},\ \textquotesingle{}pots\textquotesingle{},\ \textquotesingle{}spot\textquotesingle{},\ \textquotesingle{}stop\textquotesingle{},\ \textquotesingle{}tops\textquotesingle{}{]}}{[}cite:
+1{]}. Écrivez un module qui importe \texttt{anagram\_sets} et fournit
+deux nouvelles fonctions : \texttt{store\_anagrams} devrait stocker le
+dictionnaire d\textquotesingle anagrammes dans un « shelf » ;
+\texttt{read\_anagrams} devrait rechercher un mot et renvoyer la liste
+de ses anagrammes{[}cite: 1{]}. Solution :
+\url{http://thinkpython.com/code/anagram_db.py\%5Bcite}: 1{]}.
+
+\hypertarget{pipes}{%
+\subsection{Pipes}\label{pipes}}
+
+La plupart des systèmes d\textquotesingle exploitation fournissent une
+interface en ligne de commande, également connue sous le nom de
+\emph{shell}. Les shells fournissent généralement des commandes pour
+naviguer dans le système de fichiers et lancer des applications. Par
+exemple, sous Unix, vous pouvez changer de répertoire avec \texttt{cd},
+afficher le contenu d\textquotesingle un répertoire avec \texttt{ls}, et
+lancer un navigateur web en tapant (par exemple)
+\texttt{firefox}{[}cite: 1{]}.
+
+N\textquotesingle importe quel programme que vous pouvez lancer depuis
+le shell peut également être lancé depuis Python en utilisant un
+\textbf{pipe}. Un pipe est un objet qui représente un programme en cours
+d\textquotesingle exécution{[}cite: 1{]}.
+
+Par exemple, la commande Unix \texttt{ls\ -l} affiche normalement le
+contenu du répertoire courant (en format long). Vous pouvez lancer
+\texttt{ls} avec \texttt{os.popen}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ cmd }\OperatorTok{=} \StringTok{\textquotesingle{}ls {-}l\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fp }\OperatorTok{=}\NormalTok{ os.popen(cmd)}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle argument est une chaîne qui contient une commande
+shell. La valeur de retour est un objet qui se comporte exactement comme
+un fichier ouvert. Vous pouvez lire la sortie du processus \texttt{ls}
+une ligne à la fois avec \texttt{readline} ou récupérer
+l\textquotesingle ensemble en une seule fois avec \texttt{read}{[}cite:
+1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ res }\OperatorTok{=}\NormalTok{ fp.read()}
+\end{Highlighting}
+\end{Shaded}
+
+Lorsque vous avez terminé, vous fermez le pipe comme un fichier{[}cite:
+1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ stat }\OperatorTok{=}\NormalTok{ fp.close()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ stat}
+\VariableTok{None}
+\end{Highlighting}
+\end{Shaded}
+
+La valeur de retour est le statut final du processus \texttt{ls} ;
+\texttt{None} signifie qu\textquotesingle il s\textquotesingle est
+terminé normalement (sans erreurs){[}cite: 1{]}.
+
+Par exemple, la plupart des systèmes Unix fournissent une commande
+appelée \texttt{md5sum} qui lit le contenu d\textquotesingle un fichier
+et calcule une « somme de contrôle » (\emph{checksum}). Vous pouvez lire
+à propos de MD5 sur \url{http://en.wikipedia.org/wiki/Md5}. Cette
+commande fournit un moyen efficace de vérifier si deux fichiers ont le
+même contenu. La probabilité que des contenus différents produisent la
+même somme de contrôle est très faible (c\textquotesingle est-à-dire peu
+probable de se produire avant la fin de
+l\textquotesingle univers){[}cite: 1{]}.
+
+Vous pouvez utiliser un pipe pour exécuter \texttt{md5sum} depuis Python
+et obtenir le résultat{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ filename }\OperatorTok{=} \StringTok{\textquotesingle{}book.tex\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ cmd }\OperatorTok{=} \StringTok{\textquotesingle{}md5sum \textquotesingle{}} \OperatorTok{+}\NormalTok{ filename}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fp }\OperatorTok{=}\NormalTok{ os.popen(cmd)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ res }\OperatorTok{=}\NormalTok{ fp.read()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ stat }\OperatorTok{=}\NormalTok{ fp.close()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ res}
+\FloatTok{1e0033}\ErrorTok{f0ed0656636de0d75144ba32e0}\NormalTok{  book.tex}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ stat}
+\VariableTok{None}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Exercice}
+
+Dans une large collection de fichiers MP3, il peut y avoir plus
+d\textquotesingle une copie de la même chanson, stockée dans des
+répertoires différents ou avec des noms de fichiers différents. Le but
+de cet exercice est de rechercher les doublons{[}cite: 1{]}. Écrivez un
+programme qui recherche dans un répertoire et tous ses sous-répertoires,
+de manière récursive, et renvoie une liste de chemins complets pour tous
+les fichiers avec un suffixe donné (comme \texttt{.mp3}){[}cite: 1{]}.
+\emph{Indice :} \texttt{os.path} fournit plusieurs fonctions utiles pour
+manipuler les noms de fichiers et de chemins{[}cite: 1{]}. Pour
+reconnaître les doublons, vous pouvez utiliser \texttt{md5sum} pour
+calculer une somme de contrôle pour chaque fichier. Si deux fichiers ont
+la même somme de contrôle, ils ont probablement le même contenu. Pour
+vérifier à deux reprises, vous pouvez utiliser la commande Unix
+\texttt{diff}{[}cite: 1{]}. Solution :
+\url{http://thinkpython.com/code/find_duplicates.py\%5Bcite}: 1{]}.
+
+\hypertarget{uxe9criture-de-modules}{%
+\subsection{Écriture de modules}\label{uxe9criture-de-modules}}
+
+N\textquotesingle importe quel fichier qui contient du code Python peut
+être importé en tant que module. Par exemple, supposons que vous ayez un
+fichier nommé \texttt{wc.py} avec le code suivant{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ linecount(filename):}
+\NormalTok{    count }\OperatorTok{=} \DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ line }\KeywordTok{in} \BuiltInTok{open}\NormalTok{(filename):}
+\NormalTok{        count }\OperatorTok{+=} \DecValTok{1}
+    \ControlFlowTok{return}\NormalTok{ count}
+
+\BuiltInTok{print}\NormalTok{ linecount(}\StringTok{\textquotesingle{}wc.py\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous exécutez ce programme, il se lit lui-même et affiche le nombre
+de lignes dans le fichier, qui est 7{[}cite: 1{]}.
+
+Vous pouvez également l\textquotesingle importer de cette façon{[}cite:
+1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ wc}
+\DecValTok{7}
+\end{Highlighting}
+\end{Shaded}
+
+Vous disposez désormais d\textquotesingle un objet module
+\texttt{wc}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ wc}
+\OperatorTok{\textless{}}\NormalTok{module }\StringTok{\textquotesingle{}wc\textquotesingle{}} \ImportTok{from} \StringTok{\textquotesingle{}wc.py\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Qui fournit une fonction appelée \texttt{linecount}{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ wc.linecount(}\StringTok{\textquotesingle{}wc.py\textquotesingle{}}\NormalTok{)}
+\DecValTok{7}
+\end{Highlighting}
+\end{Shaded}
+
+C\textquotesingle est donc ainsi que l\textquotesingle on écrit des
+modules en Python{[}cite: 1{]}.
+
+Le seul problème avec cet exemple est que lorsque vous importez le
+module, il exécute le code de test en bas. Normalement, lorsque vous
+importez un module, il définit de nouvelles fonctions mais il ne les
+exécute pas{[}cite: 1{]}.
+
+Les programmes qui seront importés comme modules utilisent souvent
+l\textquotesingle idiome suivant{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if} \VariableTok{\_\_name\_\_} \OperatorTok{==} \StringTok{\textquotesingle{}\_\_main\_\_\textquotesingle{}}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{ linecount(}\StringTok{\textquotesingle{}wc.py\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\_\_name\_\_} est une variable intégrée qui est définie au
+démarrage du programme. Si le programme s\textquotesingle exécute en
+tant que script, \texttt{\_\_name\_\_} a la valeur \texttt{\_\_main\_\_}
+; dans ce cas, le code de test est exécuté. Sinon, si le module est en
+cours d\textquotesingle importation, le code de test est ignoré{[}cite:
+1{]}.
+
+\textbf{Exercice}
+
+Tapez cet exemple dans un fichier nommé \texttt{wc.py} et exécutez-le en
+tant que script. Ensuite, lancez l\textquotesingle interpréteur Python
+et faites \texttt{import\ wc}. Quelle est la valeur de
+\texttt{\_\_name\_\_} lorsque le module est en cours
+d\textquotesingle importation ?{[}cite: 1{]} \emph{Avertissement :} Si
+vous importez un module qui a déjà été importé, Python ne fait rien. Il
+ne relit pas le fichier, même s\textquotesingle il a changé. Si vous
+souhaitez recharger un module, vous pouvez utiliser la fonction intégrée
+\texttt{reload}, mais cela peut être délicat, donc la chose la plus sûre
+à faire est de redémarrer l\textquotesingle interpréteur puis
+d\textquotesingle importer à nouveau le module{[}cite: 1{]}.
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+Lorsque vous lisez et écrivez des fichiers, vous pourriez rencontrer des
+problèmes avec les espaces blancs. Ces erreurs peuvent être difficiles à
+déboguer parce que les espaces, les tabulations et les retours à la
+ligne sont normalement invisibles{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s }\OperatorTok{=} \StringTok{\textquotesingle{}1 2}\CharTok{\textbackslash{}t}\StringTok{ 3}\CharTok{\textbackslash{}n}\StringTok{ 4\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ s}
+\DecValTok{1} \DecValTok{2}  \DecValTok{3}
+ \DecValTok{4}
+\end{Highlighting}
+\end{Shaded}
+
+La fonction intégrée \texttt{repr} peut aider. Elle prend
+n\textquotesingle importe quel objet comme argument et renvoie une
+représentation sous forme de chaîne de l\textquotesingle objet. Pour les
+chaînes, elle représente les caractères d\textquotesingle espacement
+avec des séquences d\textquotesingle antislash{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print} \BuiltInTok{repr}\NormalTok{(s)}
+\CommentTok{\textquotesingle{}1 2}\CharTok{\textbackslash{}t}\CommentTok{ 3}\CharTok{\textbackslash{}n}\CommentTok{ 4\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Cela peut être utile pour le débogage{[}cite: 1{]}.
+
+Un autre problème que vous pourriez rencontrer est que différents
+systèmes utilisent des caractères différents pour indiquer la fin
+d\textquotesingle une ligne. Certains systèmes utilisent un saut de
+ligne, représenté par \texttt{\textbackslash{}n}.
+D\textquotesingle autres utilisent un caractère de retour, représenté
+par \texttt{\textbackslash{}r}. Certains utilisent les deux{[}cite:
+1{]}.
+
+Si vous déplacez des fichiers entre différents systèmes, ces
+incohérences pourraient causer des problèmes. Pour la plupart des
+systèmes, il existe des applications pour convertir d\textquotesingle un
+format à un autre. Vous pouvez les trouver (et en lire plus sur ce
+problème) à l\textquotesingle adresse
+\url{http://en.wikipedia.org/wiki/Newline}. Ou, bien sûr, vous pourriez
+en écrire un vous-même{[}cite: 1{]}.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+persistant persistent Relatif à un programme qui
+s\textquotesingle exécute indéfiniment et conserve au moins une partie
+de ses données dans un stockage permanent{[}cite: 1{]}.
+
+opérateur de formatage format operator Un opérateur, \texttt{\%}, qui
+prend une chaîne de format et un tuple et génère une chaîne incluant les
+éléments du tuple formatés tel que spécifié par la chaîne de
+format{[}cite: 1{]}.
+
+chaîne de format format string Une chaîne, utilisée avec
+l\textquotesingle opérateur de formatage, qui contient des séquences de
+format{[}cite: 1{]}.
+
+séquence de format format sequence Une séquence de caractères dans une
+chaîne de format, comme \texttt{\%d}, qui spécifie comment une valeur
+doit être formatée{[}cite: 1{]}.
+
+fichier texte text file Une séquence de caractères stockée dans un
+stockage permanent comme un disque dur{[}cite: 1{]}.
+
+répertoire directory Une collection nommée de fichiers, également
+appelée dossier{[}cite: 1{]}.
+
+chemin path Une chaîne qui identifie un fichier{[}cite: 1{]}.
+
+chemin relatif relative path Un chemin qui part du répertoire
+courant{[}cite: 1{]}.
+
+chemin absolu absolute path Un chemin qui part du répertoire le plus
+haut du système de fichiers{[}cite: 1{]}.
+
+capturer catch Empêcher une exception de terminer un programme en
+utilisant les instructions \texttt{try} et \texttt{except}{[}cite: 1{]}.
+
+base de données database Un fichier dont le contenu est organisé comme
+un dictionnaire avec des clés qui correspondent à des valeurs{[}cite:
+1{]}.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice}
+
+Le module \texttt{urllib} fournit des méthodes pour manipuler les URL et
+télécharger des informations depuis le web. Le code suivant télécharge
+et affiche un message secret provenant de thinkpython.com{[}cite: 1{]} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ urllib}
+
+\NormalTok{conn }\OperatorTok{=}\NormalTok{ urllib.urlopen(}\StringTok{\textquotesingle{}http://thinkpython.com/secret.html\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ line }\KeywordTok{in}\NormalTok{ conn:}
+    \BuiltInTok{print}\NormalTok{ line.strip()}
+\end{Highlighting}
+\end{Shaded}
+
+Exécutez ce code et suivez les instructions que vous y voyez{[}cite:
+1{]}. Solution : \url{http://thinkpython.com/code/zip_code.py\%5Bcite}:
+1{]}.

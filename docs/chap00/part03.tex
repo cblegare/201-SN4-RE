@@ -1,0 +1,577 @@
+\hypertarget{fonctions}{%
+\section{Fonctions}\label{fonctions}}
+
+\hypertarget{appels-de-fonctions}{%
+\subsection{Appels de fonctions}\label{appels-de-fonctions}}
+
+Dans le contexte de la programmation, une fonction est une séquence
+d\textquotesingle instructions nommée qui effectue un calcul. Lorsque
+vous définissez une fonction, vous spécifiez son nom et la séquence
+d\textquotesingle instructions. Plus tard, vous pouvez « appeler » la
+fonction par son nom.
+
+Nous avons déjà vu un exemple d\textquotesingle appel de fonction :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(}\DecValTok{32}\NormalTok{)}
+\DecValTok{32}
+\end{Highlighting}
+\end{Shaded}
+
+Le nom de la fonction est \texttt{print}. L\textquotesingle expression
+entre parenthèses est appelée l\textquotesingle argument de la fonction.
+Le résultat, pour cette fonction, est le type de
+l\textquotesingle argument.
+
+Il est courant de dire qu\textquotesingle une fonction « prend » un
+argument et « retourne » un résultat. Le résultat est appelé la valeur
+de retour (\emph{return value}).
+
+\hypertarget{fonctions-de-conversion-de-type}{%
+\subsection{Fonctions de conversion de
+type}\label{fonctions-de-conversion-de-type}}
+
+Python fournit des fonctions intégrées qui convertissent les valeurs
+d\textquotesingle un type à un autre. La fonction \texttt{int} prend
+n\textquotesingle importe quelle valeur et la convertit en entier, si
+elle le peut, ou signale une erreur sinon :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{int}\NormalTok{(}\StringTok{\textquotesingle{}32\textquotesingle{}}\NormalTok{)}
+\DecValTok{32}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{int}\NormalTok{(}\StringTok{\textquotesingle{}Hello\textquotesingle{}}\NormalTok{)}
+\NormalTok{Traceback (most recent call last):}
+\NormalTok{  File }\StringTok{"\textless{}stdin\textgreater{}"}\NormalTok{, line }\DecValTok{1}\NormalTok{, }\KeywordTok{in} \OperatorTok{\textless{}}\NormalTok{module}\OperatorTok{\textgreater{}}
+\PreprocessorTok{ValueError}\NormalTok{: invalid literal }\ControlFlowTok{for} \BuiltInTok{int}\NormalTok{() }\ControlFlowTok{with}\NormalTok{ base }\DecValTok{10}\NormalTok{: }\StringTok{\textquotesingle{}Hello\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{int} peut convertir des valeurs à virgule flottante en entiers,
+mais elle n\textquotesingle arrondit pas ; elle coupe simplement la
+partie fractionnaire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{int}\NormalTok{(}\FloatTok{3.99999}\NormalTok{)}
+\DecValTok{3}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{int}\NormalTok{(}\OperatorTok{{-}}\FloatTok{2.3}\NormalTok{)}
+\OperatorTok{{-}}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+La fonction \texttt{float} convertit les entiers et les chaînes de
+caractères en nombres à virgule flottante :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{float}\NormalTok{(}\DecValTok{32}\NormalTok{)}
+\FloatTok{32.0}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{float}\NormalTok{(}\StringTok{\textquotesingle{}3.14159\textquotesingle{}}\NormalTok{)}
+\FloatTok{3.14159}
+\end{Highlighting}
+\end{Shaded}
+
+Enfin, \texttt{str} convertit son argument en une chaîne de caractères :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{str}\NormalTok{(}\DecValTok{32}\NormalTok{)}
+\CommentTok{\textquotesingle{}32\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{str}\NormalTok{(}\FloatTok{3.14159}\NormalTok{)}
+\CommentTok{\textquotesingle{}3.14159\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{fonctions-mathuxe9matiques}{%
+\subsection{Fonctions mathématiques}\label{fonctions-mathuxe9matiques}}
+
+Python possède un module \texttt{math} qui fournit la plupart des
+fonctions mathématiques familières. Un module est un fichier qui
+contient une collection de fonctions liées.
+
+Avant de pouvoir utiliser les fonctions d\textquotesingle un module,
+nous devons l\textquotesingle importer avec une instruction
+\texttt{import} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ math}
+\end{Highlighting}
+\end{Shaded}
+
+Cette instruction crée un objet module nommé \texttt{math}. Pour accéder
+à l\textquotesingle une des fonctions, vous devez spécifier le nom du
+module et le nom de la fonction, séparés par un point. Ce format est
+appelé la notation pointée (\emph{dot notation}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ ratio }\OperatorTok{=}\NormalTok{ puissance\_signal }\OperatorTok{/}\NormalTok{ puissance\_bruit}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ decibels }\OperatorTok{=} \DecValTok{10} \OperatorTok{*}\NormalTok{ math.log10(ratio)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ radians }\OperatorTok{=} \FloatTok{0.7}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ hauteur }\OperatorTok{=}\NormalTok{ math.sin(radians)}
+\end{Highlighting}
+\end{Shaded}
+
+Le premier exemple utilise \texttt{math.log10} pour calculer un rapport
+signal/bruit en décibels (en supposant que \texttt{puissance\_signal} et
+\texttt{puissance\_bruit} sont définies). Le deuxième exemple trouve le
+sinus de \texttt{radians}. Le nom de la variable est un indice indiquant
+que \texttt{sin} et les autres fonctions trigonométriques (\texttt{cos},
+\texttt{tan}, etc.) prennent des arguments en radians.
+
+Pour convertir des degrés en radians, divisez par 180 et multipliez par
+π :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ degres }\OperatorTok{=} \DecValTok{45}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ radians }\OperatorTok{=}\NormalTok{ degres }\OperatorTok{/} \FloatTok{180.0} \OperatorTok{*}\NormalTok{ math.pi}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ math.sin(radians)}
+\FloatTok{0.7071067811865476}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle expression \texttt{math.pi} récupère la variable
+\texttt{pi} depuis le module \texttt{math}. Sa valeur est une
+approximation de π à virgule flottante, précise à environ 15 chiffres.
+
+\hypertarget{composition}{%
+\subsection{Composition}\label{composition}}
+
+Jusqu\textquotesingle à présent, nous avons examiné les éléments
+d\textquotesingle un programme --- variables, expressions et
+instructions --- de manière isolée, sans parler de la façon de les
+combiner.
+
+L\textquotesingle une des fonctionnalités les plus utiles des langages
+de programmation est leur capacité à prendre de petits blocs de
+construction et à les composer. Par exemple, l\textquotesingle argument
+d\textquotesingle une fonction peut être n\textquotesingle importe quel
+type d\textquotesingle expression, y compris des opérateurs
+arithmétiques :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=}\NormalTok{ math.sin(degres }\OperatorTok{/} \FloatTok{360.0} \OperatorTok{*} \DecValTok{2} \OperatorTok{*}\NormalTok{ math.pi)}
+\end{Highlighting}
+\end{Shaded}
+
+Et même des appels de fonction :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=}\NormalTok{ math.exp(math.log(x}\OperatorTok{+}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Presque partout où vous pouvez mettre une valeur, vous pouvez mettre une
+expression arbitraire.
+
+\hypertarget{ajout-de-nouvelles-fonctions}{%
+\subsection{Ajout de nouvelles
+fonctions}\label{ajout-de-nouvelles-fonctions}}
+
+Jusqu\textquotesingle à présent, nous n\textquotesingle avons utilisé
+que les fonctions intégrées à Python, mais il est également possible
+d\textquotesingle ajouter de nouvelles fonctions. Une définition de
+fonction spécifie le nom d\textquotesingle une nouvelle fonction et la
+séquence d\textquotesingle instructions qui s\textquotesingle exécute
+lorsque la fonction est appelée.
+
+Voici un exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ afficher\_paroles():}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Je suis un bûcheron, et je vais bien."}\NormalTok{)}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Je dors toute la nuit et je travaille toute la journée."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{def} est un mot-clé qui indique qu\textquotesingle il
+s\textquotesingle agit d\textquotesingle une définition de fonction. Le
+nom de la fonction est \texttt{afficher\_paroles}. Les règles pour les
+noms de fonctions sont les mêmes que pour les variables : les lettres,
+les chiffres et le soulignement sont légaux, mais le premier caractère
+ne peut pas être un chiffre.
+
+Les parenthèses vides après le nom indiquent que cette fonction ne prend
+aucun argument.
+
+La première ligne de la définition de la fonction est appelée
+l\textquotesingle en-tête (\emph{header}) ; le reste est appelé le corps
+(\emph{body}). Le corps doit être indenté. Par convention,
+l\textquotesingle indentation est toujours de quatre espaces.
+
+La syntaxe pour appeler la nouvelle fonction est la même que pour les
+fonctions intégrées :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ afficher\_paroles()}
+\NormalTok{Je suis un bûcheron, et je vais bien.}
+\NormalTok{Je dors toute la nuit et je travaille toute la journée.}
+\end{Highlighting}
+\end{Shaded}
+
+Une fois que vous avez défini une fonction, vous pouvez
+l\textquotesingle utiliser à l\textquotesingle intérieur
+d\textquotesingle une autre fonction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ repeter\_paroles():}
+\NormalTok{    afficher\_paroles()}
+\NormalTok{    afficher\_paroles()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{duxe9finitions-et-utilisations}{%
+\subsection{Définitions et
+utilisations}\label{duxe9finitions-et-utilisations}}
+
+Rassemblez les fragments de code de la section précédente et
+l\textquotesingle ensemble du programme ressemblera à ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ afficher\_paroles():}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Je suis un bûcheron, et je vais bien."}\NormalTok{)}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"Je dors toute la nuit et je travaille toute la journée."}\NormalTok{)}
+
+\KeywordTok{def}\NormalTok{ repeter\_paroles():}
+\NormalTok{    afficher\_paroles()}
+\NormalTok{    afficher\_paroles()}
+
+\NormalTok{repeter\_paroles()}
+\end{Highlighting}
+\end{Shaded}
+
+Ce programme contient deux définitions de fonctions :
+\texttt{afficher\_paroles} et \texttt{repeter\_paroles}. Les définitions
+de fonctions sont exécutées comme d\textquotesingle autres instructions,
+mais l\textquotesingle effet est de créer des objets fonctions. Les
+instructions à l\textquotesingle intérieur de la fonction ne sont pas
+exécutées tant que la fonction n\textquotesingle est pas appelée.
+
+Comme vous pouvez vous y attendre, vous devez créer une fonction avant
+de pouvoir l\textquotesingle exécuter. Autrement dit, la définition de
+la fonction doit être exécutée avant la première fois
+qu\textquotesingle elle est appelée.
+
+\hypertarget{flux-dexuxe9cution}{%
+\subsection{Flux d\textquotesingle exécution}\label{flux-dexuxe9cution}}
+
+Pour s\textquotesingle assurer qu\textquotesingle une fonction est
+définie avant sa première utilisation, il faut connaître
+l\textquotesingle ordre dans lequel les instructions sont exécutées, ce
+qu\textquotesingle on appelle le flux d\textquotesingle exécution
+(\emph{flow of execution}).
+
+L\textquotesingle exécution commence toujours par la première
+instruction du programme. Les instructions sont exécutées une à la fois,
+de haut en bas.
+
+Les définitions de fonctions ne modifient pas le flux
+d\textquotesingle exécution, mais rappelez-vous que les instructions à
+l\textquotesingle intérieur d\textquotesingle une fonction ne sont pas
+exécutées tant que la fonction n\textquotesingle est pas appelée.
+
+\hypertarget{paramuxe8tres-et-arguments}{%
+\subsection{Paramètres et arguments}\label{paramuxe8tres-et-arguments}}
+
+Certaines des fonctions intégrées que nous avons vues nécessitent des
+arguments. Par exemple, lorsque vous appelez \texttt{math.sin}, vous
+passez un nombre comme argument. Certaines fonctions prennent plus
+d\textquotesingle un argument : \texttt{math.pow} prend deux arguments,
+la base et l\textquotesingle exposant.
+
+À l\textquotesingle intérieur de la fonction, les arguments sont
+affectés à des variables appelées paramètres. Voici un exemple
+d\textquotesingle une fonction définie par l\textquotesingle utilisateur
+qui prend un argument :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ imprimer\_deux\_fois(bruce):}
+    \BuiltInTok{print}\NormalTok{(bruce)}
+    \BuiltInTok{print}\NormalTok{(bruce)}
+\end{Highlighting}
+\end{Shaded}
+
+Cette fonction affecte l\textquotesingle argument à un paramètre nommé
+\texttt{bruce}. Lorsque la fonction est appelée, elle imprime la valeur
+du paramètre (quel qu\textquotesingle il soit) à deux reprises.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ imprimer\_deux\_fois(}\StringTok{\textquotesingle{}Spam\textquotesingle{}}\NormalTok{)}
+\NormalTok{Spam}
+\NormalTok{Spam}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ imprimer\_deux\_fois(}\DecValTok{17}\NormalTok{)}
+\DecValTok{17}
+\DecValTok{17}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ imprimer\_deux\_fois(math.pi)}
+\FloatTok{3.141592653589793}
+\FloatTok{3.141592653589793}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{les-variables-et-paramuxe8tres-sont-locaux}{%
+\subsection{Les variables et paramètres sont
+locaux}\label{les-variables-et-paramuxe8tres-sont-locaux}}
+
+Lorsque vous créez une variable à l\textquotesingle intérieur
+d\textquotesingle une fonction, elle est locale, ce qui signifie
+qu\textquotesingle elle n\textquotesingle existe qu\textquotesingle à
+l\textquotesingle intérieur de cette fonction. Par exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ concatener\_deux\_fois(partie1, partie2):}
+\NormalTok{    chat }\OperatorTok{=}\NormalTok{ partie1 }\OperatorTok{+}\NormalTok{ partie2}
+\NormalTok{    imprimer\_deux\_fois(chat)}
+\end{Highlighting}
+\end{Shaded}
+
+Cette fonction prend deux arguments, les concatène et affiche le
+résultat deux fois.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ ligne1 }\OperatorTok{=} \StringTok{\textquotesingle{}Bing tiddle \textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ ligne2 }\OperatorTok{=} \StringTok{\textquotesingle{}tiddle bang.\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ concatener\_deux\_fois(ligne1, ligne2)}
+\NormalTok{Bing tiddle tiddle bang.}
+\NormalTok{Bing tiddle tiddle bang.}
+\end{Highlighting}
+\end{Shaded}
+
+Lorsque la fonction se termine, la variable \texttt{chat} est détruite.
+Si nous essayons de l\textquotesingle imprimer depuis
+l\textquotesingle extérieur de la fonction, nous obtenons une exception
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(chat)}
+\PreprocessorTok{NameError}\NormalTok{: name }\StringTok{\textquotesingle{}chat\textquotesingle{}} \KeywordTok{is} \KeywordTok{not}\NormalTok{ defined}
+\end{Highlighting}
+\end{Shaded}
+
+Les paramètres sont également locaux. À l\textquotesingle extérieur de
+\texttt{imprimer\_deux\_fois}, il n\textquotesingle y a pas de variable
+telle que \texttt{bruce}.
+
+\hypertarget{fonctions-productives-et-fonctions-uxe0-effet-de-bord}{%
+\subsection{Fonctions productives et fonctions à effet de
+bord}\label{fonctions-productives-et-fonctions-uxe0-effet-de-bord}}
+
+Certaines des fonctions que nous utilisons, telles que les fonctions
+mathématiques, retournent des résultats ; faute d\textquotesingle un
+meilleur terme, je les appelle des fonctions productives (\emph{fruitful
+functions}). D\textquotesingle autres fonctions, comme
+\texttt{imprimer\_deux\_fois}, effectuent une action mais ne retournent
+pas de valeur. Elles sont appelées fonctions nulles ou fonctions à effet
+de bord (\emph{void functions}).
+
+Si vous appelez une fonction productive en mode script ou dans un
+programme, la valeur de retour est généralement ignorée, à moins que
+vous ne l\textquotesingle affectiez à une variable :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{math.cos(radians)}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ math.cos(radians)}
+\end{Highlighting}
+\end{Shaded}
+
+Les fonctions \emph{void} peuvent afficher quelque chose à
+l\textquotesingle écran ou avoir un autre effet, mais leur valeur de
+retour est une valeur spéciale appelée \texttt{None}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ resultat }\OperatorTok{=}\NormalTok{ imprimer\_deux\_fois(}\StringTok{\textquotesingle{}Bing\textquotesingle{}}\NormalTok{)}
+\NormalTok{Bing}
+\NormalTok{Bing}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(resultat)}
+\VariableTok{None}
+\end{Highlighting}
+\end{Shaded}
+
+La valeur \texttt{None} n\textquotesingle est pas la même chose que la
+chaîne de caractères \texttt{\textquotesingle{}None\textquotesingle{}}.
+C\textquotesingle est une valeur spéciale qui a son propre type :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(}\VariableTok{None}\NormalTok{)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}NoneType\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{pourquoi-des-fonctions}{%
+\subsection{Pourquoi des fonctions ?}\label{pourquoi-des-fonctions}}
+
+Il n\textquotesingle est pas toujours clair au premier abord pourquoi il
+vaut la peine de diviser un programme en fonctions. Voici quelques
+raisons :
+
+\begin{itemize}
+\tightlist
+\item
+  La création d\textquotesingle une nouvelle fonction vous donne
+  l\textquotesingle opportunité de nommer un groupe
+  d\textquotesingle instructions, ce qui rend votre programme plus
+  facile à lire et à déboguer.
+\item
+  Les fonctions peuvent rendre un programme plus petit en éliminant le
+  code répétitif. Plus tard, si vous apportez un changement, vous
+  n\textquotesingle aurez à le faire qu\textquotesingle à un seul
+  endroit.
+\item
+  La division d\textquotesingle un long programme en fonctions vous
+  permet de déboguer les parties une à la fois, puis de les assembler
+  dans un tout fonctionnel.
+\item
+  Les fonctions bien conçues sont souvent utiles pour de nombreux
+  programmes. Une fois que vous en avez écrit et débogué une, vous
+  pouvez la réutiliser.
+\end{itemize}
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+L\textquotesingle une des compétences les plus importantes que vous
+allez acquérir est le débogage (\emph{debugging}). Si votre programme
+comporte une erreur d\textquotesingle exécution, Python imprimera un
+message d\textquotesingle erreur (\emph{traceback}), qui contient des
+informations utiles. Il indique où se trouve l\textquotesingle erreur,
+le type de l\textquotesingle erreur, et quelles fonctions étaient en
+cours d\textquotesingle exécution au moment de l\textquotesingle erreur.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+fonction function Une séquence nommée d\textquotesingle instructions qui
+effectue une opération utile. Les fonctions peuvent ou non prendre des
+arguments, et peuvent ou non produire un résultat.
+
+définition de fonction function definition Une instruction qui crée une
+nouvelle fonction, en spécifiant son nom, ses paramètres et les
+instructions qu\textquotesingle elle exécute.
+
+en-tête header La première ligne d\textquotesingle une définition de
+fonction.
+
+corps body La séquence d\textquotesingle instructions à
+l\textquotesingle intérieur d\textquotesingle une définition de
+fonction.
+
+paramètre parameter Un nom utilisé à l\textquotesingle intérieur
+d\textquotesingle une fonction pour faire référence à la valeur passée
+comme argument.
+
+appel de fonction function call Une instruction qui exécute une
+fonction. Elle se compose du nom de la fonction suivi
+d\textquotesingle une liste d\textquotesingle arguments entre
+parenthèses.
+
+\begin{description}
+\item[argument]
+Une valeur fournie à une fonction lorsque la fonction est appelée. Cette
+valeur est assignée au paramètre correspondant.
+\end{description}
+
+variable locale local variable Une variable définie à
+l\textquotesingle intérieur d\textquotesingle une fonction. Une variable
+locale ne peut être utilisée qu\textquotesingle à
+l\textquotesingle intérieur de sa fonction.
+
+valeur de retour return value Le résultat d\textquotesingle une
+fonction.
+
+fonction productive fruitful function Une fonction qui retourne une
+valeur.
+
+fonction nulle void function Une fonction qui ne retourne aucune valeur
+(elle retourne toujours \texttt{None}).
+
+\begin{description}
+\item[module]
+Un fichier qui contient une collection de fonctions et
+d\textquotesingle autres définitions.
+\end{description}
+
+notation pointée dot notation La syntaxe pour appeler une fonction dans
+un autre module, en spécifiant le nom du module suivi
+d\textquotesingle un point et du nom de la fonction.
+
+flux d\textquotesingle exécution flow of execution
+L\textquotesingle ordre dans lequel les instructions sont exécutées lors
+du fonctionnement d\textquotesingle un programme.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Écrivez une fonction nommée \texttt{right\_justify} qui prend une chaîne
+de caractères nommée \texttt{s} comme paramètre et imprime la chaîne
+avec suffisamment d\textquotesingle espaces de début pour que la
+dernière lettre de la chaîne se trouve dans la colonne 70 de
+l\textquotesingle affichage.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ right\_justify(}\StringTok{\textquotesingle{}monty\textquotesingle{}}\NormalTok{)}
+\NormalTok{                                                                 monty}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{Indice : Utilisez la concaténation de chaînes et la répétition. De
+plus, Python fournit une fonction intégrée appelée len qui renvoie la
+longueur d\textquotesingle une chaîne, donc la valeur de
+len(\textquotesingle monty\textquotesingle) est 5.}
+
+\textbf{Exercice 2}
+
+Un objet de fonction est une valeur que vous pouvez affecter à une
+variable ou passer comme argument. Par exemple, \texttt{do\_twice} est
+une fonction qui prend un objet de fonction comme argument et
+l\textquotesingle appelle à deux reprises :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ do\_twice(f):}
+\NormalTok{    f()}
+\NormalTok{    f()}
+\end{Highlighting}
+\end{Shaded}
+
+Voici un exemple qui utilise \texttt{do\_twice} pour appeler une
+fonction nommée \texttt{print\_spam} à deux reprises.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ print\_spam():}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}spam\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{do\_twice(print\_spam)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Tapez cet exemple dans un script et testez-le.
+\item
+  Modifiez \texttt{do\_twice} afin qu\textquotesingle elle prenne deux
+  arguments, un objet fonction et une valeur, et appelle la fonction
+  deux fois, en passant la valeur comme argument.
+\end{enumerate}

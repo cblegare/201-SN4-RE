@@ -1,0 +1,542 @@
+\hypertarget{chauxeenes-de-caractuxe8res}{%
+\section{Chaînes de caractères}\label{chauxeenes-de-caractuxe8res}}
+
+Les chaînes de caractères (\emph{strings}) ne sont pas comme des
+entiers, des nombres à virgule flottante ou des booléens. Une chaîne est
+une séquence (\emph{sequence}), c\textquotesingle est-à-dire une
+collection ordonnée d\textquotesingle autres valeurs. Dans ce chapitre,
+vous verrez comment accéder aux caractères qui composent une chaîne et
+vous apprendrez certaines des méthodes proposées par les chaînes.
+
+\hypertarget{une-chauxeene-est-une-suxe9quence}{%
+\subsection{Une chaîne est une
+séquence}\label{une-chauxeene-est-une-suxe9quence}}
+
+Une chaîne est une séquence de caractères. Vous pouvez accéder aux
+caractères un à la fois avec l\textquotesingle opérateur de crochet :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ lettre }\OperatorTok{=}\NormalTok{ fruit[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+La seconde instruction sélectionne le caractère numéro 1 de
+\texttt{fruit} et l\textquotesingle affecte à \texttt{lettre}.
+L\textquotesingle expression entre crochets est appelée un indice
+(\emph{index}). L\textquotesingle indice indique quel caractère de la
+séquence vous souhaitez (d\textquotesingle où son nom). Mais vous
+pourriez ne pas obtenir ce que vous attendez :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ lettre}
+\CommentTok{\textquotesingle{}a\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Pour la plupart des gens, la première lettre de
+\texttt{\textquotesingle{}banane\textquotesingle{}} est \texttt{b}, pas
+\texttt{a}. Mais pour les informaticiens, l\textquotesingle indice est
+un décalage par rapport au début de la chaîne, et le décalage de la
+première lettre est zéro.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ lettre }\OperatorTok{=}\NormalTok{ fruit[}\DecValTok{0}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ lettre}
+\CommentTok{\textquotesingle{}b\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Ainsi, \texttt{b} est la 0-ième lettre (« zéro-ième ») de
+\texttt{\textquotesingle{}banane\textquotesingle{}}, \texttt{a} est la
+1-ère lettre, et \texttt{n} est la 2-ème lettre. Vous pouvez utiliser
+n\textquotesingle importe quelle expression, y compris des variables et
+des opérateurs, comme indice, mais la valeur de l\textquotesingle indice
+doit être un entier. Sinon, vous obtenez une exception :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ lettre }\OperatorTok{=}\NormalTok{ fruit[}\FloatTok{1.5}\NormalTok{]}
+\PreprocessorTok{TypeError}\NormalTok{: string indices must be integers}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{len}{%
+\subsection{\texorpdfstring{\texttt{len}}{len}}\label{len}}
+
+\texttt{len} est une fonction intégrée qui renvoie le nombre de
+caractères dans une chaîne :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{len}\NormalTok{(fruit)}
+\DecValTok{6}
+\end{Highlighting}
+\end{Shaded}
+
+Pour obtenir la dernière lettre d\textquotesingle une chaîne, vous
+pourriez être tenté d\textquotesingle essayer quelque chose comme ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ longueur }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(fruit)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ derniere }\OperatorTok{=}\NormalTok{ fruit[longueur]}
+\PreprocessorTok{IndexError}\NormalTok{: string index out of }\BuiltInTok{range}
+\end{Highlighting}
+\end{Shaded}
+
+La raison de cette erreur est qu\textquotesingle il n\textquotesingle y
+a pas de lettre à l\textquotesingle indice 6 dans
+\texttt{\textquotesingle{}banane\textquotesingle{}}. Les indices vont de
+0 à 5. Pour obtenir le dernier caractère, vous devez soustraire 1 à la
+longueur :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ derniere }\OperatorTok{=}\NormalTok{ fruit[longueur}\OperatorTok{{-}}\DecValTok{1}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ derniere}
+\CommentTok{\textquotesingle{}e\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Alternativement, vous pouvez utiliser des indices négatifs, qui comptent
+à rebours à partir de la fin de la chaîne. L\textquotesingle expression
+\texttt{fruit{[}-1{]}} donne la dernière lettre, \texttt{fruit{[}-2{]}}
+donne l\textquotesingle avant-dernière, et ainsi de suite.
+
+\hypertarget{parcours-avec-une-boucle-for}{%
+\subsection{\texorpdfstring{Parcours avec une boucle
+\texttt{for}}{Parcours avec une boucle for}}\label{parcours-avec-une-boucle-for}}
+
+Une grande partie des calculs implique le traitement
+d\textquotesingle une chaîne un caractère à la fois. Souvent, ils
+commencent au début, sélectionnent chaque caractère tour à tour, font
+quelque chose avec, et continuent jusqu\textquotesingle à la fin. Ce
+modèle de traitement est appelé un parcours (\emph{traversal}). Une
+façon d\textquotesingle écrire un parcours est
+d\textquotesingle utiliser une boucle \texttt{while} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{indice }\OperatorTok{=} \DecValTok{0}
+\ControlFlowTok{while}\NormalTok{ indice }\OperatorTok{\textless{}} \BuiltInTok{len}\NormalTok{(fruit):}
+\NormalTok{    lettre }\OperatorTok{=}\NormalTok{ fruit[indice]}
+    \BuiltInTok{print}\NormalTok{(lettre)}
+\NormalTok{    indice }\OperatorTok{=}\NormalTok{ indice }\OperatorTok{+} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Cette boucle parcourt la chaîne et affiche chaque lettre sur une ligne à
+part. La condition de la boucle est
+\texttt{indice\ \textless{}\ len(fruit)}, donc lorsque \texttt{indice}
+est égal à la longueur de la chaîne, la condition est fausse, et le
+corps de la boucle ne s\textquotesingle exécute pas.
+
+Une autre façon d\textquotesingle écrire un parcours est
+d\textquotesingle utiliser une boucle \texttt{for} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ lettre }\KeywordTok{in}\NormalTok{ fruit:}
+    \BuiltInTok{print}\NormalTok{(lettre)}
+\end{Highlighting}
+\end{Shaded}
+
+À chaque itération de la boucle, le caractère suivant de la chaîne est
+affecté à la variable \texttt{lettre}. La boucle continue
+jusqu\textquotesingle à ce qu\textquotesingle il ne reste plus de
+caractères.
+
+\hypertarget{tranches-de-chauxeenes}{%
+\subsection{Tranches de chaînes}\label{tranches-de-chauxeenes}}
+
+Un segment d\textquotesingle une chaîne s\textquotesingle appelle une
+tranche (\emph{slice}). La sélection d\textquotesingle une tranche est
+similaire à la sélection d\textquotesingle un caractère :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s }\OperatorTok{=} \StringTok{\textquotesingle{}Monty Python\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s[}\DecValTok{0}\NormalTok{:}\DecValTok{5}\NormalTok{]}
+\CommentTok{\textquotesingle{}Monty\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s[}\DecValTok{6}\NormalTok{:}\DecValTok{12}\NormalTok{]}
+\CommentTok{\textquotesingle{}Python\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{{[}n:m{]}} renvoie la partie de la
+chaîne du n-ième caractère au m-ième caractère, en incluant le premier
+mais en excluant le dernier.
+
+Si vous omettez le premier indice, la tranche commence au début de la
+chaîne. Si vous omettez le second, la tranche va jusqu\textquotesingle à
+la fin de la chaîne :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit[:}\DecValTok{3}\NormalTok{]}
+\CommentTok{\textquotesingle{}ban\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit[}\DecValTok{3}\NormalTok{:]}
+\CommentTok{\textquotesingle{}ane\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si le premier indice est supérieur ou égal au second, le résultat est
+une chaîne vide, représentée par deux guillemets :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit[}\DecValTok{3}\NormalTok{:}\DecValTok{3}\NormalTok{]}
+\CommentTok{\textquotesingle{}\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Une chaîne vide ne contient aucun caractère et a une longueur de 0, mais
+à part cela, c\textquotesingle est une chaîne comme une autre.
+
+\hypertarget{les-chauxeenes-sont-immuables}{%
+\subsection{Les chaînes sont
+immuables}\label{les-chauxeenes-sont-immuables}}
+
+Il est tentant d\textquotesingle utiliser l\textquotesingle opérateur de
+crochet du côté gauche d\textquotesingle une affectation, avec
+l\textquotesingle intention de changer un caractère dans une chaîne. Par
+exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ salut }\OperatorTok{=} \StringTok{\textquotesingle{}Bonjour, monde !\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ salut[}\DecValTok{0}\NormalTok{] }\OperatorTok{=} \StringTok{\textquotesingle{}J\textquotesingle{}}
+\PreprocessorTok{TypeError}\NormalTok{: }\StringTok{\textquotesingle{}str\textquotesingle{}} \BuiltInTok{object}\NormalTok{ does }\KeywordTok{not}\NormalTok{ support item assignment}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle erreur indique que l\textquotesingle objet de type
+chaîne ne prend pas en charge l\textquotesingle affectation
+d\textquotesingle éléments. La raison en est que les chaînes sont
+immuables (\emph{immutable}), ce qui signifie que vous ne pouvez pas
+modifier une chaîne existante. Le mieux que vous puissiez faire est de
+créer une nouvelle chaîne qui est une variante de
+l\textquotesingle originale :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ salut }\OperatorTok{=} \StringTok{\textquotesingle{}Bonjour, monde !\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nouveau\_salut }\OperatorTok{=} \StringTok{\textquotesingle{}J\textquotesingle{}} \OperatorTok{+}\NormalTok{ salut[}\DecValTok{1}\NormalTok{:]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nouveau\_salut}
+\CommentTok{\textquotesingle{}Jonjour, monde !\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{recherche}{%
+\subsection{Recherche}\label{recherche}}
+
+Que fait la fonction suivante ?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ trouver(mot, lettre):}
+\NormalTok{    indice }\OperatorTok{=} \DecValTok{0}
+    \ControlFlowTok{while}\NormalTok{ indice }\OperatorTok{\textless{}} \BuiltInTok{len}\NormalTok{(mot):}
+        \ControlFlowTok{if}\NormalTok{ mot[indice] }\OperatorTok{==}\NormalTok{ lettre:}
+            \ControlFlowTok{return}\NormalTok{ indice}
+\NormalTok{        indice }\OperatorTok{=}\NormalTok{ indice }\OperatorTok{+} \DecValTok{1}
+    \ControlFlowTok{return} \OperatorTok{{-}}\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Dans un sens, \texttt{trouver} est l\textquotesingle inverse de
+l\textquotesingle opérateur de crochet. Au lieu de prendre un indice et
+d\textquotesingle extraire le caractère correspondant, elle prend un
+caractère et trouve l\textquotesingle indice où ce caractère apparaît.
+Si le caractère n\textquotesingle est pas trouvé, la fonction renvoie
+\texttt{-1}.
+
+C\textquotesingle est le premier exemple que nous voyons
+d\textquotesingle une instruction \texttt{return} à
+l\textquotesingle intérieur d\textquotesingle une boucle. Si
+\texttt{mot{[}indice{]}\ ==\ lettre}, la fonction sort immédiatement de
+la boucle et retourne le résultat. Si le caractère
+n\textquotesingle apparaît pas dans la chaîne, le programme parcourt
+normalement toute la boucle et retourne \texttt{-1}.
+
+Ce modèle de calcul, qui traverse une séquence et retourne un résultat
+lorsqu\textquotesingle il trouve ce qu\textquotesingle il cherche, est
+appelé une recherche (\emph{search}).
+
+\hypertarget{boucles-et-comptage}{%
+\subsection{Boucles et comptage}\label{boucles-et-comptage}}
+
+Le programme suivant compte le nombre de fois que la lettre \texttt{a}
+apparaît dans une chaîne :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mot }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\NormalTok{compteur }\OperatorTok{=} \DecValTok{0}
+\ControlFlowTok{for}\NormalTok{ lettre }\KeywordTok{in}\NormalTok{ mot:}
+    \ControlFlowTok{if}\NormalTok{ lettre }\OperatorTok{==} \StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{:}
+\NormalTok{        compteur }\OperatorTok{=}\NormalTok{ compteur }\OperatorTok{+} \DecValTok{1}
+\BuiltInTok{print}\NormalTok{(compteur)}
+\end{Highlighting}
+\end{Shaded}
+
+Ce programme démontre un autre modèle de calcul appelé un compteur
+(\emph{counter}). La variable \texttt{compteur} est initialisée à 0 et
+est incrémentée à chaque fois qu\textquotesingle un \texttt{a} est
+trouvé. À la sortie de la boucle, \texttt{compteur} contient le résultat
+final.
+
+\hypertarget{muxe9thodes-de-chauxeenes-de-caractuxe8res}{%
+\subsection{Méthodes de chaînes de
+caractères}\label{muxe9thodes-de-chauxeenes-de-caractuxe8res}}
+
+Les chaînes de caractères fournissent des méthodes qui effectuent une
+variété d\textquotesingle opérations utiles. Une méthode (\emph{method})
+est similaire à une fonction : elle prend des arguments et retourne une
+valeur, mais la syntaxe est différente.
+
+Par exemple, la méthode \texttt{upper} prend une chaîne et retourne une
+nouvelle chaîne avec toutes les lettres en majuscules. Au lieu de la
+syntaxe de fonction \texttt{upper(mot)}, elle utilise la syntaxe de
+méthode \texttt{mot.upper()} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ mot }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nouveau\_mot }\OperatorTok{=}\NormalTok{ mot.upper()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nouveau\_mot}
+\CommentTok{\textquotesingle{}BANANE\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Cette forme de notation avec un point indique le nom de la méthode,
+\texttt{upper}, et le nom de la chaîne sur laquelle appliquer la
+méthode, \texttt{mot}. Un appel de méthode s\textquotesingle appelle une
+invocation (\emph{invocation}) ; dans ce cas, nous pourrions dire que
+nous invoquons \texttt{upper} sur \texttt{mot}.
+
+En fait, il existe une méthode de chaîne nommée \texttt{find} qui est
+remarquablement similaire à la fonction \texttt{trouver} que nous avons
+écrite :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ mot }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ index }\OperatorTok{=}\NormalTok{ mot.find(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ index}
+\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{lopuxe9rateur-in}{%
+\subsection{\texorpdfstring{L\textquotesingle opérateur
+\texttt{in}}{L\textquotesingle opérateur in}}\label{lopuxe9rateur-in}}
+
+Le mot-clé \texttt{in} est un opérateur booléen qui prend deux chaînes
+et renvoie \texttt{True} si la première apparaît en tant que sous-chaîne
+dans la seconde :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}a\textquotesingle{}} \KeywordTok{in} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\VariableTok{True}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}grain\textquotesingle{}} \KeywordTok{in} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{comparaison-de-chauxeenes}{%
+\subsection{Comparaison de chaînes}\label{comparaison-de-chauxeenes}}
+
+L\textquotesingle opérateur relationnel fonctionne sur les chaînes de
+caractères. Pour voir si deux chaînes sont égales :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ mot }\OperatorTok{==} \StringTok{\textquotesingle{}banane\textquotesingle{}}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"D\textquotesingle{}accord, des bananes."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Les autres opérations relationnelles sont utiles pour classer les mots
+par ordre alphabétique :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ mot }\OperatorTok{\textless{}} \StringTok{\textquotesingle{}banane\textquotesingle{}}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Votre mot, \textquotesingle{}} \OperatorTok{+}\NormalTok{ mot }\OperatorTok{+} \StringTok{\textquotesingle{}, vient avant banane.\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{elif}\NormalTok{ mot }\OperatorTok{\textgreater{}} \StringTok{\textquotesingle{}banane\textquotesingle{}}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Votre mot, \textquotesingle{}} \OperatorTok{+}\NormalTok{ mot }\OperatorTok{+} \StringTok{\textquotesingle{}, vient après banane.\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{"D\textquotesingle{}accord, des bananes."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Python ne gère pas les majuscules et les minuscules de la même façon que
+les humains. Toutes les lettres majuscules viennent avant toutes les
+lettres minuscules, donc :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Votre mot, Ananas, vient avant banane.}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+Lorsque vous utilisez des indices pour parcourir les valeurs
+d\textquotesingle une séquence, il est facile de se tromper sur le début
+et la fin de l\textquotesingle itération. Voici une fonction qui est
+censée comparer deux mots et renvoyer \texttt{True} si
+l\textquotesingle un d\textquotesingle eux est l\textquotesingle inverse
+de l\textquotesingle autre, mais elle contient deux erreurs :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ est\_inverse(mot1, mot2):}
+    \ControlFlowTok{if} \BuiltInTok{len}\NormalTok{(mot1) }\OperatorTok{!=} \BuiltInTok{len}\NormalTok{(mot2):}
+        \ControlFlowTok{return} \VariableTok{False}
+
+\NormalTok{    i }\OperatorTok{=} \DecValTok{0}
+\NormalTok{    j }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(mot2)}
+
+    \ControlFlowTok{while}\NormalTok{ j }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{:}
+        \ControlFlowTok{if}\NormalTok{ mot1[i] }\OperatorTok{!=}\NormalTok{ mot2[j]:}
+            \ControlFlowTok{return} \VariableTok{False}
+\NormalTok{        i }\OperatorTok{=}\NormalTok{ i }\OperatorTok{+} \DecValTok{1}
+\NormalTok{        j }\OperatorTok{=}\NormalTok{ j }\OperatorTok{{-}} \DecValTok{1}
+
+    \ControlFlowTok{return} \VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+Si nous testons cette fonction avec les mots \texttt{"pots"} et
+\texttt{"stop"}, nous nous attendons à ce qu\textquotesingle elle
+renvoie \texttt{True}, mais elle provoque une erreur \texttt{IndexError}
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ est\_inverse(}\StringTok{\textquotesingle{}pots\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}stop\textquotesingle{}}\NormalTok{)}
+\PreprocessorTok{IndexError}\NormalTok{: string index out of }\BuiltInTok{range}
+\end{Highlighting}
+\end{Shaded}
+
+Pour le débogage, il est judicieux d\textquotesingle insérer une
+instruction \texttt{print(i,\ j)} avant la ligne fautive pour afficher
+les indices. Dans ce cas, lors du premier passage dans la boucle, la
+valeur de \texttt{j} est 4, ce qui est hors limites pour la chaîne
+\texttt{\textquotesingle{}stop\textquotesingle{}}. La bonne valeur de
+départ est \texttt{len(mot2)\ -\ 1}.
+
+Si vous corrigez cela et lancez le programme à nouveau, il ne produit
+plus d\textquotesingle erreur, mais il donne un résultat incorrect. Je
+vous laisse trouver et corriger la deuxième erreur !
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+séquence sequence Un ensemble ordonné, c\textquotesingle est-à-dire une
+collection de valeurs où chaque valeur est identifiée par un indice
+entier.
+
+élément item L\textquotesingle une des valeurs composant une séquence.
+
+indice index Une valeur entière utilisée pour sélectionner un élément
+d\textquotesingle une séquence, comme un caractère dans une chaîne.
+
+tranche slice Une partie d\textquotesingle une chaîne spécifiée par une
+plage d\textquotesingle indices.
+
+parcours traversal Itérer à travers les éléments d\textquotesingle une
+séquence, en effectuant une opération similaire sur chacun
+d\textquotesingle eux.
+
+immuable immutable La propriété d\textquotesingle une séquence dont les
+éléments ne peuvent pas être modifiés.
+
+recherche search Un modèle de parcours qui s\textquotesingle arrête
+lorsqu\textquotesingle il trouve ce qu\textquotesingle il cherche.
+
+compteur counter Une variable utilisée pour compter quelque chose,
+souvent initialisée à zéro puis incrémentée.
+
+invocation invocation Une instruction qui appelle une méthode.
+
+méthode method Une fonction associée à un objet et appelée en utilisant
+la notation pointée.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Lisez la documentation des méthodes de chaînes de caractères à
+l\textquotesingle adresse
+\url{https://docs.python.org/3/library/stdtypes.html\#string-methods}.
+Expérimentez avec quelques-unes d\textquotesingle entre elles pour vous
+assurer de bien comprendre comment elles fonctionnent. \texttt{strip} et
+\texttt{replace} sont particulièrement utiles.
+
+La documentation utilise une syntaxe qui pourrait être source de
+confusion. Par exemple, dans
+\texttt{find(sub{[},\ start{[},\ end{]}{]})}, les crochets indiquent des
+arguments optionnels. Ainsi, \texttt{sub} est obligatoire, mais
+\texttt{start} est facultatif, et si vous incluez \texttt{start}, alors
+\texttt{end} est également facultatif.
+
+\textbf{Exercice 2}
+
+Une tranche de chaîne peut accepter un troisième indice pour spécifier
+un "pas" (\emph{step}), c\textquotesingle est-à-dire
+l\textquotesingle espacement entre les caractères consécutifs. Un pas de
+2 signifie tous les deux caractères, et un pas de 3 signifie tous les
+trois caractères, etc.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit }\OperatorTok{=} \StringTok{\textquotesingle{}banane\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ fruit[}\DecValTok{0}\NormalTok{:}\DecValTok{5}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\CommentTok{\textquotesingle{}bnn\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Un pas de -1 fait parcourir le mot à l\textquotesingle envers, de sorte
+que la tranche \texttt{{[}::-1{]}} génère une chaîne inversée.
+
+Utilisez cette fonctionnalité pour écrire une version raccourcie de
+\texttt{est\_palindrome} (une fonction qui vérifie si un mot se lit de
+la même manière à l\textquotesingle endroit et à
+l\textquotesingle envers).
+
+\textbf{Exercice 3}
+
+Les méthodes de chaînes suivantes sont toutes utiles : \texttt{islower},
+\texttt{isupper}, et \texttt{isalpha}.
+
+Écrivez une fonction nommée \texttt{lettre\_minuscule\_presente} qui
+prend une chaîne de caractères comme argument et qui retourne
+\texttt{True} si la chaîne contient au moins une lettre minuscule, et
+\texttt{False} sinon.
+
+\textbf{Exercice 4}
+
+Le chiffrement de César (ROT13) consiste à remplacer chaque lettre par
+la lettre se trouvant un certain nombre de places plus loin dans
+l\textquotesingle alphabet.
+
+Écrivez une fonction nommée \texttt{tourner\_mot} qui prend une chaîne
+de caractères et un entier comme paramètres, et retourne une nouvelle
+chaîne contenant les lettres de la chaîne d\textquotesingle origine
+tournées du nombre de places spécifié par l\textquotesingle entier.
+
+\emph{Indice : vous pourriez trouver les fonctions intégrées}
+\texttt{ord} \emph{et} \texttt{chr} \emph{utiles pour convertir des
+caractères en valeurs numériques et inversement.}

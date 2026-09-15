@@ -1,0 +1,76 @@
+\hypertarget{python-le-langage}{%
+\section{Python, le langage}\label{python-le-langage}}
+
+Le langage de programmation que vous apprendrez est Python.
+
+\begin{description}
+\item[digraph CPython\_Architecture \{]
+// Disposition horizontale rankdir=LR;
+
+// Style par défaut des nœuds node {[}shape=box, style=filled,
+fillcolor="\#f8f9fa", color="\#343a40", fontname="Arial"{]};
+
+// Définition des nœuds Source {[}label="Code Sourcen(.py)",
+fillcolor="\#e3f2fd"{]}; Parser {[}label="Analyseurn(lexer \&
+parser)"{]}; AST {[}label="Arbre syntaxiquenabstrait (AST)"{]}; Compiler
+{[}label="Compilateur"{]}; Bytecode {[}label="Bytecode"{]}; PVM
+{[}label="Machine VirtuellenPython", fillcolor="\#fff3cd"{]}; Output
+{[}label="RésultatnExécuté", shape=oval, fillcolor="\#d4edda"{]};
+
+// Connexions Source -\textgreater{} Parser {[}label=" Texte"{]}; Parser
+-\textgreater{} AST {[}label=" Tokens"{]}; AST -\textgreater{} Compiler;
+Compiler -\textgreater{} Bytecode; Bytecode -\textgreater{} PVM; PVM
+-\textgreater{} Output;
+\end{description}
+
+\}
+
+Il y a deux façons d\textquotesingle utiliser le Interprète: mode
+interactif et mode script. Dans mode interactif, vous tapez des
+programmes Python et l\textquotesingle interpréteur affiche le résultat:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \DecValTok{1} \OperatorTok{+} \DecValTok{1}
+\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Les chevrons, \texttt{\textgreater{}\textgreater{}\textgreater{}}, sont
+l\textquotesingle{}\textbf{invite} de commande que
+l\textquotesingle interprèteur utilise pour indiquer
+qu\textquotesingle il est prêt. Si vous tapez \texttt{1\ +\ 1}, Python
+répond 2.
+
+Alternativement, vous pouvez stocker du code dans un fichier et utiliser
+l\textquotesingle interpréteur pour exécuter le contenu du fichier, qui
+est appelé un \textbf{script}. Par convention, les scripts Python ont
+des noms qui se terminent par {.py}.
+
+Pour exécuter le script, vous devez indiquer à
+l\textquotesingle interpréteur l\textquotesingle emplacement du fichier.
+Si vous avez un script nommé \texttt{monscript.py}, vous
+l\textquotesingle exécutez avec la commande
+\texttt{python\ monscript.py}.
+
+Travailler en mode interactif est pratique pour tester de petits
+morceaux de code car vous pouvez les taper et les exécuter
+immédiatement. Pour quoi que ce soit de plus que quelques lignes, vous
+devriez enregistrer votre code en tant que script pour que vous puissiez
+le modifier et l\textquotesingle exécuter plus tard.
+
+\hypertarget{langages-naturels-et-formels}{%
+\subsection{Langages naturels et
+formels}\label{langages-naturels-et-formels}}
+
+Les langues naturelles sont les langues que les gens parlent, comme
+l\textquotesingle anglais, l\textquotesingle espagnol et le français.
+Ils n\textquotesingle ont pas été conçus par les gens (bien que les gens
+essaient de leur imposer un ordre); Ils ont évolué naturellement.
+
+Les langues formelles sont des langues conçues par des personnes pour
+applications spécifiques. Par exemple, la notation que les
+mathématiciens L\textquotesingle utilisation est un langage formel qui
+est particulièrement bon pour désigner relations entre les nombres et
+les symboles. Les chimistes utilisent un formel langage pour représenter
+la structure chimique des molécules. Et Le plus important:

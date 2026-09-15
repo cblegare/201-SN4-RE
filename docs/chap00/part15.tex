@@ -1,0 +1,272 @@
+\hypertarget{huxe9ritage}{%
+\section{Héritage}\label{huxe9ritage}}
+
+\hypertarget{objets-carte}{%
+\subsection{Objets Carte}\label{objets-carte}}
+
+Il y a cinquante-deux cartes dans un jeu, dont chacune appartient à
+l\textquotesingle une des quatre couleurs et l\textquotesingle une des
+treize valeurs. Pour représenter une carte à jouer, les attributs
+évidents sont la valeur (\emph{rank}) et la couleur (\emph{suit}). Une
+alternative pour les représenter consiste à utiliser des entiers pour
+encoder les valeurs et les couleurs, ce qui permet de comparer
+facilement les cartes.
+
+La définition de la classe \texttt{Card} ressemble à ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Card(}\BuiltInTok{object}\NormalTok{):}
+    \CommentTok{"""Représente une carte à jouer standard."""}
+
+    \KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{, suit}\OperatorTok{=}\DecValTok{0}\NormalTok{, rank}\OperatorTok{=}\DecValTok{2}\NormalTok{):}
+        \VariableTok{self}\NormalTok{.suit }\OperatorTok{=}\NormalTok{ suit}
+        \VariableTok{self}\NormalTok{.rank }\OperatorTok{=}\NormalTok{ rank}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{attributs-de-classe}{%
+\subsection{Attributs de classe}\label{attributs-de-classe}}
+
+Pour afficher les objets \texttt{Card} d\textquotesingle une manière
+lisible, nous pouvons utiliser des attributs de classe définis à
+l\textquotesingle intérieur de la classe mais en dehors de toute méthode
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# à l\textquotesingle{}intérieur de la classe Card :}
+
+\NormalTok{suit\_names }\OperatorTok{=}\NormalTok{ [}\StringTok{"Clubs"}\NormalTok{, }\StringTok{"Diamonds"}\NormalTok{, }\StringTok{"Hearts"}\NormalTok{, }\StringTok{"Spades"}\NormalTok{]}
+\NormalTok{rank\_names }\OperatorTok{=}\NormalTok{ [}
+    \VariableTok{None}\NormalTok{,}
+    \StringTok{"Ace"}\NormalTok{,}
+    \StringTok{"2"}\NormalTok{,}
+    \StringTok{"3"}\NormalTok{,}
+    \StringTok{"4"}\NormalTok{,}
+    \StringTok{"5"}\NormalTok{,}
+    \StringTok{"6"}\NormalTok{,}
+    \StringTok{"7"}\NormalTok{,}
+    \StringTok{"8"}\NormalTok{,}
+    \StringTok{"9"}\NormalTok{,}
+    \StringTok{"10"}\NormalTok{,}
+    \StringTok{"Jack"}\NormalTok{,}
+    \StringTok{"Queen"}\NormalTok{,}
+    \StringTok{"King"}\NormalTok{,}
+\NormalTok{]}
+
+
+\KeywordTok{def} \FunctionTok{\_\_str\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{):}
+    \ControlFlowTok{return} \StringTok{"}\SpecialCharTok{\%s}\StringTok{ of }\SpecialCharTok{\%s}\StringTok{"} \OperatorTok{\%}\NormalTok{ (Card.rank\_names[}\VariableTok{self}\NormalTok{.rank], Card.suit\_names[}\VariableTok{self}\NormalTok{.suit])}
+\end{Highlighting}
+\end{Shaded}
+
+Les variables comme \texttt{suit\_names} et \texttt{rank\_names} sont
+appelées des \textbf{attributs de classe} car elles sont associées à
+l\textquotesingle objet classe \texttt{Card}, tandis que \texttt{suit}
+et \texttt{rank} sont des attributs d\textquotesingle instance.
+
+\hypertarget{comparaison-de-cartes}{%
+\subsection{Comparaison de cartes}\label{comparaison-de-cartes}}
+
+Pour les types intégrés, les opérateurs relationnels comparent les
+valeurs. Pour les types définis par l\textquotesingle utilisateur, nous
+pouvons redéfinir ce comportement en fournissant une méthode nommée
+\texttt{\_\_cmp\_\_} qui prend deux paramètres, \texttt{self} et
+\texttt{other}.
+
+En Python 3, la méthode \texttt{\_\_cmp\_\_} n\textquotesingle est pas
+prise en charge et il convient plutôt de fournir \texttt{\_\_lt\_\_}.
+
+\hypertarget{jeux-de-cartes}{%
+\subsection{Jeux de cartes}\label{jeux-de-cartes}}
+
+Puisqu\textquotesingle un jeu de cartes (\emph{deck}) est composé de
+cartes, il est naturel qu\textquotesingle il contienne une liste de
+cartes comme attribut. La méthode d\textquotesingle initialisation crée
+l\textquotesingle attribut \texttt{cards} et génère les cinquante-deux
+cartes standard :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Deck(}\BuiltInTok{object}\NormalTok{):}
+
+    \KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{):}
+        \VariableTok{self}\NormalTok{.cards }\OperatorTok{=}\NormalTok{ []}
+        \ControlFlowTok{for}\NormalTok{ suit }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{4}\NormalTok{):}
+            \ControlFlowTok{for}\NormalTok{ rank }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{14}\NormalTok{):}
+\NormalTok{                card }\OperatorTok{=}\NormalTok{ Card(suit, rank)}
+                \VariableTok{self}\NormalTok{.cards.append(card)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ajout-suppression-muxe9lange-et-tri}{%
+\subsection{Ajout, suppression, mélange et
+tri}\label{ajout-suppression-muxe9lange-et-tri}}
+
+Pour distribuer des cartes, nous pouvons utiliser la méthode de liste
+\texttt{pop} pour retirer une carte du jeu :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# à l\textquotesingle{}intérieur de la classe Deck :}
+
+
+\KeywordTok{def}\NormalTok{ pop\_card(}\VariableTok{self}\NormalTok{):}
+    \ControlFlowTok{return} \VariableTok{self}\NormalTok{.cards.pop()}
+\end{Highlighting}
+\end{Shaded}
+
+Pour ajouter une carte, nous pouvons utiliser la méthode \texttt{append}
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# à l\textquotesingle{}intérieur de la classe Deck :}
+
+
+\KeywordTok{def}\NormalTok{ add\_card(}\VariableTok{self}\NormalTok{, card):}
+    \VariableTok{self}\NormalTok{.cards.append(card)}
+\end{Highlighting}
+\end{Shaded}
+
+Une méthode de ce type qui utilise une autre fonction sans effectuer de
+travail complexe est parfois appelée un \textbf{placage}
+(\emph{veneer}). Nous pouvons également écrire une méthode de mélange
+(\emph{shuffle}) en utilisant la fonction \texttt{shuffle} du module
+\texttt{random} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# à l\textquotesingle{}intérieur de la classe Deck :}
+
+
+\KeywordTok{def}\NormalTok{ shuffle(}\VariableTok{self}\NormalTok{):}
+\NormalTok{    random.shuffle(}\VariableTok{self}\NormalTok{.cards)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{huxe9ritage-1}{%
+\subsection{Héritage}\label{huxe9ritage-1}}
+
+La fonctionnalité de langage la plus souvent associée à la programmation
+orientée objet est l\textquotesingle{}\textbf{héritage}, qui est la
+capacité de définir une nouvelle classe constituant une version modifiée
+d\textquotesingle une classe existante. La classe existante est appelée
+la \textbf{classe parente} et la nouvelle classe est appelée la
+\textbf{classe enfant} ou sous-classe.
+
+Par exemple, pour représenter une « main » de cartes détenue par un
+joueur, nous pouvons créer une classe \texttt{Hand} qui hérite de
+\texttt{Deck} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Hand(Deck):}
+    \CommentTok{"""Représente une main de cartes à jouer."""}
+\end{Highlighting}
+\end{Shaded}
+
+Cette définition indique que \texttt{Hand} hérite de \texttt{Deck}, ce
+qui signifie que nous pouvons utiliser des méthodes comme
+\texttt{pop\_card} et \texttt{add\_card} pour les mains ainsi que pour
+les jeux. Si nous fournissons une méthode \texttt{\_\_init\_\_} dans la
+classe \texttt{Hand}, elle remplace celle de la classe \texttt{Deck} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# à l\textquotesingle{}intérieur de la classe Hand :}
+
+
+\KeywordTok{def} \FunctionTok{\_\_init\_\_}\NormalTok{(}\VariableTok{self}\NormalTok{, label}\OperatorTok{=}\StringTok{""}\NormalTok{):}
+    \VariableTok{self}\NormalTok{.cards }\OperatorTok{=}\NormalTok{ []}
+    \VariableTok{self}\NormalTok{.label }\OperatorTok{=}\NormalTok{ label}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{diagrammes-de-classes}{%
+\subsection{Diagrammes de classes}\label{diagrammes-de-classes}}
+
+Un \textbf{diagramme de classes} est une représentation plus abstraite
+de la structure d\textquotesingle un programme qui montre les classes et
+leurs relations :
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Relation HAS-A (a un)} : les objets d\textquotesingle une
+  classe contiennent des références à des objets d\textquotesingle une
+  autre classe (par exemple, chaque \texttt{Deck} contient des
+  références à de nombreuses \texttt{Cards}).
+\item
+  \textbf{Relation IS-A (est un)} : une classe hérite
+  d\textquotesingle une autre (par exemple, un \texttt{Hand} est une
+  sorte de \texttt{Deck}).
+\end{itemize}
+
+La multiplicité (comme une étoile \texttt{*} près de la tête de flèche)
+indique le nombre d\textquotesingle instances concernées dans une
+relation.
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+L\textquotesingle héritage peut représenter un défi pour le débogage car
+lorsqu\textquotesingle une méthode est invoquée sur un objet, il
+n\textquotesingle est parfois pas évident de savoir quelle
+implémentation sera exécutée. La fonction \texttt{find\_defining\_class}
+permet de trouver la classe qui fournit la définition
+d\textquotesingle une méthode en inspectant l\textquotesingle ordre de
+résolution des méthodes (MRO).
+
+\hypertarget{encapsulation-des-donnuxe9es}{%
+\subsection{Encapsulation des
+données}\label{encapsulation-des-donnuxe9es}}
+
+De la même manière que nous avons découvert des interfaces de fonctions
+par l\textquotesingle encapsulation et la généralisation, nous pouvons
+découvrir des interfaces de classes par
+l\textquotesingle{}\textbf{encapsulation des données}. Le processus de
+refactorisation consiste à transformer un ensemble de variables globales
+et de fonctions associées en attributs et méthodes d\textquotesingle une
+nouvelle classe.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+encoder encode Représenter un ensemble de valeurs en utilisant un autre
+ensemble de valeurs en construisant une correspondance entre eux.
+
+attribut de classe class attribute Un attribut associé à un objet
+classe, défini à l\textquotesingle intérieur d\textquotesingle une
+définition de classe mais en dehors de toute méthode.
+
+attribut d\textquotesingle instance instance attribute Un attribut
+associé à une instance spécifique d\textquotesingle une classe.
+
+placage veneer Une méthode ou une fonction qui fournit une interface
+différente pour une autre fonction sans effectuer de calculs complexes.
+
+héritage inheritance La capacité de définir une nouvelle classe qui est
+une version modifiée d\textquotesingle une classe définie précédemment.
+
+classe parente parent class La classe à partir de laquelle une classe
+enfant hérite.
+
+classe enfant child class Une nouvelle classe créée en héritant
+d\textquotesingle une classe existante ; également appelée « sous-classe
+».
+
+relation IS-A IS-A relationship La relation entre une classe enfant et
+sa classe parente.
+
+relation HAS-A HAS-A relationship La relation entre deux classes où les
+instances d\textquotesingle une classe contiennent des références à des
+instances de l\textquotesingle autre.
+
+diagramme de classes class diagram Un diagramme qui montre les classes
+d\textquotesingle un programme et les relations entre elles.
+
+multiplicité multiplicity Une notation dans un diagramme de classes qui
+indique, pour une relation HAS-A, le nombre de références vers des
+instances d\textquotesingle une autre classe.

@@ -1,0 +1,389 @@
+\hypertarget{ituxe9ration}{%
+\section{Itération}\label{ituxe9ration}}
+
+\hypertarget{ruxe9affectation}{%
+\subsection{Réaffectation}\label{ruxe9affectation}}
+
+Comme vous l\textquotesingle avez peut-être déjà découvert, il est légal
+d\textquotesingle effectuer plus d\textquotesingle une affectation sur
+la même variable. Une nouvelle affectation fait en sorte
+qu\textquotesingle une variable existante se réfère à une nouvelle
+valeur (et cesse de se référer à l\textquotesingle ancienne).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=} \DecValTok{5}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x}
+\DecValTok{5}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=} \DecValTok{7}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x}
+\DecValTok{7}
+\end{Highlighting}
+\end{Shaded}
+
+La première fois que nous affichons \texttt{x}, sa valeur est 5 ; la
+deuxième fois, sa valeur est 7.
+
+L\textquotesingle une des sources de confusion les plus courantes lors
+de l\textquotesingle apprentissage de la programmation est la différence
+entre l\textquotesingle affectation et l\textquotesingle égalité. En
+mathématiques, le signe égal indique que deux éléments sont égaux et le
+resteront. En Python, une instruction d\textquotesingle affectation
+utilise le signe égal (\texttt{=}), mais ce n\textquotesingle est pas
+une affirmation d\textquotesingle égalité.
+
+Par exemple, si vous écrivez \texttt{a\ =\ b}, vous affirmez que
+\texttt{a} et \texttt{b} ont actuellement la même valeur, mais ils ne
+sont pas obligés de rester égaux indéfiniment :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\OperatorTok{=} \DecValTok{5}
+\NormalTok{b }\OperatorTok{=}\NormalTok{ a    }\CommentTok{\# a et b sont maintenant égaux}
+\NormalTok{a }\OperatorTok{=} \DecValTok{3}    \CommentTok{\# a et b ne sont plus égaux}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{mise-uxe0-jour-de-variables}{%
+\subsection{Mise à jour de
+variables}\label{mise-uxe0-jour-de-variables}}
+
+Un des types de réaffectation les plus courants est la mise à jour
+(\emph{update}), où la nouvelle valeur de la variable dépend de
+l\textquotesingle ancienne.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{=}\NormalTok{ x }\OperatorTok{+} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Cela signifie « récupère la valeur actuelle de \texttt{x}, ajoute 1, et
+met ensuite à jour \texttt{x} avec la nouvelle valeur. »
+
+Si vous essayez de mettre à jour une variable qui
+n\textquotesingle existe pas, vous obtenez une erreur, car Python évalue
+le côté droit avant d\textquotesingle affecter la valeur à \texttt{x} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=}\NormalTok{ x }\OperatorTok{+} \DecValTok{1}
+\PreprocessorTok{NameError}\NormalTok{: name }\StringTok{\textquotesingle{}x\textquotesingle{}} \KeywordTok{is} \KeywordTok{not}\NormalTok{ defined}
+\end{Highlighting}
+\end{Shaded}
+
+Avant de pouvoir mettre à jour une variable, vous devez
+l\textquotesingle initialiser (\emph{initialize}), généralement par une
+affectation simple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=} \DecValTok{0}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=}\NormalTok{ x }\OperatorTok{+} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+La mise à jour d\textquotesingle une variable par
+l\textquotesingle ajout de 1 s\textquotesingle appelle une
+incrémentation (\emph{increment}) ; la soustraction de 1
+s\textquotesingle appelle une décrémentation (\emph{decrement}).
+
+\hypertarget{linstruction-while}{%
+\subsection{\texorpdfstring{L\textquotesingle instruction
+\texttt{while}}{L\textquotesingle instruction while}}\label{linstruction-while}}
+
+Les ordinateurs sont souvent utilisés pour automatiser des tâches
+répétitives. Répéter des tâches identiques ou similaires sans faire
+d\textquotesingle erreurs est une chose que les ordinateurs font bien et
+que les humains font mal. En programmation, la répétition est aussi
+appelée itération (\emph{iteration}).
+
+Python fournit une instruction \texttt{while} pour faciliter
+l\textquotesingle itération. Voici une version de
+\texttt{compte\_a\_rebours} qui utilise une instruction \texttt{while} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ compte\_a\_rebours(n):}
+    \ControlFlowTok{while}\NormalTok{ n }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{:}
+        \BuiltInTok{print}\NormalTok{(n)}
+\NormalTok{        n }\OperatorTok{=}\NormalTok{ n }\OperatorTok{{-}} \DecValTok{1}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Décollage !\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez lire l\textquotesingle instruction \texttt{while} presque
+comme de l\textquotesingle anglais. Elle signifie : « Tant que
+\texttt{n} est strictement supérieur à 0, affiche la valeur de
+\texttt{n} et diminue la valeur de \texttt{n} de 1. Une fois que tu as
+terminé, affiche le mot Décollage ! »
+
+Plus formellement, voici le flux d\textquotesingle exécution pour une
+instruction \texttt{while} :
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Déterminez si la condition est vraie ou fausse.
+\item
+  Si la condition est fausse, quittez l\textquotesingle instruction
+  \texttt{while} et continuez l\textquotesingle exécution à la prochaine
+  instruction.
+\item
+  Si la condition est vraie, exécutez le corps de la boucle et retournez
+  à l\textquotesingle étape 1.
+\end{enumerate}
+
+Ce type de flux est appelé une boucle (\emph{loop}). Si la condition est
+fausse dès le départ, le corps de la boucle ne s\textquotesingle exécute
+jamais.
+
+Le corps de la boucle doit changer la valeur d\textquotesingle une ou
+plusieurs variables pour qu\textquotesingle à un moment donné, la
+condition devienne fausse et que la boucle se termine. Si la condition
+ne devient jamais fausse, la boucle se répétera pour toujours, ce
+qu\textquotesingle on appelle une boucle infinie (\emph{infinite loop}).
+
+\hypertarget{linstruction-break}{%
+\subsection{\texorpdfstring{L\textquotesingle instruction
+\texttt{break}}{L\textquotesingle instruction break}}\label{linstruction-break}}
+
+Parfois, vous ne savez pas qu\textquotesingle il est temps de terminer
+une boucle avant d\textquotesingle être au milieu du corps de la boucle.
+Dans ce cas, vous pouvez utiliser l\textquotesingle instruction
+\texttt{break} pour sortir de la boucle immédiatement.
+
+Par exemple, supposons que vous souhaitiez demander une saisie à
+l\textquotesingle utilisateur jusqu\textquotesingle à ce
+qu\textquotesingle il tape
+\texttt{\textquotesingle{}fin\textquotesingle{}}. Vous pourriez écrire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{while} \VariableTok{True}\NormalTok{:}
+\NormalTok{    ligne }\OperatorTok{=} \BuiltInTok{input}\NormalTok{(}\StringTok{\textquotesingle{}\textgreater{} \textquotesingle{}}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ ligne }\OperatorTok{==} \StringTok{\textquotesingle{}fin\textquotesingle{}}\NormalTok{:}
+        \ControlFlowTok{break}
+    \BuiltInTok{print}\NormalTok{(ligne)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Terminé !\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+La condition de la boucle est \texttt{True}, ce qui est toujours vrai,
+donc la boucle s\textquotesingle exécutera jusqu\textquotesingle à ce
+qu\textquotesingle elle rencontre l\textquotesingle instruction
+\texttt{break}. À chaque itération, elle invite
+l\textquotesingle utilisateur avec un chevron. Si
+l\textquotesingle utilisateur tape \texttt{fin},
+l\textquotesingle instruction \texttt{break} quitte la boucle. Sinon, le
+programme affiche ce que l\textquotesingle utilisateur a tapé et
+retourne au début de la boucle.
+
+\hypertarget{racines-carruxe9es}{%
+\subsection{Racines carrées}\label{racines-carruxe9es}}
+
+Les boucles sont souvent utilisées dans les programmes qui calculent des
+résultats numériques en commençant par une réponse approximative et en
+l\textquotesingle améliorant de manière itérative.
+
+Par exemple, l\textquotesingle une des façons de calculer les racines
+carrées est la méthode de Newton. Supposons que vous souhaitiez
+connaître la racine carrée de \$a\$. Si vous commencez avec une
+estimation quelconque, \$x\$, vous pouvez calculer une meilleure
+estimation avec la formule suivante :
+
+\begin{quote}
+\$y = frac\{x + a / x\}\{2\}\$
+\end{quote}
+
+Par exemple, si \$a\$ vaut 4 et \$x\$ vaut 3 :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ a }\OperatorTok{=} \DecValTok{4}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=} \DecValTok{3}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ y }\OperatorTok{=}\NormalTok{ (x }\OperatorTok{+}\NormalTok{ a}\OperatorTok{/}\NormalTok{x) }\OperatorTok{/} \DecValTok{2}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ y}
+\FloatTok{2.1666666666666665}
+\end{Highlighting}
+\end{Shaded}
+
+Le résultat est plus proche de la bonne réponse (\$sqrt\{4\} = 2\$). Si
+nous répétons le processus avec la nouvelle estimation, le résultat
+s\textquotesingle améliore encore :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=}\NormalTok{ y}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ y }\OperatorTok{=}\NormalTok{ (x }\OperatorTok{+}\NormalTok{ a}\OperatorTok{/}\NormalTok{x) }\OperatorTok{/} \DecValTok{2}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ y}
+\FloatTok{2.0064102564102564}
+\end{Highlighting}
+\end{Shaded}
+
+Lorsque \$y == x\$, vous pouvez arrêter le calcul. Vous pouvez exprimer
+cela dans une boucle :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{while} \VariableTok{True}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(x)}
+\NormalTok{    y }\OperatorTok{=}\NormalTok{ (x }\OperatorTok{+}\NormalTok{ a}\OperatorTok{/}\NormalTok{x) }\OperatorTok{/} \DecValTok{2}
+    \ControlFlowTok{if}\NormalTok{ y }\OperatorTok{==}\NormalTok{ x:}
+        \ControlFlowTok{break}
+\NormalTok{    x }\OperatorTok{=}\NormalTok{ y}
+\end{Highlighting}
+\end{Shaded}
+
+Pour la plupart des valeurs de \$a\$, cela fonctionne bien, mais de
+manière générale, tester l\textquotesingle égalité stricte des nombres à
+virgule flottante est dangereux. Plutôt que de vérifier si \texttt{x} et
+\texttt{y} sont exactement égaux, il est plus sûr
+d\textquotesingle utiliser la fonction intégrée \texttt{abs} pour
+calculer la valeur absolue de leur différence :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if} \BuiltInTok{abs}\NormalTok{(y }\OperatorTok{{-}}\NormalTok{ x) }\OperatorTok{\textless{}}\NormalTok{ epsilon:}
+    \ControlFlowTok{break}
+\end{Highlighting}
+\end{Shaded}
+
+où \texttt{epsilon} a une valeur petite comme \texttt{0.0000001} qui
+détermine la précision requise.
+
+\hypertarget{algorithmes}{%
+\subsection{Algorithmes}\label{algorithmes}}
+
+La méthode de Newton est un exemple d\textquotesingle algorithme
+(\emph{algorithm}) : c\textquotesingle est un processus mécanique pour
+résoudre une catégorie de problèmes (dans ce cas, calculer des racines
+carrées).
+
+Pour comprendre ce qu\textquotesingle est un algorithme, il peut être
+utile de commencer par ce qui n\textquotesingle en est pas un.
+L\textquotesingle arithmétique de base que vous avez apprise
+n\textquotesingle est généralement pas algorithmique. Mais si vous avez
+appris la division longue, vous avez appris un algorithme. Un algorithme
+est une suite d\textquotesingle étapes systématiques, sans nécessiter
+d\textquotesingle intelligence ni d\textquotesingle intuition pour les
+exécuter.
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+À mesure que vous commencez à écrire des programmes plus longs, vous
+pourriez vous retrouver à passer plus de temps à déboguer. Réduire la
+quantité de code que vous ajoutez avant de tester (développement
+incrémental) peut aider.
+
+Une autre technique utile est la division par deux de la recherche
+(\emph{bisection}). Si vous avez 100 lignes de code et
+qu\textquotesingle il y a une erreur, vous pouvez placer une instruction
+\texttt{print} au milieu pour vérifier si l\textquotesingle état du
+programme est correct. S\textquotesingle il l\textquotesingle est,
+l\textquotesingle erreur se trouve dans la seconde moitié ; sinon, elle
+est dans la première. En coupant à chaque fois la zone de recherche en
+deux, vous trouverez plus vite le problème.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+réaffectation reassignment Le fait d\textquotesingle assigner une
+nouvelle valeur à une variable qui existait déjà.
+
+mise à jour update Une affectation où la nouvelle valeur de la variable
+dépend de l\textquotesingle ancienne.
+
+initialisation initialization Une affectation qui donne une valeur
+initiale à une variable qui sera mise à jour par la suite.
+
+incrémenter increment Une mise à jour qui augmente la valeur
+d\textquotesingle une variable (souvent de 1).
+
+décrémenter decrement Une mise à jour qui diminue la valeur
+d\textquotesingle une variable.
+
+itération iteration L\textquotesingle exécution répétée
+d\textquotesingle un ensemble d\textquotesingle instructions en
+utilisant soit une fonction récursive, soit une boucle.
+
+boucle infinie infinite loop Une boucle dont la condition de terminaison
+n\textquotesingle est jamais satisfaite.
+
+algorithme algorithm Un processus général pour résoudre une catégorie de
+problèmes.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Copiez la boucle de la section sur les racines carrées et encapsulez-la
+dans une fonction appelée \texttt{ma\_racine(a)}.
+
+Pour tester votre fonction, écrivez une fonction nommée
+\texttt{tester\_racine\_carree} qui affiche un tableau semblable à
+celui-ci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a   ma\_racine(a)      math.sqrt(a)   diff}
+\NormalTok{{-}   {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}      {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}   {-}{-}{-}{-}}
+\NormalTok{1.0 1.0               1.0            0.0}
+\NormalTok{2.0 1.41421356237     1.41421356237  2.22044604925e{-}16}
+\NormalTok{3.0 1.73205081001     1.73205081001  0.0}
+\NormalTok{4.0 2.0               2.0            0.0}
+\end{Highlighting}
+\end{Shaded}
+
+La première colonne correspond aux nombres de 1 à 9. La deuxième colonne
+est le résultat calculé par votre fonction \texttt{ma\_racine}. La
+troisième est le résultat de \texttt{math.sqrt}, et la quatrième colonne
+est la différence absolue entre les deux.
+
+\textbf{Exercice 2}
+
+La fonction intégrée \texttt{eval} prend une chaîne de caractères et
+l\textquotesingle évalue à l\textquotesingle aide de
+l\textquotesingle interpréteur Python. Par exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{eval}\NormalTok{(}\StringTok{\textquotesingle{}1 + 2 * 3\textquotesingle{}}\NormalTok{)}
+\DecValTok{7}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ math}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{eval}\NormalTok{(}\StringTok{\textquotesingle{}math.sqrt(5)\textquotesingle{}}\NormalTok{)}
+\FloatTok{2.2360679774997898}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{eval}\NormalTok{(}\StringTok{\textquotesingle{}type(math.pi)\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}float\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Écrivez une fonction appelée \texttt{eval\_loop} qui invite
+itérativement l\textquotesingle utilisateur à entrer une saisie, prend
+la saisie, et l\textquotesingle évalue en utilisant \texttt{eval}, pour
+finalement afficher le résultat.
+
+Elle devrait continuer ainsi jusqu\textquotesingle à ce que
+l\textquotesingle utilisateur tape
+\texttt{\textquotesingle{}done\textquotesingle{}}, et elle devrait
+ensuite retourner la valeur de la dernière expression évaluée.
+
+\textbf{Exercice 3}
+
+Le brillant mathématicien Srinivasa Ramanujan a découvert une série
+infinie permettant de calculer une approximation de \$pi\$ :
+
+\$\$ frac\{1\}\{pi\} = frac\{2sqrt\{2\}\}\{9801\}
+s\href{}{um}\{k=0\}\^{}\{infty\} frac\{(4k)!(1103 + 26390k)\}\{(k!)\^{}4
+396\^{}\{4k\}\} \$\$
+
+Écrivez une fonction appelée \texttt{estimer\_pi} qui utilise cette
+formule pour calculer et retourner une estimation de \$pi\$. Elle doit
+utiliser une boucle \texttt{while} pour calculer les termes de la somme
+jusqu\textquotesingle à ce que le dernier terme calculé soit strictement
+inférieur à \texttt{1e-15} (soit la notation scientifique de Python pour
+\$10\^{}\{-15\}\$). Vous pourrez vérifier votre résultat en le comparant
+à \texttt{math.pi}.

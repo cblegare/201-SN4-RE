@@ -1,0 +1,295 @@
+\hypertarget{dictionnaires}{%
+\section{Dictionnaires}\label{dictionnaires}}
+
+Un \textbf{dictionnaire} est un type de données intégré à Python qui
+ressemble à une liste, mais il est plus général. Dans une liste, les
+indices doivent être des entiers ; dans un dictionnaire, les indices
+peuvent être de presque n\textquotesingle importe quel type.
+
+Un dictionnaire contient une collection de \textbf{indices}, appelés
+\textbf{clés}, et chaque clé est associée à une \textbf{valeur}.
+L\textquotesingle association d\textquotesingle une clé et
+d\textquotesingle une valeur est appelée une \textbf{paire clé-valeur}
+ou un élément.
+
+La fonction \texttt{dict} crée un nouveau dictionnaire sans aucun
+élément. Comme les crochets pour les listes, les accolades (\texttt{\{}
+et \texttt{\}}) représentent un dictionnaire littéral.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ anglais\_francais }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ anglais\_francais}
+\NormalTok{\{\}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ eng2fr }\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}un\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}one\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}deux\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}two\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}trois\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}three\textquotesingle{}}\NormalTok{\}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ eng2fr}
+\NormalTok{\{}\StringTok{\textquotesingle{}un\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}one\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}deux\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}two\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}trois\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}three\textquotesingle{}}\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle ordre des paires clé-valeur n\textquotesingle est pas
+prévisible. Pour afficher un élément, vous utilisez une clé entre
+crochets :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(eng2fr[}\StringTok{\textquotesingle{}deux\textquotesingle{}}\NormalTok{])}
+\CommentTok{\textquotesingle{}two\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si la clé n\textquotesingle est pas dans le dictionnaire, vous obtenez
+une exception :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(eng2fr[}\StringTok{\textquotesingle{}quatre\textquotesingle{}}\NormalTok{])}
+\PreprocessorTok{KeyError}\NormalTok{: }\StringTok{\textquotesingle{}quatre\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+La fonction \texttt{len} renvoie le nombre de paires clé-valeur :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{len}\NormalTok{(eng2fr)}
+\DecValTok{3}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{in} vous indique si une clé apparaît
+dans le dictionnaire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}un\textquotesingle{}} \KeywordTok{in}\NormalTok{ eng2fr}
+\VariableTok{True}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}one\textquotesingle{}} \KeywordTok{in}\NormalTok{ eng2fr}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{in} recherche parmi les clés, pas
+les valeurs. Pour vérifier si une valeur apparaît dans un dictionnaire,
+vous pouvez utiliser la méthode \texttt{values}, qui renvoie les valeurs
+sous forme de collection, puis utiliser l\textquotesingle opérateur
+\texttt{in} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ valeurs }\OperatorTok{=}\NormalTok{ eng2fr.values()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}one\textquotesingle{}} \KeywordTok{in}\NormalTok{ valeurs}
+\VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+Le dictionnaire comme ensemble de compteurs
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Supposons que vous receviez une chaîne de caractères et que vous
+souhaitiez compter combien de fois chaque lettre y apparaît. Une façon
+de faire est de créer un dictionnaire avec les lettres comme clés et les
+compteurs comme valeurs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ histogramme(s):}
+\NormalTok{    d }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{()}
+    \ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ s:}
+        \ControlFlowTok{if}\NormalTok{ c }\KeywordTok{not} \KeywordTok{in}\NormalTok{ d:}
+\NormalTok{            d[c] }\OperatorTok{=} \DecValTok{1}
+        \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{            d[c] }\OperatorTok{+=} \DecValTok{1}
+    \ControlFlowTok{return}\NormalTok{ d}
+\end{Highlighting}
+\end{Shaded}
+
+La fonction \texttt{histogramme} prend une chaîne de caractères et
+renvoie un dictionnaire contenant les caractères uniques comme clés et
+leurs fréquences comme valeurs.
+
+Les dictionnaires possèdent une méthode appelée \texttt{get} qui prend
+une clé et une valeur par défaut. Si la clé est dans le dictionnaire,
+\texttt{get} renvoie la valeur correspondante ; sinon, elle renvoie la
+valeur par défaut. Par exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ histogramme(s):}
+\NormalTok{    d }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{()}
+    \ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ s:}
+\NormalTok{        d[c] }\OperatorTok{=}\NormalTok{ d.get(c, }\DecValTok{0}\NormalTok{) }\OperatorTok{+} \DecValTok{1}
+    \ControlFlowTok{return}\NormalTok{ d}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{boucles-et-dictionnaires}{%
+\subsection{Boucles et dictionnaires}\label{boucles-et-dictionnaires}}
+
+Si vous utilisez une instruction \texttt{for} avec un dictionnaire, elle
+parcourt les clés du dictionnaire. Par exemple, cette fonction imprime
+chaque clé et sa valeur associée :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ imprimer\_histogramme(h):}
+    \ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in}\NormalTok{ h:}
+        \BuiltInTok{print}\NormalTok{(c, h[c])}
+\end{Highlighting}
+\end{Shaded}
+
+Les clés ne sont pas dans un ordre trié. Pour parcourir les clés dans un
+ordre trié, vous pouvez utiliser la fonction \texttt{sorted} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ c }\KeywordTok{in} \BuiltInTok{sorted}\NormalTok{(h):}
+    \BuiltInTok{print}\NormalTok{(c, h[c])}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{recherche-inversuxe9e}{%
+\subsection{Recherche inversée}\label{recherche-inversuxe9e}}
+
+Étant donné un dictionnaire \texttt{d} et une clé \texttt{k}, il est
+facile de trouver la valeur correspondante : \texttt{v\ =\ d{[}k{]}}.
+C\textquotesingle est une \textbf{recherche}.
+
+Mais que faire si vous avez une valeur et que vous voulez trouver la clé
+correspondante ? C\textquotesingle est une \textbf{recherche inversée}
+(\emph{reverse lookup}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ recherche\_inverse(d, v):}
+    \ControlFlowTok{for}\NormalTok{ k }\KeywordTok{in}\NormalTok{ d:}
+        \ControlFlowTok{if}\NormalTok{ d[k] }\OperatorTok{==}\NormalTok{ v:}
+            \ControlFlowTok{return}\NormalTok{ k}
+        \ControlFlowTok{raise} \PreprocessorTok{LookupError}\NormalTok{(}\StringTok{\textquotesingle{}La valeur ne redevient pas une clé dans le dictionnaire.\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dictionnaires-et-listes}{%
+\subsection{Dictionnaires et listes}\label{dictionnaires-et-listes}}
+
+Les listes peuvent apparaître comme des valeurs dans un dictionnaire.
+Par exemple, si vous voulez inverser un histogramme (obtenir un
+dictionnaire qui associe des fréquences à des listes de lettres ayant
+cette fréquence), vous pouvez écrire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ inverser\_dictionnaire(d):}
+\NormalTok{    inverse }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{()}
+    \ControlFlowTok{for}\NormalTok{ k }\KeywordTok{in}\NormalTok{ d:}
+\NormalTok{        v }\OperatorTok{=}\NormalTok{ d[k]}
+        \ControlFlowTok{if}\NormalTok{ v }\KeywordTok{not} \KeywordTok{in}\NormalTok{ inverse:}
+\NormalTok{            inverse[v] }\OperatorTok{=}\NormalTok{ [k]}
+        \ControlFlowTok{else}\NormalTok{:}
+\NormalTok{            inverse[v].append(k)}
+    \ControlFlowTok{return}\NormalTok{ inverse}
+\end{Highlighting}
+\end{Shaded}
+
+Les listes peuvent être des valeurs dans un dictionnaire, mais
+\textbf{les listes ne peuvent pas être des clés}. Les clés doivent être
+\textbf{hachables} (\emph{hashable}), ce qui signifie
+qu\textquotesingle elles possèdent une fonction de hachage immuable. Les
+types mutables comme les listes ne sont pas hachables.
+
+\hypertarget{muxe9mouxefsation}{%
+\subsection{Mémoïsation}\label{muxe9mouxefsation}}
+
+Si vous avez exécuté la fonction de Fibonacci récursive, vous avez
+peut-être remarqué que plus le nombre grandit, plus le temps de calcul
+explose. Cela est dû au fait que la fonction recalcule les mêmes valeurs
+encore et encore.
+
+Une solution consiste à stocker les résultats déjà calculés dans un
+dictionnaire, souvent appelé \textbf{mémo} (\emph{memo}). Un
+dictionnaire utilisé de cette façon est un exemple de
+\textbf{mémoïsation} (\emph{memoization}) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{connnu }\OperatorTok{=}\NormalTok{ \{}\DecValTok{0}\NormalTok{: }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{: }\DecValTok{1}\NormalTok{\}}
+
+\KeywordTok{def}\NormalTok{ fibonacci(n):}
+    \ControlFlowTok{if}\NormalTok{ n }\KeywordTok{in}\NormalTok{ connu:}
+        \ControlFlowTok{return}\NormalTok{ connu[n]}
+\NormalTok{    res }\OperatorTok{=}\NormalTok{ fibonacci(n}\OperatorTok{{-}}\DecValTok{1}\NormalTok{) }\OperatorTok{+}\NormalTok{ fibonacci(n}\OperatorTok{{-}}\DecValTok{2}\NormalTok{)}
+\NormalTok{    connnu[n] }\OperatorTok{=}\NormalTok{ res}
+    \ControlFlowTok{return}\NormalTok{ res}
+\end{Highlighting}
+\end{Shaded}
+
+Variables globales -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Dans l\textquotesingle exemple ci-dessus, la variable \texttt{connu} est
+créée en dehors de la fonction, ce qui en fait une \textbf{variable
+globale} (\emph{global variable}). Vous pouvez lire les variables
+globales à l\textquotesingle intérieur d\textquotesingle une fonction,
+mais si vous voulez les modifier ou leur réassigner une valeur, vous
+devez utiliser le mot-clé \texttt{global} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{compteur }\OperatorTok{=} \DecValTok{0}
+
+\KeywordTok{def}\NormalTok{ evaluer():}
+    \KeywordTok{global}\NormalTok{ compteur}
+\NormalTok{    compteur }\OperatorTok{+=} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+dictionnaire dictionary Une collection de paires clé-valeur qui associe
+des clés à des valeurs.
+
+clé key Un objet qui apparaît dans un dictionnaire associé à une valeur.
+
+paire clé-valeur key-value pair La représentation d\textquotesingle un
+élément dans un dictionnaire.
+
+table de hachage hash table L\textquotesingle algorithme sous-jacent
+utilisé pour implémenter les dictionnaires en Python.
+
+hachable hashable Un type qui possède une fonction de hachage. Les types
+immuables sont hachables.
+
+mémo memo Un dictionnaire utilisé pour stocker les résultats de calculs
+déjà effectués afin d\textquotesingle éviter le double travail.
+
+variable globale global variable Une variable définie en dehors de
+toutes les fonctions, accessible partout.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Écrivez une fonction qui lit les mots d\textquotesingle un fichier et
+les stocke comme clés dans un dictionnaire. Utilisez ensuite
+l\textquotesingle opérateur \texttt{in} pour vérifier rapidement et
+efficacement si un mot est présent dans le dictionnaire.
+
+\textbf{Exercice 2}
+
+Utilisez la méthode \texttt{setdefault} pour écrire une version plus
+concise de la fonction \texttt{histogramme} présentée dans ce chapitre.
+
+\textbf{Exercice 3}
+
+Modifiez la fonction \texttt{inverser\_dictionnaire} pour
+qu\textquotesingle elle utilise \texttt{setdefault} au lieu
+d\textquotesingle une instruction conditionnelle.
+
+\textbf{Exercice 4}
+
+Si vous avez une fonction qui prend une liste et utilise la méthode
+\texttt{in} pour trouver les doublons, la complexité temporelle augmente
+rapidement. Écrivez une version plus rapide qui utilise un dictionnaire
+pour éliminer les doublons d\textquotesingle une liste de manière
+efficace.

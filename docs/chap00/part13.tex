@@ -1,0 +1,309 @@
+\hypertarget{classes-et-fonctions}{%
+\section{Classes et fonctions}\label{classes-et-fonctions}}
+
+\hypertarget{temps}{%
+\subsection{Temps}\label{temps}}
+
+Comme autre exemple de type défini par l\textquotesingle utilisateur,
+nous allons définir une classe appelée \texttt{Time} qui enregistre
+l\textquotesingle heure de la journée. La définition de classe ressemble
+à ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Time(}\BuiltInTok{object}\NormalTok{):}
+    \CommentTok{"""Représente l\textquotesingle{}heure de la journée.}
+
+\CommentTok{    attributes: hour, minute, second}
+\CommentTok{    """}
+\end{Highlighting}
+\end{Shaded}
+
+Nous pouvons créer un nouvel objet \texttt{Time} et lui assigner des
+attributs pour les heures, les minutes et les secondes :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{time }\OperatorTok{=}\NormalTok{ Time()}
+\NormalTok{time.hour }\OperatorTok{=} \DecValTok{11}
+\NormalTok{time.minute }\OperatorTok{=} \DecValTok{59}
+\NormalTok{time.second }\OperatorTok{=} \DecValTok{30}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Exercice}
+
+Écrivez une fonction appelée \texttt{print\_time} qui prend un objet
+\texttt{Time} et l\textquotesingle affiche sous la forme
+heure:minute:seconde. \emph{Indice :} la séquence de format
+\texttt{\textquotesingle{}\%.2d\textquotesingle{}} affiche un entier en
+utilisant au moins deux chiffres, incluant un zéro non significatif si
+nécessaire.
+
+\textbf{Exercice}
+
+Écrivez une fonction booléenne appelée \texttt{is\_after} qui prend deux
+objets \texttt{Time}, \texttt{t1} et \texttt{t2}, et renvoie
+\texttt{True} si \texttt{t1} suit \texttt{t2} chronologiquement, et
+\texttt{False} sinon. Défi : n\textquotesingle utilisez pas
+d\textquotesingle instruction \texttt{if}.
+
+\hypertarget{fonctions-pures}{%
+\subsection{Fonctions pures}\label{fonctions-pures}}
+
+Dans les sections suivantes, nous allons écrire deux fonctions qui
+additionnent des valeurs temporelles. Elles démontrent deux types de
+fonctions : les fonctions pures et les modificateurs. Elles illustrent
+également un plan de développement que j\textquotesingle appellerai «
+prototype et correctif » (\emph{prototype and patch}), qui consiste à
+aborder un problème complexe en commençant par un prototype simple et en
+traitant les complications de manière incrémentielle.
+
+Voici un prototype simple de \texttt{add\_time} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ add\_time(t1, t2):}
+    \BuiltInTok{sum} \OperatorTok{=}\NormalTok{ Time()}
+    \BuiltInTok{sum}\NormalTok{.hour }\OperatorTok{=}\NormalTok{ t1.hour }\OperatorTok{+}\NormalTok{ t2.hour}
+    \BuiltInTok{sum}\NormalTok{.minute }\OperatorTok{=}\NormalTok{ t1.minute }\OperatorTok{+}\NormalTok{ t2.minute}
+    \BuiltInTok{sum}\NormalTok{.second }\OperatorTok{=}\NormalTok{ t1.second }\OperatorTok{+}\NormalTok{ t2.second}
+    \ControlFlowTok{return} \BuiltInTok{sum}
+\end{Highlighting}
+\end{Shaded}
+
+La fonction crée un nouvel objet \texttt{Time}, initialise ses attributs
+et renvoie une référence vers ce nouvel objet. C\textquotesingle est ce
+qu\textquotesingle on appelle une \textbf{fonction pure} car elle ne
+modifie aucun des objets qui lui sont passés en arguments et
+n\textquotesingle a aucun effet (comme afficher une valeur ou obtenir
+une entrée de l\textquotesingle utilisateur) autre que de renvoyer une
+valeur.
+
+Pour tester cette fonction, je vais créer deux objets \texttt{Time} :
+\texttt{start} contient l\textquotesingle heure de début
+d\textquotesingle un film, et \texttt{duration} contient la durée du
+film.
+
+Le résultat \texttt{10:80:00} n\textquotesingle est peut-être pas celui
+que vous espériez. Le problème est que cette fonction ne gère pas les
+cas où le nombre de secondes ou de minutes dépasse soixante.
+
+Voici une version améliorée :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ add\_time(t1, t2):}
+    \BuiltInTok{sum} \OperatorTok{=}\NormalTok{ Time()}
+    \BuiltInTok{sum}\NormalTok{.hour }\OperatorTok{=}\NormalTok{ t1.hour }\OperatorTok{+}\NormalTok{ t2.hour}
+    \BuiltInTok{sum}\NormalTok{.minute }\OperatorTok{=}\NormalTok{ t1.minute }\OperatorTok{+}\NormalTok{ t2.minute}
+    \BuiltInTok{sum}\NormalTok{.second }\OperatorTok{=}\NormalTok{ t1.second }\OperatorTok{+}\NormalTok{ t2.second}
+
+    \ControlFlowTok{if} \BuiltInTok{sum}\NormalTok{.second }\OperatorTok{\textgreater{}=} \DecValTok{60}\NormalTok{:}
+        \BuiltInTok{sum}\NormalTok{.second }\OperatorTok{{-}=} \DecValTok{60}
+        \BuiltInTok{sum}\NormalTok{.minute }\OperatorTok{+=} \DecValTok{1}
+
+    \ControlFlowTok{if} \BuiltInTok{sum}\NormalTok{.minute }\OperatorTok{\textgreater{}=} \DecValTok{60}\NormalTok{:}
+        \BuiltInTok{sum}\NormalTok{.minute }\OperatorTok{{-}=} \DecValTok{60}
+        \BuiltInTok{sum}\NormalTok{.hour }\OperatorTok{+=} \DecValTok{1}
+
+    \ControlFlowTok{return} \BuiltInTok{sum}
+\end{Highlighting}
+\end{Shaded}
+
+Bien que cette fonction soit correcte, elle commence à devenir
+volumineuse.
+
+\hypertarget{modificateurs}{%
+\subsection{Modificateurs}\label{modificateurs}}
+
+Il est parfois utile qu\textquotesingle une fonction modifie les objets
+qu\textquotesingle elle reçoit en paramètres. Dans ce cas, les
+modifications sont visibles pour l\textquotesingle appelant. Les
+fonctions qui fonctionnent de cette manière sont appelées des
+\textbf{modificateurs}.
+
+\texttt{increment}, qui ajoute un nombre donné de secondes à un objet
+\texttt{Time}, peut s\textquotesingle écrire naturellement comme un
+modificateur :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ increment(time, seconds):}
+\NormalTok{    time.second }\OperatorTok{+=}\NormalTok{ seconds}
+
+    \ControlFlowTok{if}\NormalTok{ time.second }\OperatorTok{\textgreater{}=} \DecValTok{60}\NormalTok{:}
+\NormalTok{        time.second }\OperatorTok{{-}=} \DecValTok{60}
+\NormalTok{        time.minute }\OperatorTok{+=} \DecValTok{1}
+
+    \ControlFlowTok{if}\NormalTok{ time.minute }\OperatorTok{\textgreater{}=} \DecValTok{60}\NormalTok{:}
+\NormalTok{        time.minute }\OperatorTok{{-}=} \DecValTok{60}
+\NormalTok{        time.hour }\OperatorTok{+=} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Que se passe-t-il si le paramètre \texttt{seconds} est bien supérieur à
+soixante ? Dans ce cas, il ne suffit pas de reporter la retenue une
+seule fois. Une solution consiste à remplacer les instructions
+\texttt{if} par des boucles \texttt{while}, mais cela rendrait la
+fonction inefficace.
+
+\textbf{Exercice}
+
+Écrivez une version correcte de \texttt{increment} qui ne contient
+aucune boucle.
+
+En général, je vous recommande d\textquotesingle écrire des fonctions
+pures chaque fois que c\textquotesingle est raisonnable et de recourir
+aux modificateurs uniquement s\textquotesingle il y a un avantage
+incontestable. Cette approche peut être qualifiée de \textbf{style de
+programmation fonctionnelle}.
+
+\textbf{Exercice}
+
+Écrivez une version « pure » de \texttt{increment} qui crée et renvoie
+un nouvel objet \texttt{Time} plutôt de modifier le paramètre.
+
+\hypertarget{prototypage-versus-planification}{%
+\subsection{Prototypage versus
+planification}\label{prototypage-versus-planification}}
+
+Le plan de développement présenté est le « prototype et correctif ». Une
+alternative est le \textbf{développement planifié}, où une compréhension
+globale du problème peut grandement faciliter la programmation.
+
+L\textquotesingle observation clé est qu\textquotesingle un objet
+\texttt{Time} est en réalité un nombre à trois chiffres en base 60.
+L\textquotesingle attribut \texttt{second} est la colonne des « unités
+», l\textquotesingle attribut \texttt{minute} est la colonne des «
+soixantaines », et l\textquotesingle attribut \texttt{hour} est la
+colonne des « trente-six centaines ».
+
+Cela suggère une autre approche : nous pouvons convertir les objets
+\texttt{Time} en entiers, effectuer l\textquotesingle arithmétique, puis
+reconvertir.
+
+Voici la fonction qui convertit les objets \texttt{Time} en entiers :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ time\_to\_int(time):}
+\NormalTok{    minutes }\OperatorTok{=}\NormalTok{ time.hour }\OperatorTok{*} \DecValTok{60} \OperatorTok{+}\NormalTok{ time.minute}
+\NormalTok{    seconds }\OperatorTok{=}\NormalTok{ minutes }\OperatorTok{*} \DecValTok{60} \OperatorTok{+}\NormalTok{ time.second}
+    \ControlFlowTok{return}\NormalTok{ seconds}
+\end{Highlighting}
+\end{Shaded}
+
+Et voici la fonction qui convertit les entiers en objets \texttt{Time} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ int\_to\_time(seconds):}
+\NormalTok{    time }\OperatorTok{=}\NormalTok{ Time()}
+\NormalTok{    minutes, time.second }\OperatorTok{=} \BuiltInTok{divmod}\NormalTok{(seconds, }\DecValTok{60}\NormalTok{)}
+\NormalTok{    time.hour, time.minute }\OperatorTok{=} \BuiltInTok{divmod}\NormalTok{(minutes, }\DecValTok{60}\NormalTok{)}
+    \ControlFlowTok{return}\NormalTok{ time}
+\end{Highlighting}
+\end{Shaded}
+
+Une fois convaincu de leur exactitude, vous pouvez les utiliser pour
+réécrire \texttt{add\_time} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ add\_time(t1, t2):}
+\NormalTok{    seconds }\OperatorTok{=}\NormalTok{ time\_to\_int(t1) }\OperatorTok{+}\NormalTok{ time\_to\_int(t2)}
+    \ControlFlowTok{return}\NormalTok{ int\_to\_time(seconds)}
+\end{Highlighting}
+\end{Shaded}
+
+Cette version est plus courte que l\textquotesingle originale et plus
+facile à vérifier.
+
+\textbf{Exercice}
+
+Réécrivez \texttt{increment} en utilisant \texttt{time\_to\_int} et
+\texttt{int\_to\_time}.
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+Un objet \texttt{Time} est bien formé si les valeurs de \texttt{minute}
+et \texttt{second} sont comprises entre 0 et 60 (inclus mais excluant
+60) et si \texttt{hour} est positif. De telles conditions sont appelées
+des \textbf{invariants} car elles doivent toujours être vraies.
+
+Écrire du code pour vérifier vos invariants peut vous aider à détecter
+les erreurs :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ valid\_time(time):}
+    \ControlFlowTok{if}\NormalTok{ time.hour }\OperatorTok{\textless{}} \DecValTok{0} \KeywordTok{or}\NormalTok{ time.minute }\OperatorTok{\textless{}} \DecValTok{0} \KeywordTok{or}\NormalTok{ time.second }\OperatorTok{\textless{}} \DecValTok{0}\NormalTok{:}
+        \ControlFlowTok{return} \VariableTok{False}
+    \ControlFlowTok{if}\NormalTok{ time.minute }\OperatorTok{\textgreater{}=} \DecValTok{60} \KeywordTok{or}\NormalTok{ time.second }\OperatorTok{\textgreater{}=} \DecValTok{60}\NormalTok{:}
+        \ControlFlowTok{return} \VariableTok{False}
+    \ControlFlowTok{return} \VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez utiliser une instruction \texttt{assert} pour vérifier un
+invariant et lever une exception en cas d\textquotesingle échec :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ add\_time(t1, t2):}
+    \ControlFlowTok{assert}\NormalTok{ valid\_time(t1) }\KeywordTok{and}\NormalTok{ valid\_time(t2)}
+\NormalTok{    seconds }\OperatorTok{=}\NormalTok{ time\_to\_int(t1) }\OperatorTok{+}\NormalTok{ time\_to\_int(t2)}
+    \ControlFlowTok{return}\NormalTok{ int\_to\_time(seconds)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+prototype et correctif prototype and patch Un plan de développement qui
+consiste à écrire un premier brouillon d\textquotesingle un programme, à
+le tester et à corriger les erreurs au fur et à mesure
+qu\textquotesingle elles sont découvertes.
+
+développement planifié planned development Un plan de développement qui
+implique une vision globale du problème et davantage de planification
+qu\textquotesingle un développement incrémentiel.
+
+fonction pure pure function Une fonction qui ne modifie aucun des objets
+qu\textquotesingle elle reçoit en arguments.
+
+modificateur modifier Une fonction qui change un ou plusieurs des objets
+qu\textquotesingle elle reçoit en arguments.
+
+style de programmation fonctionnelle functional programming style Un
+style de conception de programme dans lequel la majorité des fonctions
+sont pures.
+
+invariant invariant Une condition qui doit toujours être vraie pendant
+l\textquotesingle exécution d\textquotesingle un programme.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice}
+
+Écrivez une fonction appelée \texttt{mul\_time} qui prend un objet
+\texttt{Time} et un nombre, et renvoie un nouvel objet \texttt{Time}
+contenant le produit du temps initial et du nombre. Utilisez ensuite
+\texttt{mul\_time} pour écrire une fonction qui prend le temps
+d\textquotesingle arrivée d\textquotesingle une course et la distance,
+et renvoie le rythme moyen (temps par mile).
+
+\textbf{Exercice}
+
+Le module \texttt{datetime} fournit des objets de date et
+d\textquotesingle heure similaires aux objets de ce chapitre. Lisez la
+documentation sur \url{http://docs.python.org/2/library/datetime.html}
+et utilisez ce module pour écrire un programme qui obtient la date
+courante et affiche le jour de la semaine, un programme calculant
+l\textquotesingle âge et le temps restant avant le prochain
+anniversaire, ainsi qu\textquotesingle un programme calculant le «
+Double Jour » où une personne a deux fois l\textquotesingle âge
+d\textquotesingle une autre.

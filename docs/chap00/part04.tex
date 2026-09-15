@@ -1,0 +1,484 @@
+\hypertarget{conditionnelles-et-ruxe9cursivituxe9}{%
+\section{Conditionnelles et
+récursivité}\label{conditionnelles-et-ruxe9cursivituxe9}}
+
+\hypertarget{division-entiuxe8re-et-modulo}{%
+\subsection{Division entière et
+modulo}\label{division-entiuxe8re-et-modulo}}
+
+L\textquotesingle opérateur de division entière (\emph{floor division}),
+\texttt{//}, divise deux nombres et arrondit le résultat à
+l\textquotesingle entier inférieur. Par exemple, supposons que le temps
+d\textquotesingle exécution d\textquotesingle un programme soit de 105
+minutes. Vous pourriez vouloir savoir combien d\textquotesingle heures
+et de minutes cela représente. La division entière renvoie le nombre
+entier d\textquotesingle heures, en ignorant le reste :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ minutes }\OperatorTok{=} \DecValTok{105}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ minutes }\OperatorTok{//} \DecValTok{60}
+\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Pour obtenir le reste, vous pouvez soustraire une heure, ou utiliser
+l\textquotesingle opérateur modulo, \texttt{\%}, qui divise deux nombres
+et renvoie le reste :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ reste }\OperatorTok{=}\NormalTok{ minutes }\OperatorTok{\%} \DecValTok{60}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ reste}
+\DecValTok{45}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur modulo est très utile. Par exemple, vous
+pouvez vérifier si un nombre est divisible par un autre : si
+\texttt{x\ \%\ y} donne zéro, alors \texttt{x} est divisible par
+\texttt{y}.
+
+Vous pouvez également extraire le chiffre le plus à droite
+d\textquotesingle un nombre. Par exemple, \texttt{x\ \%\ 10} renvoie le
+chiffre des unités de \texttt{x} (en base 10).
+
+\hypertarget{expressions-booluxe9ennes}{%
+\subsection{Expressions booléennes}\label{expressions-booluxe9ennes}}
+
+Une expression booléenne est une expression qui est soit vraie
+(\texttt{True}), soit fausse (\texttt{False}). Les valeurs suivantes
+sont de type \texttt{bool} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(}\VariableTok{True}\NormalTok{)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}bool\textquotesingle{}}\OperatorTok{\textgreater{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(}\VariableTok{False}\NormalTok{)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}bool\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{==} compare deux opérandes et
+produit \texttt{True} s\textquotesingle ils sont égaux, et
+\texttt{False} sinon. Les autres opérateurs de comparaison relationnelle
+sont :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OperatorTok{!=}\NormalTok{ y               }\CommentTok{\# x n\textquotesingle{}est pas égal à y}
+\NormalTok{x }\OperatorTok{\textgreater{}}\NormalTok{ y                }\CommentTok{\# x est strictement supérieur à y}
+\NormalTok{x }\OperatorTok{\textless{}}\NormalTok{ y                }\CommentTok{\# x est strictement inférieur à y}
+\NormalTok{x }\OperatorTok{\textgreater{}=}\NormalTok{ y               }\CommentTok{\# x est supérieur ou égal à y}
+\NormalTok{x }\OperatorTok{\textless{}=}\NormalTok{ y               }\CommentTok{\# x est inférieur ou égal à y}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{opuxe9rateurs-logiques}{%
+\subsection{Opérateurs logiques}\label{opuxe9rateurs-logiques}}
+
+Il existe trois opérateurs logiques : \texttt{and}, \texttt{or} et
+\texttt{not}. Leur signification s\textquotesingle apparente à leur sens
+en anglais. Par exemple,
+\texttt{x\ \textgreater{}\ 0\ and\ x\ \textless{}\ 10} est vrai
+uniquement si \texttt{x} est strictement supérieur à 0 \emph{et}
+strictement inférieur à 10.
+
+L\textquotesingle expression
+\texttt{n\ \%\ 2\ ==\ 0\ or\ n\ \%\ 3\ ==\ 0} est vraie si
+\emph{l\textquotesingle une} des conditions est vraie,
+c\textquotesingle est-à-dire si le nombre est divisible par 2 \emph{ou}
+par 3.
+
+Enfin, l\textquotesingle opérateur \texttt{not} inverse
+l\textquotesingle expression booléenne. Ainsi,
+\texttt{not\ (x\ \textgreater{}\ y)} est vrai si
+\texttt{x\ \textgreater{}\ y} est faux (donc si \texttt{x} est inférieur
+ou égal à \texttt{y}).
+
+\hypertarget{exuxe9cution-conditionnelle}{%
+\subsection{Exécution
+conditionnelle}\label{exuxe9cution-conditionnelle}}
+
+Pour écrire des programmes utiles, nous avons presque toujours besoin de
+vérifier des conditions et de modifier le comportement du programme en
+conséquence. Les instructions conditionnelles (\emph{conditional
+statements}) nous en donnent la capacité. La forme la plus simple est
+l\textquotesingle instruction \texttt{if} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est positif\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle expression booléenne après le \texttt{if} est appelée
+la condition. Si elle est vraie, l\textquotesingle instruction indentée
+s\textquotesingle exécute. Si elle est fausse, rien ne se passe.
+
+Les instructions \texttt{if} ont la même structure que les définitions
+de fonctions : un en-tête suivi d\textquotesingle un corps indenté. Il
+n\textquotesingle y a pas de limite au nombre
+d\textquotesingle instructions pouvant apparaître dans le corps, mais il
+doit y en avoir au moins une. Parfois, il est utile
+d\textquotesingle avoir un corps sans instruction (comme espace réservé
+pour du code que vous n\textquotesingle avez pas encore écrit). Dans ce
+cas, vous pouvez utiliser l\textquotesingle instruction \texttt{pass},
+qui ne fait rien :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\textless{}} \DecValTok{0}\NormalTok{:}
+    \ControlFlowTok{pass}  \CommentTok{\# }\AlertTok{TODO}\CommentTok{: gérer les valeurs négatives}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exuxe9cution-alternative}{%
+\subsection{Exécution alternative}\label{exuxe9cution-alternative}}
+
+Une deuxième forme de l\textquotesingle instruction \texttt{if} est
+l\textquotesingle exécution alternative, dans laquelle il y a deux
+possibilités et la condition détermine laquelle
+s\textquotesingle exécute. La syntaxe ressemble à ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\%} \DecValTok{2} \OperatorTok{==} \DecValTok{0}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est pair\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est impair\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Si le reste de la division de \texttt{x} par 2 est 0, alors nous savons
+que \texttt{x} est pair. Si la condition est fausse, la deuxième série
+d\textquotesingle instructions s\textquotesingle exécute. Étant donné
+que la condition doit être soit vraie soit fausse, exactement
+l\textquotesingle une des alternatives s\textquotesingle exécutera. Ces
+alternatives sont appelées des branches (\emph{branches}).
+
+\hypertarget{conditionnelles-enchauxeenuxe9es}{%
+\subsection{Conditionnelles
+enchaînées}\label{conditionnelles-enchauxeenuxe9es}}
+
+Parfois, il y a plus de deux possibilités et nous avons besoin de plus
+de deux branches. Une façon d\textquotesingle exprimer un tel calcul est
+d\textquotesingle utiliser une conditionnelle enchaînée (\emph{chained
+conditional}) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\textless{}}\NormalTok{ y:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est inférieur à y\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{elif}\NormalTok{ x }\OperatorTok{\textgreater{}}\NormalTok{ y:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est supérieur à y\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x et y sont égaux\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{elif} est une abréviation de « else if ». Là encore, une seule
+branche sera exécutée. Il n\textquotesingle y a pas de limite au nombre
+d\textquotesingle instructions \texttt{elif}. S\textquotesingle il y a
+une clause \texttt{else}, elle doit figurer à la fin, mais elle
+n\textquotesingle est pas obligatoire.
+
+Chaque condition est vérifiée dans l\textquotesingle ordre. Si la
+première est fausse, la suivante est vérifiée, et ainsi de suite. Si
+l\textquotesingle une d\textquotesingle elles est vraie, la branche
+correspondante s\textquotesingle exécute et
+l\textquotesingle instruction se termine. Même si plusieurs conditions
+sont vraies, seule la première branche vraie s\textquotesingle exécute.
+
+\hypertarget{conditionnelles-imbriquuxe9es}{%
+\subsection{Conditionnelles
+imbriquées}\label{conditionnelles-imbriquuxe9es}}
+
+Une conditionnelle peut également être imbriquée dans une autre. Nous
+aurions pu écrire l\textquotesingle exemple précédent de cette façon :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ x }\OperatorTok{==}\NormalTok{ y:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x et y sont égaux\textquotesingle{}}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\textless{}}\NormalTok{ y:}
+        \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est inférieur à y\textquotesingle{}}\NormalTok{)}
+    \ControlFlowTok{else}\NormalTok{:}
+        \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est supérieur à y\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+La conditionnelle externe contient deux branches. La première contient
+une instruction simple. La deuxième branche contient une autre
+instruction \texttt{if}, qui possède à son tour deux branches. Ces deux
+branches sont de simples instructions, bien qu\textquotesingle elles
+auraient pu être des instructions conditionnelles elles aussi.
+
+Bien que l\textquotesingle indentation rende la structure évidente, les
+conditionnelles imbriquées deviennent rapidement difficiles à lire. Il
+est conseillé de les éviter quand vous le pouvez.
+
+Les opérateurs logiques fournissent souvent un moyen de simplifier les
+instructions conditionnelles imbriquées. Par exemple, nous pouvons
+réécrire le code suivant en utilisant une seule condition :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if} \DecValTok{0} \OperatorTok{\textless{}}\NormalTok{ x:}
+    \ControlFlowTok{if}\NormalTok{ x }\OperatorTok{\textless{}} \DecValTok{10}\NormalTok{:}
+        \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est un nombre positif à un chiffre.\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle instruction \texttt{print} s\textquotesingle exécute
+uniquement si nous passons les deux tests, nous pouvons donc obtenir le
+même effet avec l\textquotesingle opérateur \texttt{and} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if} \DecValTok{0} \OperatorTok{\textless{}}\NormalTok{ x }\KeywordTok{and}\NormalTok{ x }\OperatorTok{\textless{}} \DecValTok{10}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x est un nombre positif à un chiffre.\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ruxe9cursivituxe9}{%
+\subsection{Récursivité}\label{ruxe9cursivituxe9}}
+
+Il est légal pour une fonction d\textquotesingle appeler une autre
+fonction ; il est également légal pour une fonction de
+s\textquotesingle appeler elle-même. L\textquotesingle exemple suivant
+illustre ce concept, appelé récursivité (\emph{recursion}) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ compte\_a\_rebours(n):}
+    \ControlFlowTok{if}\NormalTok{ n }\OperatorTok{\textless{}=} \DecValTok{0}\NormalTok{:}
+        \BuiltInTok{print}\NormalTok{(}\StringTok{\textquotesingle{}Décollage !\textquotesingle{}}\NormalTok{)}
+    \ControlFlowTok{else}\NormalTok{:}
+        \BuiltInTok{print}\NormalTok{(n)}
+\NormalTok{        compte\_a\_rebours(n }\OperatorTok{{-}} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Si \texttt{n} est inférieur ou égal à 0, la fonction affiche le mot «
+Décollage ! ». Sinon, elle affiche \texttt{n}, puis appelle une fonction
+nommée \texttt{compte\_a\_rebours} (elle-même), en lui passant
+\texttt{n\ -\ 1} comme argument.
+
+Une fonction qui s\textquotesingle appelle elle-même est dite récursive
+; le processus d\textquotesingle exécution de cette fonction
+s\textquotesingle appelle la récursivité.
+
+\hypertarget{diagrammes-de-pile-pour-les-fonctions-ruxe9cursives}{%
+\subsection{Diagrammes de pile pour les fonctions
+récursives}\label{diagrammes-de-pile-pour-les-fonctions-ruxe9cursives}}
+
+Au chapitre précédent, nous avons utilisé un diagramme de pile pour
+représenter l\textquotesingle état d\textquotesingle un programme
+pendant un appel de fonction. Le même type de diagramme peut aider à
+interpréter une fonction récursive.
+
+À chaque fois qu\textquotesingle une fonction est appelée, Python crée
+un nouveau contexte local (un cadre ou \emph{frame}), qui contient les
+variables et paramètres locaux de la fonction. Pour une fonction
+récursive, il peut y avoir plusieurs cadres simultanément sur la pile,
+chacun correspondant à un appel différent de la fonction, avec sa propre
+valeur de \texttt{n}.
+
+\hypertarget{ruxe9cursivituxe9-infinie}{%
+\subsection{Récursivité infinie}\label{ruxe9cursivituxe9-infinie}}
+
+Si une récursivité n\textquotesingle atteint jamais de cas de base, elle
+s\textquotesingle exécute pour toujours, et le programme ne se termine
+jamais. C\textquotesingle est ce qu\textquotesingle on appelle une
+récursivité infinie (\emph{infinite recursion}).
+
+Dans la plupart des environnements de programmation, un programme avec
+une récursivité infinie ne s\textquotesingle exécute pas réellement pour
+toujours. Python signale un message d\textquotesingle erreur lorsque la
+profondeur de récursivité maximale est atteinte (généralement une
+\texttt{RecursionError}).
+
+\hypertarget{saisie-au-clavier}{%
+\subsection{Saisie au clavier}\label{saisie-au-clavier}}
+
+Les programmes que nous avons écrits jusqu\textquotesingle à présent
+n\textquotesingle acceptent aucune saisie de
+l\textquotesingle utilisateur. Ils effectuent le même calcul à chaque
+fois. Python fournit une fonction intégrée appelée \texttt{input} qui
+met l\textquotesingle exécution du programme en pause et attend que
+l\textquotesingle utilisateur tape quelque chose.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ texte }\OperatorTok{=} \BuiltInTok{input}\NormalTok{()}
+\NormalTok{Quelque chose}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(texte)}
+\NormalTok{Quelque chose}
+\end{Highlighting}
+\end{Shaded}
+
+Avant d\textquotesingle obtenir une saisie, il est judicieux
+d\textquotesingle afficher une invite indiquant à
+l\textquotesingle utilisateur ce qu\textquotesingle il doit entrer. Vous
+pouvez passer une chaîne de caractères à \texttt{input} pour
+qu\textquotesingle elle s\textquotesingle affiche avant la mise en pause
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nom }\OperatorTok{=} \BuiltInTok{input}\NormalTok{(}\StringTok{\textquotesingle{}Quel est votre nom ?}\CharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+\NormalTok{Quel est votre nom ?}
+\NormalTok{Arthur}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{(nom)}
+\NormalTok{Arthur}
+\end{Highlighting}
+\end{Shaded}
+
+La séquence \texttt{\textbackslash{}n} à la fin de la chaîne représente
+une nouvelle ligne, ce qui place l\textquotesingle entrée de
+l\textquotesingle utilisateur sur la ligne en dessous de
+l\textquotesingle invite.
+
+Si vous attendez un entier, vous pouvez essayer de convertir la valeur
+de retour avec \texttt{int()} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ invite }\OperatorTok{=} \StringTok{\textquotesingle{}Quelle est la vitesse de vol d}\CharTok{\textbackslash{}\textquotesingle{}}\StringTok{une hirondelle à vide ?}\CharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ vitesse }\OperatorTok{=} \BuiltInTok{input}\NormalTok{(invite)}
+\NormalTok{Quelle est la vitesse de vol d}\StringTok{\textquotesingle{}une hirondelle à vide ?}
+\ErrorTok{42}
+\ErrorTok{\textgreater{}\textgreater{}\textgreater{} int}\NormalTok{(vitesse)}
+\DecValTok{42}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+Les messages d\textquotesingle erreur et les traces
+d\textquotesingle exécution (\emph{tracebacks}) de Python indiquent où
+s\textquotesingle est produite l\textquotesingle erreur, mais ne disent
+généralement pas pourquoi. Si une fonction s\textquotesingle appelle
+elle-même trop souvent, la trace peut devenir extrêmement longue et
+difficile à lire.
+
+Lorsque vous écrivez des conditions complexes, assurez-vous de bien
+tester les différents chemins d\textquotesingle exécution (les cas
+extrêmes, les nombres négatifs, les zéros). Ajouter des instructions
+\texttt{print} temporaires peut grandement faciliter la compréhension du
+chemin réellement emprunté par votre programme.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+opérateur modulo modulus operator Un opérateur, noté avec un signe de
+pourcentage (\texttt{\%}), qui opère sur des entiers et donne le reste
+lorsqu\textquotesingle un nombre est divisé par un autre.
+
+expression booléenne boolean expression Une expression dont la valeur
+est soit \texttt{True}, soit \texttt{False}.
+
+opérateur relationnel relational operator L\textquotesingle un des
+opérateurs qui compare ses opérandes : \texttt{==}, \texttt{!=},
+\texttt{\textgreater{}}, \texttt{\textless{}}, \texttt{\textgreater{}=}
+et \texttt{\textless{}=}.
+
+opérateur logique logical operator L\textquotesingle un des opérateurs
+qui combine des expressions booléennes : \texttt{and}, \texttt{or} et
+\texttt{not}.
+
+instruction conditionnelle conditional statement Une instruction qui
+contrôle le flux d\textquotesingle exécution en fonction
+d\textquotesingle une condition.
+
+\begin{description}
+\item[condition]
+L\textquotesingle expression booléenne dans une instruction
+conditionnelle qui détermine quelle branche s\textquotesingle exécute.
+\end{description}
+
+branche branch L\textquotesingle une des séquences alternatives
+d\textquotesingle instructions dans une conditionnelle.
+
+conditionnelle enchaînée chained conditional Une instruction
+conditionnelle comportant une série d\textquotesingle alternatives
+(\texttt{elif}).
+
+conditionnelle imbriquée nested conditional Une instruction
+conditionnelle qui apparaît dans l\textquotesingle une des branches
+d\textquotesingle une autre instruction conditionnelle.
+
+récursivité recursion Le processus d\textquotesingle appel de la
+fonction qui est elle-même en cours d\textquotesingle exécution.
+
+cas de base base case Une branche conditionnelle dans une fonction
+récursive qui n\textquotesingle effectue pas d\textquotesingle appel
+récursif.
+
+récursivité infinie infinite recursion Une récursivité qui
+n\textquotesingle a pas de cas de base, ou ne l\textquotesingle atteint
+jamais. Finit par provoquer une erreur d\textquotesingle exécution.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Le dernier théorème de Fermat stipule qu\textquotesingle il
+n\textquotesingle existe aucun entier strictement positif \emph{a},
+\emph{b} et \emph{c} tel que :
+
+\emph{a}\textsuperscript{n} + \emph{b}\textsuperscript{n} =
+\emph{c}\textsuperscript{n}
+
+pour toutes valeurs de \emph{n} strictement supérieures à 2.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Écrivez une fonction nommée \texttt{verifier\_fermat} qui prend quatre
+  paramètres \texttt{a}, \texttt{b}, \texttt{c} et \texttt{n}, et qui
+  vérifie si le théorème de Fermat est vrai. Si \emph{n} est plus grand
+  que 2 et que l\textquotesingle équation est vraie, le programme doit
+  afficher « Bon sang, Fermat avait tort ! ». Sinon, le programme doit
+  afficher « Non, cela ne fonctionne pas. »
+\item
+  Écrivez une fonction qui invite l\textquotesingle utilisateur à saisir
+  des valeurs pour \texttt{a}, \texttt{b}, \texttt{c} et \texttt{n}, les
+  convertit en entiers, et utilise \texttt{verifier\_fermat} pour
+  vérifier si elles violent le théorème de Fermat.
+\end{enumerate}
+
+\textbf{Exercice 2}
+
+Si l\textquotesingle on vous donne trois bâtons, vous pouvez ou non être
+en mesure de les disposer en triangle. Par exemple, si
+l\textquotesingle un des bâtons a une longueur de 12 pouces et que les
+deux autres font 1 pouce chacun, vous ne pourrez pas faire se rencontrer
+les petits bâtons au milieu. Pour tout ensemble de trois longueurs, il
+existe un test simple pour vérifier s\textquotesingle il est possible de
+former un triangle :
+
+\emph{Si l\textquotesingle une des trois longueurs est supérieure à la
+somme des deux autres, alors vous ne pouvez pas former de triangle.
+Sinon, vous le pouvez.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Écrivez une fonction nommée \texttt{est\_un\_triangle} qui prend trois
+  entiers comme arguments, et qui affiche « Oui » ou « Non », selon que
+  vous pouvez ou non former un triangle à partir de bâtons possédant les
+  longueurs données.
+\item
+  Écrivez une fonction qui invite l\textquotesingle utilisateur à saisir
+  trois longueurs de bâton, les convertit en entiers, et utilise
+  \texttt{est\_un\_triangle} pour vérifier si des bâtons de ces
+  longueurs peuvent former un triangle.
+\end{enumerate}

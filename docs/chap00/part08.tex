@@ -1,0 +1,295 @@
+\hypertarget{listes}{%
+\section{Listes}\label{listes}}
+
+\hypertarget{une-liste-est-une-suxe9quence}{%
+\subsection{Une liste est une
+séquence}\label{une-liste-est-une-suxe9quence}}
+
+Comme une chaîne de caractères, une \textbf{liste} est une séquence de
+valeurs. Dans une chaîne, les valeurs sont des caractères ; dans une
+liste, elles peuvent être de n\textquotesingle importe quel type. Les
+valeurs qui composent une liste sont appelées des \textbf{éléments}
+(\emph{items} ou \emph{elements}).
+
+Il y a plusieurs façons de créer une nouvelle liste ; la plus simple
+consiste à placer les éléments entre crochets (\texttt{{[}} et
+\texttt{{]}}) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devoirs }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}maths\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}programmation\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}physique\textquotesingle{}}\NormalTok{]}
+\NormalTok{nombres }\OperatorTok{=}\NormalTok{ [}\DecValTok{17}\NormalTok{, }\DecValTok{123}\NormalTok{]}
+\NormalTok{vide }\OperatorTok{=}\NormalTok{ []}
+\end{Highlighting}
+\end{Shaded}
+
+La première liste contient trois chaînes. La deuxième contient deux
+entiers. La liste vide ne contient aucun élément.
+
+Une liste à l\textquotesingle intérieur d\textquotesingle une autre
+liste est dite \textbf{imbriquée} (\emph{nested}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{elements }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}spam\textquotesingle{}}\NormalTok{, }\FloatTok{2.0}\NormalTok{, }\DecValTok{5}\NormalTok{, [}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{les-listes-sont-mutables}{%
+\subsection{Les listes sont mutables}\label{les-listes-sont-mutables}}
+
+La syntaxe pour accéder aux éléments d\textquotesingle une liste est la
+même que pour les chaînes de caractères : l\textquotesingle opérateur de
+crochet. L\textquotesingle indice indique quel élément vous voulez
+(rappelez-vous que les indices commencent à 0) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ devoirs[}\DecValTok{0}\NormalTok{]}
+\CommentTok{\textquotesingle{}maths\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Contrairement aux chaînes de caractères, les listes sont
+\textbf{mutables} (\emph{mutable}), car vous pouvez modifier
+l\textquotesingle ordre des éléments d\textquotesingle une liste ou
+réassigner un élément particulier. En utilisant
+l\textquotesingle opérateur de crochet du côté gauche
+d\textquotesingle une affectation, vous pouvez mettre à jour un élément
+:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nombres }\OperatorTok{=}\NormalTok{ [}\DecValTok{17}\NormalTok{, }\DecValTok{123}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nombres[}\DecValTok{1}\NormalTok{] }\OperatorTok{=} \DecValTok{5}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ nombres}
+\NormalTok{[}\DecValTok{17}\NormalTok{, }\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle élément de \texttt{nombres} qui se trouvait à
+l\textquotesingle indice 1, qui était \texttt{123}, est maintenant
+\texttt{5}.
+
+Vous pouvez également penser à une liste comme à une relation entre les
+indices et les éléments. Cette correspondance est appelée une
+\textbf{séquence} ; c\textquotesingle est pourquoi les listes sont des
+séquences.
+
+L\textquotesingle opérateur \texttt{in} fonctionne également avec les
+listes :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ devoirs }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}maths\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}programmation\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}physique\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}maths\textquotesingle{}} \KeywordTok{in}\NormalTok{ devoirs}
+\VariableTok{True}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \StringTok{\textquotesingle{}chimie\textquotesingle{}} \KeywordTok{in}\NormalTok{ devoirs}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{parcours-dune-liste}{%
+\subsection{Parcours d\textquotesingle une
+liste}\label{parcours-dune-liste}}
+
+La boucle \texttt{for} est un moyen élégant de parcourir les éléments
+d\textquotesingle une liste. La syntaxe est la même que pour les chaînes
+de caractères :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ devoir }\KeywordTok{in}\NormalTok{ devoirs:}
+\NormalTok{    mettre\_a\_jour(devoir)}
+\end{Highlighting}
+\end{Shaded}
+
+Cela fonctionne bien si vous avez seulement besoin de lire les éléments
+de la liste. Mais si vous voulez écrire ou mettre à jour les éléments,
+vous avez besoin des indices. Une façon courante de le faire est
+d\textquotesingle utiliser les fonctions intégrées \texttt{range} et
+\texttt{len} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\BuiltInTok{len}\NormalTok{(nombres)):}
+\NormalTok{    nombres[i] }\OperatorTok{=}\NormalTok{ nombres[i] }\OperatorTok{*} \DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Cette boucle parcourt la liste et met à jour chaque élément.
+\texttt{len} renvoie le nombre d\textquotesingle éléments de la liste.
+\texttt{range} renvoie une liste d\textquotesingle indices de 0 à
+\$n-1\$, où \$n\$ est la longueur de la liste. À chaque itération,
+\texttt{i} prend l\textquotesingle indice de l\textquotesingle élément
+suivant. L\textquotesingle instruction d\textquotesingle affectation
+dans le corps utilise \texttt{i} pour lire l\textquotesingle ancien
+élément et lui assigner le nouveau.
+
+Une boucle \texttt{for} sur une liste vide ne s\textquotesingle exécute
+jamais :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ x }\KeywordTok{in}\NormalTok{ []:}
+    \BuiltInTok{print}\NormalTok{ Ceci ne s}\StringTok{\textquotesingle{}exécute jamais.}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{opuxe9rations-sur-les-listes}{%
+\subsection{Opérations sur les
+listes}\label{opuxe9rations-sur-les-listes}}
+
+L\textquotesingle opérateur \texttt{+} concatène les listes :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ a }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ b }\OperatorTok{=}\NormalTok{ [}\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ c }\OperatorTok{=}\NormalTok{ a }\OperatorTok{+}\NormalTok{ b}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ c}
+\NormalTok{[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{*} répète une liste un nombre donné
+de fois :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ [}\DecValTok{0}\NormalTok{] }\OperatorTok{*} \DecValTok{4}
+\NormalTok{[}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{*} \DecValTok{3}
+\NormalTok{[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tranches-de-listes}{%
+\subsection{Tranches de listes}\label{tranches-de-listes}}
+
+L\textquotesingle opérateur de tranche (\emph{slice}) fonctionne
+également sur les listes :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{]}
+\NormalTok{[}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[:}\DecValTok{4}\NormalTok{]}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{3}\NormalTok{:]}
+\NormalTok{[}\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous omettez le premier indice, la tranche commence au début. Si vous
+omettez le second, elle va jusqu\textquotesingle à la fin. Si vous
+omettez les deux, la tranche est une copie de toute la liste :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[:]}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+Puisque les listes sont mutables, il est souvent utile de faire une
+copie avant de les modifier.
+
+Une tranche du côté gauche d\textquotesingle une affectation peut
+modifier plusieurs éléments à la fois :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{] }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{muxe9thodes-de-listes}{%
+\subsection{Méthodes de listes}\label{muxe9thodes-de-listes}}
+
+Python fournit des méthodes qui s\textquotesingle appliquent aux listes.
+Par exemple, \texttt{append} ajoute un nouvel élément à la fin
+d\textquotesingle une liste :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t.append(}\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{extend} prend une liste comme argument et ajoute tous ses
+éléments :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1 }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t2 }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1.extend(t2)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{sort} trie les éléments de la liste par ordre croissant :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t.sort()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+La plupart des méthodes de listes modifient l\textquotesingle argument
+et retournent \texttt{None} ; elles sont conçues pour modifier des
+listes en place et non pour créer de nouvelles listes.
+
+\hypertarget{suppression-duxe9luxe9ments}{%
+\subsection{Suppression
+d\textquotesingle éléments}\label{suppression-duxe9luxe9ments}}
+
+Il existe plusieurs façons de supprimer des éléments
+d\textquotesingle une liste. Si vous connaissez l\textquotesingle indice
+de l\textquotesingle élément que vous voulez supprimer, vous pouvez
+utiliser \texttt{pop} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=}\NormalTok{ t.pop(}\DecValTok{1}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{[}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x}
+\CommentTok{\textquotesingle{}b\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{pop\textasciigrave{}\ modifie\ la\ liste\ et\ renvoie\ l\textquotesingle{}élément\ qui\ a\ été\ supprimé.\ Si\ vous\ ne\ fournissez\ pas\ d\textquotesingle{}indice,\ il\ supprime\ et\ renvoie\ le\ dernier\ élément.\ \ Si\ vous\ ne\ connaissez\ pas\ l\textquotesingle{}indice\ mais\ que\ vous\ connaissez\ l\textquotesingle{}élément\ à\ supprimer,\ vous\ pouvez\ utiliser}remove\texttt{:\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ =\ {[}\textquotesingle{}a\textquotesingle{},\ \textquotesingle{}b\textquotesingle{},\ \textquotesingle{}c\textquotesingle{}{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t.remove(\textquotesingle{}b\textquotesingle{})\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ \ \ \ \ {[}\textquotesingle{}a\textquotesingle{},\ \textquotesingle{}c\textquotesingle{}{]}\ \ La\ valeur\ de\ retour\ de}remove\texttt{est}None\texttt{.\ \ Pour\ supprimer\ plus\ d\textquotesingle{}un\ élément,\ vous\ pouvez\ utiliser\ une\ tranche\ avec\ une\ liste\ vide\ :\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ =\ {[}\textquotesingle{}a\textquotesingle{},\ \textquotesingle{}b\textquotesingle{},\ \textquotesingle{}c\textquotesingle{},\ \textquotesingle{}d\textquotesingle{},\ \textquotesingle{}e\textquotesingle{},\ \textquotesingle{}f\textquotesingle{}{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t{[}1:3{]}\ =\ {[}{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ \ \ \ \ {[}\textquotesingle{}a\textquotesingle{},\ \textquotesingle{}d\textquotesingle{},\ \textquotesingle{}e\textquotesingle{},\ \textquotesingle{}f\textquotesingle{}{]}\ \ Listes\ et\ chaînes\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\ \ Une\ chaîne\ de\ caractères\ est\ une\ séquence\ de\ caractères\ et\ une\ liste\ est\ une\ séquence\ de\ valeurs,\ mais\ une\ liste\ de\ caractères\ n\textquotesingle{}est\ pas\ la\ même\ chose\ qu\textquotesingle{}une\ chaîne.\ Pour\ convertir\ une\ chaîne\ en\ une\ liste\ de\ caractères,\ vous\ pouvez\ utiliser}list\texttt{:\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ s\ =\ "spam"\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ =\ list(s)\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ \ \ \ \ {[}\textquotesingle{}s\textquotesingle{},\ \textquotesingle{}p\textquotesingle{},\ \textquotesingle{}a\textquotesingle{},\ \textquotesingle{}m\textquotesingle{}{]}\ \ La\ fonction}list\texttt{sépare\ une\ chaîne\ en\ lettres\ individuelles.\ Si\ vous\ voulez\ diviser\ une\ chaîne\ en\ mots,\ vous\ pouvez\ utiliser\ la\ méthode}split\texttt{:\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ s\ =\ "compter\ les\ mots\ de\ cette\ phrase"\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ =\ s.split()\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ \ \ \ \ {[}\textquotesingle{}compter\textquotesingle{},\ \textquotesingle{}les\textquotesingle{},\ \textquotesingle{}mots\textquotesingle{},\ \textquotesingle{}de\textquotesingle{},\ \textquotesingle{}cette\textquotesingle{},\ \textquotesingle{}phrase\textquotesingle{}{]}\ \ À\ l\textquotesingle{}inverse,}join\texttt{est\ l\textquotesingle{}opposé\ de}split\texttt{.\ Elle\ prend\ une\ liste\ de\ chaînes\ et\ concatène\ les\ éléments\ :\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ t\ =\ {[}\textquotesingle{}compter\textquotesingle{},\ \textquotesingle{}les\textquotesingle{},\ \textquotesingle{}mots\textquotesingle{},\ \textquotesingle{}de\textquotesingle{},\ \textquotesingle{}cette\textquotesingle{},\ \textquotesingle{}phrase\textquotesingle{}{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ delimiteur\ =\ \textquotesingle{}\ \textquotesingle{}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ delimiteur.join(t)\ \ \ \ \ \textquotesingle{}compter\ les\ mots\ de\ cette\ phrase\textquotesingle{}\ \ Objets\ et\ valeurs\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\ \ Si\ nous\ exécutons\ ces\ affectations\ :\ \ ..\ code::\ python\ \ \ \ \ \ a\ =\ "banane"\ \ \ \ \ b\ =\ "banane"\ \ Nous\ savons\ que}a\texttt{et}b\texttt{font\ référence\ à\ une\ chaîne\ de\ caractères,\ mais\ nous\ ne\ savons\ pas\ si\ elles\ font\ référence\ à\ la\ **même**\ chaîne.\ Il\ y\ a\ deux\ états\ possibles\ :\ \ D\textquotesingle{}un\ côté,}a\texttt{et}b\texttt{peuvent\ se\ référer\ à\ deux\ objets\ différents\ qui\ ont\ la\ même\ valeur.\ De\ l\textquotesingle{}autre,\ ils\ peuvent\ se\ référer\ au\ même\ objet.\ \ Pour\ vérifier\ si\ deux\ variables\ font\ référence\ au\ même\ objet,\ vous\ pouvez\ utiliser\ l\textquotesingle{}opérateur}is\texttt{:\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ =\ "banane"\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ b\ =\ "banane"\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ is\ b\ \ \ \ \ True\ \ Dans\ cet\ exemple,\ Python\ ne\ crée\ qu\textquotesingle{}une\ seule\ chaîne\ de\ caractères,\ et}a\texttt{et}b\texttt{font\ référence\ au\ même\ objet.\ Mais\ lorsque\ vous\ créez\ deux\ listes,\ vous\ obtenez\ deux\ objets\ :\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ =\ {[}1,\ 2,\ 3{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ b\ =\ {[}1,\ 2,\ 3{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ is\ b\ \ \ \ \ False\ \ Dans\ ce\ cas,\ on\ dit\ que\ les\ listes\ sont\ **équivalentes**\ (elles\ ont\ les\ mêmes\ valeurs),\ mais\ pas\ **identiques**\ (elles\ ne\ sont\ pas\ le\ même\ objet).\ \ Le\ crénelage\ (Aliasing)\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\ \ Si}a\texttt{fait\ référence\ à\ un\ objet\ et\ que\ vous\ assignez}b
+=
+a\texttt{,\ alors\ les\ deux\ variables\ font\ référence\ au\ même\ objet\ :\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ =\ {[}1,\ 2,\ 3{]}\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ b\ =\ a\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ b\ is\ a\ \ \ \ \ True\ \ L\textquotesingle{}association\ d\textquotesingle{}une\ variable\ à\ un\ objet\ est\ appelée\ une\ **référence**.\ Si\ un\ objet\ a\ plus\ d\textquotesingle{}une\ référence,\ il\ a\ plus\ d\textquotesingle{}un\ nom,\ et\ on\ dit\ que\ l\textquotesingle{}objet\ est\ **crénelé**\ (*aliased*).\ \ Si\ l\textquotesingle{}objet\ crénelé\ est\ mutable,\ les\ modifications\ apportées\ à\ l\textquotesingle{}un\ des\ alias\ affectent\ l\textquotesingle{}autre\ :\ \ ..\ code::\ python\ \ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ b{[}0{]}\ =\ 42\ \ \ \ \ \textgreater{}\textgreater{}\textgreater{}\ a\ \ \ \ \ {[}42,\ 2,\ 3{]}\ \ Bien\ que\ ce\ comportement\ puisse\ être\ utile,\ il\ est\ source\ d\textquotesingle{}erreurs.\ De\ manière\ générale,\ il\ est\ plus\ sûr\ d\textquotesingle{}éviter\ le\ crénelage\ lors\ de\ la\ manipulation\ de\ listes\ mutables.\ \ Arguments\ de\ listes\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\ \ Lorsque\ vous\ passez\ une\ liste\ à\ une\ fonction,\ la\ fonction\ reçoit\ une\ référence\ à\ la\ liste.\ Si\ la\ fonction\ modifie\ un\ paramètre\ de\ la\ liste,\ la\ modification\ est\ visible\ par\ l\textquotesingle{}appelant.\ Par\ exemple,}supprimer\_premier\texttt{supprime\ le\ premier\ élément\ d\textquotesingle{}une\ liste\ :\ \ ..\ code::\ python\ \ \ \ \ \ def\ supprimer\_premier(t):\ \ \ \ \ \ \ \ \ del\ t{[}0{]}\ \ \ \ \ \ lettres\ =\ {[}\textquotesingle{}a\textquotesingle{},\ \textquotesingle{}b\textquotesingle{},\ \textquotesingle{}c\textquotesingle{}{]}\ \ \ \ \ supprimer\_premier(lettres)\ \ \ \ \ print(lettres)\ \ \ \ \ {[}\textquotesingle{}b\textquotesingle{},\ \textquotesingle{}c\textquotesingle{}{]}\ \ Débogage\ -\/-\/-\/-\/-\/-\/-\/-\ \ L\textquotesingle{}utilisation\ insouciante\ des\ listes\ (et\ d\textquotesingle{}autres\ objets\ mutables)\ peut\ entraîner\ de\ longues\ heures\ de\ débogage.\ Voici\ quelques\ pièges\ courants\ et\ des\ moyens\ de\ les\ éviter\ :\ \ 1.\ La\ plupart\ des\ méthodes\ de\ listes\ modifient\ l\textquotesingle{}argument\ et\ retournent}None\texttt{.\ C\textquotesingle{}est\ l\textquotesingle{}inverse\ des\ méthodes\ de\ chaînes,\ qui\ retournent\ une\ nouvelle\ chaîne\ et\ laissent\ l\textquotesingle{}originale\ intacte.\ 2.\ Choisissez\ un\ style\ de\ conception\ et\ tenez-s\textquotesingle{}y.\ Certaines\ fonctions\ modifient\ les\ objets\ en\ argument,\ d\textquotesingle{}autres\ créent\ de\ nouveaux\ objets.\ Essayez\ de\ combiner\ ces\ approches\ avec\ prudence.\ 3.\ Faites\ des\ copies\ à\ l\textquotesingle{}aide\ de\ tranches\ (}t{[}:{]}\texttt{)\ si\ vous\ souhaitez\ modifier\ une\ liste\ tout\ en\ gardant\ l\textquotesingle{}originale\ intacte.\ \ Glossaire\ -\/-\/-\/-\/-\/-\/-\/-\/-\ \ ..\ glossary::\ \ \ \ \ \ liste\ \ \ \ \ list\ \ \ \ \ \ \ \ \ Une\ séquence\ de\ valeurs.\ \ \ \ \ \ élément\ \ \ \ \ item\ \ \ \ \ \ \ \ \ L\textquotesingle{}une\ des\ valeurs\ d\textquotesingle{}une\ liste\ (ou\ d\textquotesingle{}une\ autre\ séquence).\ \ \ \ \ \ mutable\ \ \ \ \ mutable\ \ \ \ \ \ \ \ \ La\ propriété\ d\textquotesingle{}une\ séquence\ dont\ les\ éléments\ peuvent\ être\ modifiés.\ \ \ \ \ \ crénelage\ \ \ \ \ aliasing\ \ \ \ \ \ \ \ \ Le\ fait\ que\ deux\ ou\ plusieurs\ variables\ fassent\ référence\ au\ même\ objet.\ \ \ \ \ \ délimiteur\ \ \ \ \ delimiter\ \ \ \ \ \ \ \ \ Un\ caractère\ ou\ une\ chaîne\ utilisée\ pour\ indiquer\ où\ une\ chaîne\ doit\ être\ divisée.\ \ \ Exercices\ -\/-\/-\/-\/-\/-\/-\/-\/-\ \ ..\ topic::\ Exercice\ 1\ \ \ \ \ \ Écrivez\ une\ fonction\ appelée}somme\_cumulee\texttt{qui\ prend\ une\ liste\ de\ nombres\ et\ renvoie\ la\ somme\ cumulée\ ;\ c\textquotesingle{}est-à-dire\ une\ nouvelle\ liste\ où\ le\ \$i\$-ème\ élément\ est\ la\ somme\ des\ premiers\ \$i+1\$\ éléments\ de\ la\ liste\ originale.\ Par\ exemple,\ la\ somme\ cumulée\ de}{[}1,
+2, 3{]}\texttt{est}{[}1, 3,
+6{]}\texttt{.\ \ ..\ topic::\ Exercice\ 2\ \ \ \ \ \ Écrivez\ une\ fonction\ nommée}centre\texttt{qui\ prend\ une\ liste\ et\ renvoie\ une\ nouvelle\ liste\ sans\ le\ premier\ et\ le\ dernier\ éléments.\ Par\ exemple,\ si\ vous\ passez}{[}1,
+2, 3, 4{]}\texttt{,\ elle\ doit\ renvoyer}{[}2,
+3{]}\texttt{.\ \ ..\ topic::\ Exercice\ 3\ \ \ \ \ \ Écrivez\ une\ fonction\ appelée}est\_trie\texttt{qui\ prend\ une\ liste\ en\ paramètre\ et\ renvoie}True\texttt{si\ la\ liste\ est\ triée\ par\ ordre\ croissant,\ et}False\texttt{sinon.\ Par\ exemple,}est\_trie({[}1,
+2,
+2{]})\texttt{devrait\ renvoyer}True\texttt{et}est\_trie({[}\textquotesingle b\textquotesingle,
+\textquotesingle a\textquotesingle{]})\texttt{devrait\ renvoyer}False\texttt{.\ \ ..\ topic::\ Exercice\ 4\ \ \ \ \ \ Écrivez\ une\ fonction\ appelée}est\_anagramme\texttt{qui\ prend\ deux\ chaînes\ de\ caractères\ et\ renvoie}True\texttt{si\ elles\ sont\ des\ anagrammes\ (si\ elles\ contiennent\ les\ mêmes\ lettres\ avec\ les\ mêmes\ fréquences).\ \ ..\ topic::\ Exercice\ 5\ \ \ \ \ \ Écrivez\ une\ fonction\ appelée}contient\_doublons\texttt{qui\ prend\ une\ liste\ et\ renvoie}True``
+si il y a un élément qui apparaît plus d\textquotesingle une fois. Elle
+ne doit pas modifier la liste originale.
+
+\textbf{Exercice 6}
+
+Cet exercice est basé sur le fameux « Paradoxe des anniversaires ».
+Écrivez une fonction qui génère 23 dates aléatoires (représentées par
+des entiers entre 1 et 365) et vérifie s\textquotesingle il y a des
+doublons. En exécutant cela des milliers de fois, estimez la probabilité
+qu\textquotesingle il y ait au moins deux personnes nées le même jour
+dans un groupe de 23 personnes.

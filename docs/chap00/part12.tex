@@ -1,0 +1,490 @@
+\hypertarget{classes-et-objets}{%
+\section{Classes et objets}\label{classes-et-objets}}
+
+\hypertarget{types-duxe9finis-par-lutilisateur}{%
+\subsection{Types définis par
+l\textquotesingle utilisateur}\label{types-duxe9finis-par-lutilisateur}}
+
+Nous avons utilisé de nombreux types intégrés de Python ; nous allons
+maintenant définir un nouveau type. À titre d\textquotesingle exemple,
+nous allons créer un type appelé \texttt{Point} qui représente un point
+dans un espace à deux dimensions.
+
+En notation mathématique, les points sont souvent écrits entre
+parenthèses avec une virgule séparant les coordonnées. Par exemple,
+\texttt{(0,0)} représente l\textquotesingle origine, et \texttt{(x,y)}
+représente le point situé à \$x\$ unités vers la droite et \$y\$ unités
+vers le haut par rapport à l\textquotesingle origine.
+
+Il existe plusieurs façons de représenter des points en Python :
+
+\begin{itemize}
+\tightlist
+\item
+  Nous pourrions stocker les coordonnées séparément dans deux variables,
+  \texttt{x} et \texttt{y}.
+\item
+  Nous pourrions stocker les coordonnées comme des éléments dans une
+  liste ou un tuple.
+\item
+  Nous pourrions créer un nouveau type pour représenter les points sous
+  forme d\textquotesingle objets.
+\end{itemize}
+
+Créer un nouveau type est un peu plus compliqué que les autres options,
+mais cela présente des avantages qui apparaîtront bientôt.
+
+Un type défini par l\textquotesingle utilisateur est également appelé
+une \textbf{classe}. Une définition de classe ressemble à ceci :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Point(}\BuiltInTok{object}\NormalTok{):}
+    \CommentTok{"""Représente un point dans un espace 2D."""}
+\end{Highlighting}
+\end{Shaded}
+
+Cet en-tête indique que la nouvelle classe est un \texttt{Point}, qui
+est une sorte d\textquotesingle objet, qui est un type intégré.
+
+Le corps est une chaîne de documentation (\emph{docstring}) qui explique
+le rôle de la classe. Vous pouvez définir des variables et des fonctions
+à l\textquotesingle intérieur d\textquotesingle une définition de
+classe, mais nous y reviendrons plus tard.
+
+Définir une classe nommée \texttt{Point} crée un objet classe.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ Point}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}\_\_main\_\_.Point\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Parce que \texttt{Point} est défini au niveau supérieur, son « nom
+complet » est \texttt{\_\_main\_\_.Point}.
+
+L\textquotesingle objet classe est comme une fabrique pour créer des
+objets. Pour créer un \texttt{Point}, vous appelez \texttt{Point} comme
+s\textquotesingle il s\textquotesingle agissait d\textquotesingle une
+fonction :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ blank }\OperatorTok{=}\NormalTok{ Point()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ blank}
+\OperatorTok{\textless{}}\NormalTok{\_\_main\_\_.Point instance at }\BaseNTok{0xb7e9d3ac}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+La valeur de retour est une référence à un objet \texttt{Point}, que
+nous affectons à \texttt{blank}. Créer un nouvel objet
+s\textquotesingle appelle l\textquotesingle{}\textbf{instanciation}, et
+l\textquotesingle objet est une \textbf{instance} de la classe.
+
+Lorsque vous affichez une instance, Python vous indique à quelle classe
+elle appartient et où elle est stockée en mémoire (le préfixe
+\texttt{0x} signifie que le nombre suivant est en hexadécimal).
+
+\hypertarget{attributs}{%
+\subsection{Attributs}\label{attributs}}
+
+Vous pouvez affecter des valeurs à une instance en utilisant la notation
+pointée :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ blank.x }\OperatorTok{=} \FloatTok{3.0}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ blank.y }\OperatorTok{=} \FloatTok{4.0}
+\end{Highlighting}
+\end{Shaded}
+
+Cette syntaxe est similaire à la syntaxe pour sélectionner une variable
+dans un module, telle que \texttt{math.pi} ou
+\texttt{string.whitespace}. Dans ce cas, cependant, nous affectons des
+valeurs à des éléments nommés d\textquotesingle un objet. Ces éléments
+sont appelés des \textbf{attributs}.
+
+Le diagramme d\textquotesingle état qui montre un objet et ses attributs
+est appelé un diagramme d\textquotesingle objets.
+
+La variable \texttt{blank} fait référence à un objet \texttt{Point}, qui
+contient deux attributs. Chaque attribut fait référence à un nombre à
+virgule flottante.
+
+Vous pouvez lire la valeur d\textquotesingle un attribut en utilisant la
+même syntaxe :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ blank.y}
+\FloatTok{4.0}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x }\OperatorTok{=}\NormalTok{ blank.x}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ x}
+\FloatTok{3.0}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle expression \texttt{blank.x} signifie : « Va à
+l\textquotesingle objet auquel \texttt{blank} fait référence et récupère
+la valeur de \texttt{x} ». Dans ce cas, nous affectons cette valeur à
+une variable nommée \texttt{x}. Il n\textquotesingle y a aucun conflit
+entre la variable \texttt{x} et l\textquotesingle attribut \texttt{x}.
+
+Vous pouvez utiliser la notation pointée dans le cadre de
+n\textquotesingle importe quelle expression. Par exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print} \StringTok{\textquotesingle{}(}\SpecialCharTok{\%g}\StringTok{, }\SpecialCharTok{\%g}\StringTok{)\textquotesingle{}} \OperatorTok{\%}\NormalTok{ (blank.x, blank.y)}
+\NormalTok{(}\FloatTok{3.0}\NormalTok{, }\FloatTok{4.0}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ distance }\OperatorTok{=}\NormalTok{ math.sqrt(blank.x}\OperatorTok{**}\DecValTok{2} \OperatorTok{+}\NormalTok{ blank.y}\OperatorTok{**}\DecValTok{2}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ distance}
+\FloatTok{5.0}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez passer une instance en argument de la manière habituelle.
+Par exemple :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ print\_point(p):}
+    \BuiltInTok{print} \StringTok{\textquotesingle{}(}\SpecialCharTok{\%g}\StringTok{, }\SpecialCharTok{\%g}\StringTok{)\textquotesingle{}} \OperatorTok{\%}\NormalTok{ (p.x, p.y)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{print\_point} prend un point en argument et
+l\textquotesingle affiche en notation mathématique. Pour
+l\textquotesingle invoquer, vous pouvez passer \texttt{blank} comme
+argument :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ print\_point(blank)}
+\NormalTok{(}\FloatTok{3.0}\NormalTok{, }\FloatTok{4.0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+À l\textquotesingle intérieur de la fonction, \texttt{p} est un alias de
+\texttt{blank}, donc si la fonction modifie \texttt{p}, \texttt{blank}
+change.
+
+\textbf{Exercice}
+
+Écrivez une fonction appelée \texttt{distance\_between\_points} qui
+prend deux \texttt{Points} en arguments et renvoie la distance qui les
+sépare.
+
+\hypertarget{rectangles}{%
+\subsection{Rectangles}\label{rectangles}}
+
+Parfois, les attributs d\textquotesingle un objet sont évidents, mais à
+d\textquotesingle autres moments, vous devez faire des choix. Par
+exemple, imaginez que vous concevez une classe pour représenter des
+rectangles. Quels attributs utiliseriez-vous pour spécifier
+l\textquotesingle emplacement et la taille d\textquotesingle un
+rectangle ? Vous pouvez ignorer l\textquotesingle angle ; pour
+simplifier, supposez que le rectangle est soit vertical, soit
+horizontal.
+
+Il y a au moins deux possibilités :
+
+\begin{itemize}
+\tightlist
+\item
+  Vous pourriez spécifier un coin du rectangle (ou le centre), la
+  largeur et la hauteur.
+\item
+  Vous pourriez spécifier deux coins opposés.
+\end{itemize}
+
+Voici la définition de la classe :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ Rectangle(}\BuiltInTok{object}\NormalTok{):}
+    \CommentTok{"""Représente un rectangle.}
+
+\CommentTok{    attributes: width, height, corner.}
+\CommentTok{    """}
+\end{Highlighting}
+\end{Shaded}
+
+La chaîne de documentation énumère les attributs : \texttt{width}
+(largeur) et \texttt{height} (hauteur) sont des nombres ;
+\texttt{corner} (coin) est un objet \texttt{Point} qui spécifie le coin
+inférieur gauche.
+
+Pour représenter un rectangle, vous devez instancier un objet
+\texttt{Rectangle} et affecter des valeurs aux attributs :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box }\OperatorTok{=}\NormalTok{ Rectangle()}
+\NormalTok{box.width }\OperatorTok{=} \FloatTok{100.0}
+\NormalTok{box.height }\OperatorTok{=} \FloatTok{200.0}
+\NormalTok{box.corner }\OperatorTok{=}\NormalTok{ Point()}
+\NormalTok{box.corner.x }\OperatorTok{=} \FloatTok{0.0}
+\NormalTok{box.corner.y }\OperatorTok{=} \FloatTok{0.0}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle expression \texttt{box.corner.x} signifie : « Va à
+l\textquotesingle objet auquel \texttt{box} fait référence et
+sélectionne l\textquotesingle attribut nommé \texttt{corner} ; puis va à
+cet objet et sélectionne l\textquotesingle attribut nommé \texttt{x} ».
+
+Un objet qui est un attribut d\textquotesingle un autre objet est dit
+\textbf{imbriqué} (\emph{embedded}).
+
+Instances comme valeurs de retour
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+Les fonctions peuvent retourner des instances. Par exemple,
+\texttt{find\_center} prend un \texttt{Rectangle} en argument et renvoie
+un \texttt{Point} qui contient les coordonnées du centre du
+\texttt{Rectangle} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ find\_center(rect):}
+\NormalTok{    p }\OperatorTok{=}\NormalTok{ Point()}
+\NormalTok{    p.x }\OperatorTok{=}\NormalTok{ rect.corner.x }\OperatorTok{+}\NormalTok{ rect.width}\OperatorTok{/}\FloatTok{2.0}
+\NormalTok{    p.y }\OperatorTok{=}\NormalTok{ rect.corner.y }\OperatorTok{+}\NormalTok{ rect.height}\OperatorTok{/}\FloatTok{2.0}
+    \ControlFlowTok{return}\NormalTok{ p}
+\end{Highlighting}
+\end{Shaded}
+
+Voici un exemple qui passe \texttt{box} en argument et affecte le
+\texttt{Point} résultant à \texttt{center} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ center }\OperatorTok{=}\NormalTok{ find\_center(box)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ print\_point(center)}
+\NormalTok{(}\FloatTok{50.0}\NormalTok{, }\FloatTok{100.0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{les-objets-sont-mutables}{%
+\subsection{Les objets sont mutables}\label{les-objets-sont-mutables}}
+
+Vous pouvez modifier l\textquotesingle état d\textquotesingle un objet
+en effectuant une affectation sur l\textquotesingle un de ses attributs.
+Par exemple, pour modifier la taille d\textquotesingle un rectangle sans
+changer sa position, vous pouvez modifier les valeurs de \texttt{width}
+et \texttt{height} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{box.width }\OperatorTok{=}\NormalTok{ box.width }\OperatorTok{+} \DecValTok{50}
+\NormalTok{box.height }\OperatorTok{=}\NormalTok{ box.width }\OperatorTok{+} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez également écrire des fonctions qui modifient des objets. Par
+exemple, \texttt{grow\_rectangle} prend un objet \texttt{Rectangle} et
+deux nombres, \texttt{dwidth} et \texttt{dheight}, et ajoute ces nombres
+à la largeur et à la hauteur du rectangle :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ grow\_rectangle(rect, dwidth, dheight):}
+\NormalTok{    rect.width }\OperatorTok{+=}\NormalTok{ dwidth}
+\NormalTok{    rect.height }\OperatorTok{+=}\NormalTok{ dheight}
+\end{Highlighting}
+\end{Shaded}
+
+À l\textquotesingle intérieur de la fonction, \texttt{rect} est un alias
+de \texttt{box}, donc si la fonction modifie \texttt{rect}, \texttt{box}
+change.
+
+\textbf{Exercice}
+
+Écrivez une fonction nommée \texttt{move\_rectangle} qui prend un
+\texttt{Rectangle} et deux nombres nommés \texttt{dx} et \texttt{dy}.
+Elle doit modifier l\textquotesingle emplacement du rectangle en
+ajoutant \texttt{dx} à la coordonnée \texttt{x} de \texttt{corner} et
+\texttt{dy} à la coordonnée \texttt{y} de \texttt{corner}.
+
+\hypertarget{copie}{%
+\subsection{Copie}\label{copie}}
+
+Le crénelage (\emph{aliasing}) peut rendre un programme difficile à lire
+car les modifications apportées à un endroit peuvent avoir des effets
+inattendus ailleurs. Copier un objet est souvent une alternative au
+crénelage.
+
+Le module \texttt{copy} contient une fonction appelée \texttt{copy} qui
+peut dupliquer n\textquotesingle importe quel objet :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p1 }\OperatorTok{=}\NormalTok{ Point()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p1.x }\OperatorTok{=} \FloatTok{3.0}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p1.y }\OperatorTok{=} \FloatTok{4.0}
+
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \ImportTok{import}\NormalTok{ copy}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p2 }\OperatorTok{=}\NormalTok{ copy.copy(p1)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{p1} et \texttt{p2} contiennent les mêmes données, mais ce ne
+sont pas le même \texttt{Point} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ print\_point(p1)}
+\NormalTok{(}\FloatTok{3.0}\NormalTok{, }\FloatTok{4.0}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ print\_point(p2)}
+\NormalTok{(}\FloatTok{3.0}\NormalTok{, }\FloatTok{4.0}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p1 }\KeywordTok{is}\NormalTok{ p2}
+\VariableTok{False}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p1 }\OperatorTok{==}\NormalTok{ p2}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+L\textquotesingle opérateur \texttt{is} indique que \texttt{p1} et
+\texttt{p2} ne sont pas le même objet, ce qui était attendu. Pour les
+instances, le comportement par défaut de l\textquotesingle opérateur
+\texttt{==} est le même que celui de l\textquotesingle opérateur
+\texttt{is} ; il vérifie l\textquotesingle identité de
+l\textquotesingle objet, et non son équivalence.
+
+Si vous utilisez \texttt{copy.copy} pour dupliquer un
+\texttt{Rectangle}, vous constaterez qu\textquotesingle il copie
+l\textquotesingle objet \texttt{Rectangle} mais pas le \texttt{Point}
+imbriqué :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box2 }\OperatorTok{=}\NormalTok{ copy.copy(box)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box2 }\KeywordTok{is}\NormalTok{ box}
+\VariableTok{False}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box2.corner }\KeywordTok{is}\NormalTok{ box.corner}
+\VariableTok{True}
+\end{Highlighting}
+\end{Shaded}
+
+Cette opération est appelée une \textbf{copie superficielle}
+(\emph{shallow copy}) car elle copie l\textquotesingle objet et toutes
+les références qu\textquotesingle il contient, mais pas les objets
+imbriqués.
+
+Heureusement, le module \texttt{copy} contient une méthode nommée
+\texttt{deepcopy} qui copie non seulement l\textquotesingle objet mais
+aussi les objets auxquels il fait référence, et les objets auxquels ils
+font référence, et ainsi de suite. Cette opération est appelée une
+\textbf{copie profonde} (\emph{deep copy}) :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box3 }\OperatorTok{=}\NormalTok{ copy.deepcopy(box)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box3 }\KeywordTok{is}\NormalTok{ box}
+\VariableTok{False}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ box3.corner }\KeywordTok{is}\NormalTok{ box.corner}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{box3} et \texttt{box} sont des objets complètement séparés.
+
+\textbf{Exercice}
+
+Écrivez une version de \texttt{move\_rectangle} qui crée et renvoie un
+nouveau \texttt{Rectangle} au lieu de modifier l\textquotesingle ancien.
+
+\hypertarget{duxe9bogage}{%
+\subsection{Débogage}\label{duxe9bogage}}
+
+Lorsque vous commencez à travailler avec des objets, vous risquez de
+rencontrer de nouvelles exceptions. Si vous essayez
+d\textquotesingle accéder à un attribut qui n\textquotesingle existe
+pas, vous obtenez une \texttt{AttributeError} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ p }\OperatorTok{=}\NormalTok{ Point()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{print}\NormalTok{ p.z}
+\PreprocessorTok{AttributeError}\NormalTok{: Point instance has no attribute }\StringTok{\textquotesingle{}z\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous n\textquotesingle êtes pas sûr du type d\textquotesingle un
+objet, vous pouvez demander :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(p)}
+\OperatorTok{\textless{}}\BuiltInTok{type} \StringTok{\textquotesingle{}\_\_main\_\_.Point\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Si vous n\textquotesingle êtes pas sûr qu\textquotesingle un objet
+possède un attribut particulier, vous pouvez utiliser la fonction
+intégrée \texttt{hasattr} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{hasattr}\NormalTok{(p, }\StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{)}
+\VariableTok{True}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{hasattr}\NormalTok{(p, }\StringTok{\textquotesingle{}z\textquotesingle{}}\NormalTok{)}
+\VariableTok{False}
+\end{Highlighting}
+\end{Shaded}
+
+Le premier argument peut être n\textquotesingle importe quel objet ; le
+second argument est une chaîne qui contient le nom de
+l\textquotesingle attribut.
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+classe class Un type défini par l\textquotesingle utilisateur. Une
+définition de classe crée un nouvel objet classe.
+
+objet classe class object Un objet qui contient des informations sur un
+type défini par l\textquotesingle utilisateur. L\textquotesingle objet
+classe peut être utilisé pour créer des instances du type.
+
+instance instance Un objet qui appartient à une classe.
+
+attribut attribute L\textquotesingle une des valeurs nommées associées à
+un objet.
+
+imbriqué (objet) embedded (object) Un objet qui est stocké en
+tantattribut d\textquotesingle un autre objet.
+
+copie superficielle shallow copy Copier le contenu d\textquotesingle un
+objet, y compris toutes les références à des objets imbriqués ; mis en
+œuvre par la fonction \texttt{copy} dans le module \texttt{copy}.
+
+copie profonde deep copy Copier le contenu d\textquotesingle un objet
+ainsi que tous les objets imbriqués, et tous les objets imbriqués en
+eux, etc. ; mis en œuvre par la fonction \texttt{deepcopy} dans le
+module \texttt{copy}.
+
+diagramme d\textquotesingle objets object diagram Un diagramme qui
+montre des objets, leurs attributs et les valeurs de ces attributs.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice}
+
+Écrivez une fonction appelée \texttt{draw\_rectangle} qui prend un
+\texttt{Canvas} et un \texttt{Rectangle} en arguments et dessine une
+représentation du \texttt{Rectangle} sur le \texttt{Canvas}. Ajoutez un
+attribut nommé \texttt{color} à vos objets \texttt{Rectangle} et
+modifiez \texttt{draw\_rectangle} pour qu\textquotesingle il utilise
+l\textquotesingle attribut \texttt{color} comme couleur de remplissage.
+Écrivez une fonction appelée \texttt{draw\_point} qui prend un
+\texttt{Canvas} et un \texttt{Point} en arguments et dessine une
+représentation du \texttt{Point} sur le \texttt{Canvas}. Définissez une
+nouvelle classe appelée \texttt{Circle} avec des attributs appropriés et
+instanciez quelques objets \texttt{Circle}. Écrivez une fonction appelée
+\texttt{draw\_circle} qui dessine des cercles sur le canevas. Écrivez un
+programme qui dessine le drapeau national de la République tchèque.
+Solution : \url{http://thinkpython.com/code/color_list.py}.

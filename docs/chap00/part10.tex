@@ -1,0 +1,330 @@
+\hypertarget{tuples}{%
+\section{Tuples}\label{tuples}}
+
+\hypertarget{un-tuple-est-immuable}{%
+\subsection{Un tuple est immuable}\label{un-tuple-est-immuable}}
+
+Un \textbf{tuple} est une séquence de valeurs qui, tout comme une liste,
+peut contenir des éléments de n\textquotesingle importe quel type,
+indexés par des entiers. La grande différence est que les tuples sont
+\textbf{immuables} (\emph{immutable}).
+
+Syntaxiquement, un tuple est une liste de valeurs séparées par des
+virgules :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=} \StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+Bien que ce ne soit pas obligatoire, il est courant de placer les tuples
+entre parenthèses :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ (}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Pour créer un tuple avec un seul élément, vous devez inclure une virgule
+finale :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t1 }\OperatorTok{=}\NormalTok{ (}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{,)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(t1)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}tuple\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Sans la virgule, Python traite
+\texttt{(\textquotesingle{}a\textquotesingle{})} comme une simple chaîne
+entre parenthèses :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t2 }\OperatorTok{=}\NormalTok{ (}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(t2)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}str\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Pour créer un tuple vide, vous utilisez des parenthèses vides :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ ()}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{type}\NormalTok{(t)}
+\OperatorTok{\textless{}}\KeywordTok{class} \StringTok{\textquotesingle{}tuple\textquotesingle{}}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez également utiliser la fonction intégrée \texttt{tuple} pour
+créer un tuple à partir d\textquotesingle une séquence :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=} \BuiltInTok{tuple}\NormalTok{(}\StringTok{\textquotesingle{}lump\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{(}\StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}u\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}p\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+La plupart des opérateurs de listes fonctionnent également sur les
+tuples. L\textquotesingle opérateur de crochet indexe un élément, et
+l\textquotesingle opérateur de tranche extrait une section :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ (}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{0}\NormalTok{]}
+\CommentTok{\textquotesingle{}a\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{]}
+\NormalTok{(}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Cependant, si vous essayez de modifier l\textquotesingle un des éléments
+du tuple, vous obtiendrez une erreur, car les tuples sont immuables :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t[}\DecValTok{0}\NormalTok{] }\OperatorTok{=} \StringTok{\textquotesingle{}A\textquotesingle{}}
+\PreprocessorTok{TypeError}\NormalTok{: }\StringTok{\textquotesingle{}tuple\textquotesingle{}} \BuiltInTok{object}\NormalTok{ does }\KeywordTok{not}\NormalTok{ support item assignment}
+\end{Highlighting}
+\end{Shaded}
+
+Bien que vous ne puissiez pas modifier les éléments d\textquotesingle un
+tuple, vous pouvez remplacer un tuple par un autre :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ (}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{,) }\OperatorTok{+}\NormalTok{ t[}\DecValTok{1}\NormalTok{:]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{(}\StringTok{\textquotesingle{}A\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}d\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}e\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{assignation-de-tuples}{%
+\subsection{Assignation de tuples}\label{assignation-de-tuples}}
+
+Il est souvent utile de permuter les valeurs de deux variables. Dans les
+langages traditionnels, vous devez utiliser une variable temporaire. En
+Python, l\textquotesingle affectation de tuples permet une syntaxe
+élégante :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x, y }\OperatorTok{=}\NormalTok{ y, x}
+\end{Highlighting}
+\end{Shaded}
+
+Le côté gauche est une séquence de variables ; le côté droit est une
+séquence de expressions. Chaque valeur du côté droit est assignée à la
+variable correspondante du côté gauche. Toutes les expressions du côté
+droit sont évaluées avant toute affectation.
+
+Le nombre de variables à gauche et le nombre de valeurs à droite doivent
+être égaux :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ x, y }\OperatorTok{=} \DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}
+\PreprocessorTok{ValueError}\NormalTok{: too many values to unpack}
+\end{Highlighting}
+\end{Shaded}
+
+Plus généralement, l\textquotesingle affectation de tuples fonctionne
+avec n\textquotesingle importe quelle séquence.
+
+\hypertarget{les-tuples-comme-valeurs-de-retour}{%
+\subsection{Les tuples comme valeurs de
+retour}\label{les-tuples-comme-valeurs-de-retour}}
+
+Une fonction ne peut retourner qu\textquotesingle une seule valeur, mais
+si cette valeur est un tuple, l\textquotesingle effet est le même que de
+retourner plusieurs valeurs. Par exemple, la fonction \texttt{divmod}
+prend deux entiers et renvoie un tuple de deux valeurs : le quotient et
+le reste.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=} \BuiltInTok{divmod}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Vous pouvez également utiliser l\textquotesingle affectation de tuples
+pour stocker les éléments séparément :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ quotient, reste }\OperatorTok{=} \BuiltInTok{divmod}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ quotient}
+\DecValTok{2}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ reste}
+\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Un autre exemple est la fonction \texttt{min\_max}, qui trouve à la fois
+la plus petite et la plus grande valeur d\textquotesingle une séquence :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ min\_max(t):}
+    \ControlFlowTok{return} \BuiltInTok{min}\NormalTok{(t), }\BuiltInTok{max}\NormalTok{(t)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tuples-uxe0-longueur-variable-darguments}{%
+\subsection{Tuples à longueur variable
+d\textquotesingle arguments}\label{tuples-uxe0-longueur-variable-darguments}}
+
+Les fonctions peuvent prendre un nombre variable
+d\textquotesingle arguments. Un paramètre commençant par un astérisque
+(\texttt{*}) \textbf{rassemble} les arguments en un tuple. Par exemple,
+\texttt{somme\_tous} prend un nombre quelconque
+d\textquotesingle arguments et calcule leur somme :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ somme\_tous(}\OperatorTok{*}\NormalTok{args):}
+    \ControlFlowTok{return} \BuiltInTok{sum}\NormalTok{(args)}
+
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ somme\_tous(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\DecValTok{6}
+\end{Highlighting}
+\end{Shaded}
+
+À l\textquotesingle inverse, l\textquotesingle opérateur \texttt{*} peut
+être utilisé pour \textbf{répartir} une séquence en tant
+qu\textquotesingle arguments d\textquotesingle une fonction :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ (}\DecValTok{7}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{divmod}\NormalTok{(}\OperatorTok{*}\NormalTok{t)}
+\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{listes-et-tuples}{%
+\subsection{Listes et tuples}\label{listes-et-tuples}}
+
+La fonction \texttt{zip} prend deux ou plusieurs séquences et les
+combine en un itérateur de tuples, où chaque tuple contient un élément
+de chaque séquence.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ s }\OperatorTok{=} \StringTok{\textquotesingle{}abc\textquotesingle{}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{zip}\NormalTok{(s, t)}
+\OperatorTok{\textless{}}\BuiltInTok{zip} \BuiltInTok{object}\NormalTok{ at }\DecValTok{0}\ErrorTok{x}\NormalTok{...}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+Pour utiliser le résultat de \texttt{zip}, vous pouvez le convertir en
+liste de tuples ou utiliser une boucle \texttt{for} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}} \BuiltInTok{list}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(s, t))}
+\NormalTok{[(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\DecValTok{1}\NormalTok{), (}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\DecValTok{3}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+Si les longueurs des séquences sont différentes, le résultat
+s\textquotesingle arrête à la longueur de la plus courte.
+
+Vous pouvez parcourir les éléments d\textquotesingle une liste de tuples
+en utilisant une affectation de tuples dans une boucle \texttt{for} :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t }\OperatorTok{=}\NormalTok{ [(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\DecValTok{1}\NormalTok{), (}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\DecValTok{3}\NormalTok{)]}
+\ControlFlowTok{for}\NormalTok{ lettre, nombre }\KeywordTok{in}\NormalTok{ t:}
+    \BuiltInTok{print}\NormalTok{(nombre, lettre)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dictionnaires-et-tuples}{%
+\subsection{Dictionnaires et tuples}\label{dictionnaires-et-tuples}}
+
+Les dictionnaires possèdent une méthode appelée \texttt{items} qui
+renvoie une séquence de paires clé-valeur sous forme de tuples.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ d }\OperatorTok{=}\NormalTok{ \{}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{: }\DecValTok{1}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{: }\DecValTok{2}\NormalTok{\}}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t }\OperatorTok{=} \BuiltInTok{list}\NormalTok{(d.items())}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ t}
+\NormalTok{[(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\DecValTok{0}\NormalTok{), (}\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\DecValTok{1}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+À l\textquotesingle inverse, vous pouvez utiliser une liste de tuples
+pour initialiser un nouveau dictionnaire :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ d }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{([(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\DecValTok{0}\NormalTok{), (}\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\DecValTok{1}\NormalTok{), (}\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\DecValTok{2}\NormalTok{)])}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ d}
+\NormalTok{\{}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{: }\DecValTok{1}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{: }\DecValTok{2}\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+La combinaison de \texttt{dict} et \texttt{zip} permet de créer
+rapidement des dictionnaires :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ d }\OperatorTok{=} \BuiltInTok{dict}\NormalTok{(}\BuiltInTok{zip}\NormalTok{(}\StringTok{\textquotesingle{}abc\textquotesingle{}}\NormalTok{, }\BuiltInTok{range}\NormalTok{(}\DecValTok{3}\NormalTok{)))}
+\OperatorTok{\textgreater{}\textgreater{}\textgreater{}}\NormalTok{ d}
+\NormalTok{\{}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{: }\DecValTok{0}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{: }\DecValTok{1}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{: }\DecValTok{2}\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{glossaire}{%
+\subsection{Glossaire}\label{glossaire}}
+
+tuple tuple Une séquence immuable d\textquotesingle éléments.
+
+affectation de tuples tuple assignment Une affectation qui associe un
+tuple de valeurs à une séquence de variables.
+
+rassembler gather Le processus de regroupement
+d\textquotesingle arguments à longueur variable dans un tuple.
+
+répartir scatter Le processus de traitement d\textquotesingle une
+séquence de valeurs en tant qu\textquotesingle arguments de fonction.
+
+\hypertarget{exercices}{%
+\subsection{Exercices}\label{exercices}}
+
+\textbf{Exercice 1}
+
+Écrivez une fonction appelée \texttt{somme\_tous} qui prend un nombre
+quelconque de nombres en arguments et renvoie leur somme.
+
+\textbf{Exercice 2}
+
+Modifiez un programme de tri de mots de sorte qu\textquotesingle il trie
+les mots par longueur, du plus long au plus court, et que les mots de
+même longueur soient triés par ordre alphabétique.
+
+\textbf{Exercice 3}
+
+Écrivez une fonction appelée \texttt{frequence\_lettres} qui prend une
+chaîne de caractères et renvoie un dictionnaire des lettres comptées,
+triées par ordre décroissant de fréquence.
+
+\textbf{Exercice 4}
+
+Un anagramme est un mot formé en réorganisant les lettres
+d\textquotesingle un autre mot. Écrivez un programme qui lit une liste
+de mots à partir d\textquotesingle un fichier et imprime tous les
+ensembles de mots qui sont des anagrammes entre eux.
