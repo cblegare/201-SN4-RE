@@ -67,7 +67,7 @@ def crawl(directory: Path) -> dict[str, set[str]]:
         with filename.open(encoding="utf-8") as f:
             contents = f.read()
             links = re.findall(r'<a\s+(?:[^>]*?)href="([^"]*)"', contents)
-            pages[filename] = set(links) - {filename}
+            pages[filename] = set(links) - {filename.name}
 
     # Inclut uniquement les liens vers d'autres pages du corpus
     for filename in pages:
